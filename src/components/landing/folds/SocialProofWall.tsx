@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
  */
 const GRID_COLUMNS = 20
 const GRID_ROWS = 20
-const DEBUG_GRID = true
+const DEBUG_GRID = false
 
 const GRID_TEMPLATE_STYLE = {
   gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))`,
@@ -39,44 +39,44 @@ type GalleryItem = {
 
 const galleryItems: GalleryItem[] = [
   {
-    src: 'https://picsum.photos/seed/flent-collage-2/1600/1200',
-    alt: 'Center-right hero moment',
+    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=90',
+    alt: 'Misty mountain lake at sunrise',
     width: 1600,
     height: 1200,
     col: [2, 6],
     row: [2, 15],
   },
   {
-    src: 'https://picsum.photos/seed/flent-collage-4/900/1400',
-    alt: 'Far-right cropped portrait',
+    src: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=90',
+    alt: 'Tall evergreen forest canopy',
     width: 900,
     height: 1400,
     col: [7, 9],
-    row: [4, 21],
+    row: [5, 21],
   },
   {
-    src: 'https://picsum.photos/seed/flent-collage-1/1400/875',
-    alt: 'Editorial moment one',
+    src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=90',
+    alt: 'Wide valley river surrounded by mountains',
     width: 1400,
     height: 875,
     col: [10, 14],
-    row: [5, 19],
+    row: [1, 13],
   },
   {
-    src: 'https://picsum.photos/seed/flent-collage-3/900/1200',
-    alt: 'Lower-left portrait',
+    src: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=900&q=90',
+    alt: 'Sunlit fern leaves in a deep green forest',
     width: 900,
     height: 1200,
     col: [15, 17],
-    row: [1, 21],
+    row: [8, 21],
   },
   {
-    src: 'https://picsum.photos/seed/flent-collage-5/1400/900',
-    alt: 'Lower-center continuation',
+    src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1400&q=90',
+    alt: 'Rolling green hills beneath dramatic clouds',
     width: 1400,
     height: 900,
     col: [18, 21],
-    row: [4, 12],
+    row: [4, 13],
   },
 ]
 
@@ -226,7 +226,7 @@ export function SocialProofWall() {
                   }}
                 />
               ))}
-             {/* {DEBUG_GRID ? <GridDebugOverlay /> : null} */}
+              {DEBUG_GRID ? <GridDebugOverlay /> : null}
             </motion.div>
           </div>
         </div>
