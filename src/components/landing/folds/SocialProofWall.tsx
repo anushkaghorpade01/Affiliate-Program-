@@ -6,13 +6,14 @@ import { useCinematicIntensity } from '@/components/landing/shared/useCinematicI
 import { cn } from '@/lib/utils'
 
 const socialProofItems = [
-  { src: 'https://picsum.photos/seed/flent-collage-2/1600/1200', alt: 'Center-right hero moment', width: 1600, height: 1200, adjust: '300', size: 1.25 },
-  { src: 'https://picsum.photos/seed/flent-collage-4/900/1400', alt: 'Far-right cropped portrait', width: 900, height: 1400, size: 0.75 },
-    { src: 'https://picsum.photos/seed/flent-collage-1/1400/875', alt: 'Editorial moment one', width: 1400, height: 875, size: 1.25 },
-    { src: 'https://picsum.photos/seed/flent-collage-3/900/1200', alt: 'Lower-left portrait', width: 900, height: 1200, size: 0.75  },  
-  { src: 'https://picsum.photos/seed/flent-collage-5/1400/900', alt: 'Lower-center continuation', width: 1400, height: 900, size: 1.25 },
+  { src: 'https://picsum.photos/seed/flent-collage-2/1600/1200', alt: 'Center-right hero moment', width: 1600, height: 1200, adjust: '300', size: 1.25, scaleFactor: 1.2 },
+  { src: 'https://picsum.photos/seed/flent-collage-4/900/1400', alt: 'Far-right cropped portrait', width: 900, height: 1400, size: 0.75, scaleFactor: 0.8 },
+  { src: 'https://picsum.photos/seed/flent-collage-1/1400/875', alt: 'Editorial moment one', width: 1400, height: 875, size: 1.25, scaleFactor: 1.2 },
+  { src: 'https://picsum.photos/seed/flent-collage-3/900/1200', alt: 'Lower-left portrait', width: 900, height: 1200, size: 0.75, scaleFactor: 0.9   },
+  { src: 'https://picsum.photos/seed/flent-collage-5/1400/900', alt: 'Lower-center continuation', width: 1400, height: 900, size: 1.25, scaleFactor: 1.2 },
 ]
 const socialProofColumnClasses = ['col-start-1', 'col-start-2', 'col-start-3', 'col-start-4', 'col-start-5']
+const socialProofAlignmentClasses = ['self-start -translate-y-2', 'self-end translate-y-3', 'self-center', 'self-start translate-y-4', 'self-end -translate-y-3']
 
 type EditorialFrameProps = {
   src: string
@@ -91,6 +92,9 @@ export function SocialProofWall() {
             <motion.div style={{ x: collageX }} className="relative h-full w-[200vw] min-w-[74rem] md:w-[160vw]">
               <div className="grid h-full grid-cols-5 grid-rows-2 items-start gap-x-5 gap-y-4 md:gap-x-8 md:gap-y-6">
                 {socialProofItems.map((item, index) => {
+                  const layoutScaleFactor = Math.min(Math.max(item.scaleFactor, 0), 1)
+                  const alignmentClass = socialProofAlignmentClasses[index] ?? 'self-start'
+
                   return (
                     <EditorialFrame
                       key={item.alt}
@@ -101,9 +105,13 @@ export function SocialProofWall() {
                       className={cn(
                         'max-h-full w-full',
                         socialProofColumnClasses[index],
-                        'row-start-1 self-start',
+                        'row-start-1',
+                        alignmentClass,
                       )}
-                      style={{ aspectRatio: `${item.width} / ${item.height}` }}
+                      style={{
+                        aspectRatio: `${item.width} / ${item.height}`,
+                        width: `${layoutScaleFactor * 100}%`,
+                      }}
                     />
                   )
                 })}
