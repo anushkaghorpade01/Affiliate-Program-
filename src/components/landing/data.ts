@@ -17,9 +17,30 @@ export const rewardsOrbitItems = [
 ]
 
 export const trackItems: TrackItem[] = [
-  { title: 'The Connector', copy: 'Hosts circles, moves communities, turns recommendations into gatherings.' },
-  { title: 'The Creator', copy: 'Shapes moodboards, stories, and visual taste language for homes.' },
-  { title: 'The Insider', copy: 'Knows the city, the corners, the upcoming places before everyone.' },
+  {
+    title: 'The Connector',
+    copy: 'Hosts circles, moves communities, turns recommendations into gatherings.',
+    image: {
+      src: '/tracks/connector.png',
+      alt: 'The Connector tastemaker tile',
+    },
+  },
+  {
+    title: 'The Creator',
+    copy: 'Shapes moodboards, stories, and visual taste language for homes.',
+    image: {
+      src: '/tracks/creator.png',
+      alt: 'The Creator tastemaker tile',
+    },
+  },
+  {
+    title: 'The Insider',
+    copy: 'Knows the city, the corners, the upcoming places before everyone.',
+    image: {
+      src: '/tracks/insider.png',
+      alt: 'The Insider tastemaker tile',
+    },
+  },
 ]
 
 export const tastemakerCards = [

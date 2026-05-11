@@ -6,4 +6,8 @@ export type SocialProofItem = {
 export type TrackItem = {
   title: string
   copy: string
+  image?: {
+    src: string
+    alt: string
+  }
 }

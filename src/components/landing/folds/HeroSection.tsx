@@ -17,9 +17,11 @@ export function HeroSection() {
         <br />
         <span className="italic">Tastemakers</span>
       </p>
-      <Button className="absolute right-6 top-[39rem] bg-[#D4A853] px-10 text-white hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] md:right-12 md:top-[34.8rem] md:px-12">
-        Apply now
-      </Button>
+      <a href="#apply" aria-label="Jump to tastemaker application form">
+        <Button className="absolute right-6 top-[39rem] bg-[#D4A853] px-10 text-white hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] md:right-12 md:top-[34.8rem] md:px-12">
+          Apply now
+        </Button>
+      </a>
 
       <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-7">

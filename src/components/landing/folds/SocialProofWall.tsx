@@ -16,13 +16,15 @@ import { cn } from '@/lib/utils'
  * (per the guide's "Debug Mode") for picking placements, then flip back.
  */
 const GRID_COLUMNS = 20
+const MOBILE_GRID_COLUMNS = 28
 const GRID_ROWS = 20
 const DEBUG_GRID = false
 
 const GRID_TEMPLATE_STYLE = {
-  gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))`,
   gridTemplateRows: `repeat(${GRID_ROWS}, minmax(0, 1fr))`,
 } satisfies CSSProperties
+
+const GRID_COLUMN_CLASSES = `[grid-template-columns:repeat(${MOBILE_GRID_COLUMNS},minmax(0,1fr))] md:[grid-template-columns:repeat(${GRID_COLUMNS},minmax(0,1fr))]`
 
 const GRID_GAP_CLASSES = 'gap-x-2 gap-y-2 md:gap-x-3 md:gap-y-3'
 
@@ -35,48 +37,63 @@ type GalleryItem = {
   height: number
   col: GridRange
   row: GridRange
+  mobileCol: GridRange
+  mobileRow: GridRange
+  href?: string
 }
 
 const galleryItems: GalleryItem[] = [
   {
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=90',
-    alt: 'Misty mountain lake at sunrise',
-    width: 1600,
-    height: 1200,
+    src: '/social-proof/deepankar-tweet.png',
+    alt: 'Social post about a house in Indiranagar',
+    width: 1024,
+    height: 806,
     col: [2, 6],
     row: [2, 15],
+    mobileCol: [2, 8],
+    mobileRow: [3, 8],
   },
   {
-    src: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=90',
-    alt: 'Tall evergreen forest canopy',
-    width: 900,
-    height: 1400,
+    src: '/social-proof/flent-postcard.png',
+    alt: 'Flent postcard held in hand',
+    width: 1024,
+    height: 683,
     col: [7, 9],
     row: [5, 21],
+    mobileCol: [7, 13],
+    mobileRow: [10, 15],
+    href: 'https://www.instagram.com/p/DVizDjukR3s/',
   },
   {
-    src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=90',
-    alt: 'Wide valley river surrounded by mountains',
-    width: 1400,
-    height: 875,
+    src: '/social-proof/striver-reply.png',
+    alt: 'Social reply recommending Flent homes',
+    width: 1024,
+    height: 600,
     col: [10, 14],
     row: [1, 13],
+    mobileCol: [12, 18],
+    mobileRow: [2, 7],
   },
   {
-    src: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=900&q=90',
-    alt: 'Sunlit fern leaves in a deep green forest',
-    width: 900,
-    height: 1200,
+    src: '/social-proof/fairmont-card.png',
+    alt: 'Creator holding a Fairmont listing card',
+    width: 1024,
+    height: 576,
     col: [15, 17],
     row: [8, 21],
+    mobileCol: [17, 23],
+    mobileRow: [11, 16],
+    href: 'https://www.instagram.com/reel/DXlc4OGkqdy/?igsh=MXBwYnBnaWllYzVpeA==',
   },
   {
-    src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1400&q=90',
-    alt: 'Rolling green hills beneath dramatic clouds',
-    width: 1400,
-    height: 900,
+    src: '/social-proof/flent-tote.png',
+    alt: 'Flent tote bag held indoors',
+    width: 1024,
+    height: 576,
     col: [18, 21],
     row: [4, 13],
+    mobileCol: [22, 28],
+    mobileRow: [5, 10],
   },
 ]
 
@@ -85,8 +102,16 @@ type EditorialFrameProps = {
   alt: string
   width?: number
   height?: number
+  href?: string
   className?: string
   style?: CSSProperties
+}
+
+type GalleryPlacementStyle = CSSProperties & {
+  '--mobile-col': string
+  '--mobile-row': string
+  '--desktop-col': string
+  '--desktop-row': string
 }
 
 /**
@@ -101,7 +126,10 @@ function GridDebugOverlay() {
         <div
           key={`${col},${row}`}
           style={{ gridColumn: col, gridRow: row }}
-          className="flex items-center justify-center border border-dashed border-[#003328]/30 bg-[#003328]/[0.02] font-mono text-[9px] leading-none text-[#003328]/65 md:text-[10px]"
+          className={cn(
+            'flex items-center justify-center border border-dashed border-[#003328]/30 bg-[#003328]/[0.02] font-mono text-[9px] leading-none text-[#003328]/65 md:text-[10px]',
+            col > GRID_COLUMNS ? 'md:hidden' : '',
+          )}
         >
           {col},{row}
         </div>,
@@ -112,14 +140,14 @@ function GridDebugOverlay() {
     <div
       aria-hidden
       style={GRID_TEMPLATE_STYLE}
-      className={cn('pointer-events-none absolute inset-0 z-10 grid', GRID_GAP_CLASSES)}
+      className={cn('pointer-events-none absolute inset-0 z-10 grid', GRID_COLUMN_CLASSES, GRID_GAP_CLASSES)}
     >
       {cells}
     </div>
   )
 }
 
-function EditorialFrame({ src, alt, width, height, className, style }: EditorialFrameProps) {
+function EditorialFrame({ src, alt, width, height, href, className, style }: EditorialFrameProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState('rotateX(0deg) rotateY(0deg) translateZ(0px)')
 
@@ -140,12 +168,26 @@ function EditorialFrame({ src, alt, width, height, className, style }: Editorial
       whileHover={{ y: -4 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
       className={cn(
-        'group relative min-h-0 min-w-0 overflow-hidden shadow-[0_20px_55px_-24px_rgba(0,51,40,0.42)] [perspective:900px]',
+        'group relative min-h-0 min-w-0 overflow-visible [perspective:900px]',
         className,
       )}
     >
-      <img src={src} alt={alt} width={width} height={height} className="block h-full w-full min-h-0 min-w-0 object-cover" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),transparent_45%,rgba(0,0,0,0.14))] opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className="relative z-[1] block h-full w-full min-h-0 min-w-0 object-contain"
+      />
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open ${alt}`}
+          className="absolute inset-0 z-[2] cursor-pointer"
+        />
+      ) : null}
     </motion.div>
   )
 }
@@ -184,8 +226,8 @@ export function SocialProofWall() {
   const collageX = useTransform(smooth, [0, 1], [0, -maxScroll])
 
   return (
-    <section ref={ref} className="relative -mt-7 h-[300vh] rounded-t-[2.75rem] md:-mt-9 md:h-[340vh] md:rounded-t-[4.5rem]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={ref} className="relative -mt-20 h-[300vh] rounded-t-[2.75rem] md:-mt-28 md:h-[340vh] md:rounded-t-[4.5rem]">
+      <div className="sticky top-0 h-screen overflow-hidden rounded-t-[2.75rem] md:rounded-t-[4.5rem]">
         <motion.div
           style={{ y: bgY }}
           className="pointer-events-none absolute -inset-y-8 inset-x-0 bg-[linear-gradient(165deg,#edf8f3_0%,#dff2ec_58%,#d8ebe5_100%)]"
@@ -200,8 +242,14 @@ export function SocialProofWall() {
               The word on the street.
             </h2>
           </FoldReveal>
-          <p className="mx-auto mt-3 max-w-[24rem] text-center text-sm leading-[1.2] text-[#003328]/84 md:mt-4 md:text-base">
-            Reshares, reposts, tags, threads, mentions, moments.
+          <p className="ml-[42vw] mr-auto mt-4 max-w-[16.75rem] text-left text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 md:ml-[52vw] md:mt-5 md:max-w-[18rem] md:text-sm md:leading-[1.14]">
+          <br /> <br /> Reshares, reposts, tags, threads,
+            <br />
+            mentions, conversations.
+            <br />
+            The little internet things
+            <br />
+            that move Flent around.
           </p>
 
           <div className="relative mt-8 min-h-0 flex-1 overflow-visible md:mt-14">
@@ -209,7 +257,8 @@ export function SocialProofWall() {
               ref={galleryRef}
               style={{ x: collageX, ...GRID_TEMPLATE_STYLE }}
               className={cn(
-                'relative grid h-full min-h-0 w-[200vw] min-w-[74rem] md:w-[170vw]',
+                'relative grid h-full min-h-0 w-[235vw] min-w-[82rem] md:w-[170vw]',
+                GRID_COLUMN_CLASSES,
                 GRID_GAP_CLASSES,
               )}
             >
@@ -220,10 +269,14 @@ export function SocialProofWall() {
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
+                  href={item.href}
+                  className="[grid-column:var(--mobile-col)] [grid-row:var(--mobile-row)] md:[grid-column:var(--desktop-col)] md:[grid-row:var(--desktop-row)]"
                   style={{
-                    gridColumn: `${item.col[0]} / ${item.col[1]}`,
-                    gridRow: `${item.row[0]} / ${item.row[1]}`,
-                  }}
+                    '--mobile-col': `${item.mobileCol[0]} / ${item.mobileCol[1]}`,
+                    '--mobile-row': `${item.mobileRow[0]} / ${item.mobileRow[1]}`,
+                    '--desktop-col': `${item.col[0]} / ${item.col[1]}`,
+                    '--desktop-row': `${item.row[0]} / ${item.row[1]}`,
+                  } as GalleryPlacementStyle}
                 />
               ))}
               {DEBUG_GRID ? <GridDebugOverlay /> : null}
