@@ -244,11 +244,11 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
             <span
               style={mobileOpenBadgeStyle ?? undefined}
               className={cn(
-                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/76 px-[5px] py-[2px] text-[0.42rem] font-medium uppercase leading-none tracking-[0.055em] text-[#003328]/82 opacity-60 shadow-[0_4px_12px_rgba(0,51,40,0.09)] transition duration-300 group-hover:opacity-90',
+                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90',
                 mobileOpenBadgeStyle ? '' : 'right-1.5 top-1.5',
               )}
             >
-              ↗
+              Open
             </span>
           ) : null}
         </div>
