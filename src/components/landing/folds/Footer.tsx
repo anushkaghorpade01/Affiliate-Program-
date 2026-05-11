@@ -8,6 +8,7 @@ const footerLinks = [
 const socialLinks = [
   { label: 'Instagram', href: 'https://www.instagram.com/flent.in/', icon: '/social/instagram.svg' },
   { label: 'X', href: 'https://x.com/flenthomes', icon: '/social/x.png' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@FlentHomes', icon: '/social/youtube.svg' },
 ]
 
 export function Footer() {
