@@ -5,6 +5,21 @@ import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
 
+/** Visible bitmap rect inside an `<img>` using `object-fit: contain` (for badge anchoring). */
+function getObjectContainInset(img: HTMLImageElement) {
+  const W = img.clientWidth
+  const H = img.clientHeight
+  const nw = img.naturalWidth
+  const nh = img.naturalHeight
+  if (!W || !H || !nw || !nh) return null
+  const scale = Math.min(W / nw, H / nh)
+  const dispW = nw * scale
+  const dispH = nh * scale
+  const offsetX = (W - dispW) / 2
+  const offsetY = (H - dispH) / 2
+  return { offsetX, offsetY, dispW, dispH }
+}
+
 /**
  * Horizontal scroll gallery. See `/guide.md` for the full system.
  *
@@ -149,7 +164,50 @@ function GridDebugOverlay() {
 
 function EditorialFrame({ src, alt, width, height, href, className, style }: EditorialFrameProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
   const [tilt, setTilt] = useState('rotateX(0deg) rotateY(0deg) translateZ(0px)')
+  const [mobileOpenBadgeStyle, setMobileOpenBadgeStyle] = useState<CSSProperties | null>(null)
+
+  useEffect(() => {
+    if (!href) return
+
+    const img = imgRef.current
+    if (!img) return
+
+    const mq = window.matchMedia('(max-width: 767px)')
+
+    const updateMobileBadge = () => {
+      if (!mq.matches) {
+        setMobileOpenBadgeStyle(null)
+        return
+      }
+      const inset = getObjectContainInset(img)
+      if (!inset) {
+        setMobileOpenBadgeStyle(null)
+        return
+      }
+      const pad = 6
+      setMobileOpenBadgeStyle({
+        top: inset.offsetY + pad,
+        left: inset.offsetX + inset.dispW - pad,
+        right: 'auto',
+        transform: 'translateX(-100%)',
+      })
+    }
+
+    updateMobileBadge()
+    mq.addEventListener('change', updateMobileBadge)
+    img.addEventListener('load', updateMobileBadge)
+
+    const ro = new ResizeObserver(updateMobileBadge)
+    ro.observe(img)
+
+    return () => {
+      mq.removeEventListener('change', updateMobileBadge)
+      img.removeEventListener('load', updateMobileBadge)
+      ro.disconnect()
+    }
+  }, [href, src])
 
   return (
     <motion.div
@@ -175,6 +233,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
       <div className="relative z-[1] flex h-full w-full min-h-0 min-w-0 items-center justify-center md:block">
         <div className="relative inline-block h-full max-w-full md:block md:w-full">
           <img
+            ref={imgRef}
             src={src}
             alt={alt}
             width={width}
@@ -182,8 +241,14 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
             className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
           />
           {href ? (
-            <span className="pointer-events-none absolute right-2 top-2 z-[3] rounded-full bg-[#E8F5F0]/76 px-2 py-0.5 text-[0.5rem] font-medium uppercase leading-none tracking-[0.07em] text-[#003328]/82 opacity-60 shadow-[0_6px_18px_rgba(0,51,40,0.1)] transition duration-300 group-hover:opacity-90">
-              Open ↗
+            <span
+              style={mobileOpenBadgeStyle ?? undefined}
+              className={cn(
+                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/76 px-[5px] py-[2px] text-[0.42rem] font-medium uppercase leading-none tracking-[0.055em] text-[#003328]/82 opacity-60 shadow-[0_4px_12px_rgba(0,51,40,0.09)] transition duration-300 group-hover:opacity-90',
+                mobileOpenBadgeStyle ? '' : 'right-1.5 top-1.5',
+              )}
+            >
+              ↗
             </span>
           ) : null}
         </div>
