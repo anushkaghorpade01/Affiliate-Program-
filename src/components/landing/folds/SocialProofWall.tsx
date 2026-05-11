@@ -172,18 +172,24 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
         className,
       )}
     >
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        className="relative z-[1] block h-full w-full min-h-0 min-w-0 object-contain"
-      />
+      <div className="relative z-[1] flex h-full w-full min-h-0 min-w-0 items-center justify-center md:block">
+        <div className="relative inline-block h-full max-w-full md:block md:w-full">
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
+          />
+          {href ? (
+            <span className="pointer-events-none absolute right-2 top-2 z-[3] rounded-full bg-[#E8F5F0]/76 px-2 py-0.5 text-[0.5rem] font-medium uppercase leading-none tracking-[0.07em] text-[#003328]/82 opacity-60 shadow-[0_6px_18px_rgba(0,51,40,0.1)] transition duration-300 group-hover:opacity-90">
+              Open ↗
+            </span>
+          ) : null}
+        </div>
+      </div>
       {href ? (
         <>
-          <span className="pointer-events-none absolute right-2 top-2 z-[3] rounded-full bg-[#E8F5F0]/76 px-2 py-0.5 text-[0.5rem] font-medium uppercase leading-none tracking-[0.07em] text-[#003328]/82 opacity-60 shadow-[0_6px_18px_rgba(0,51,40,0.1)] transition duration-300 group-hover:opacity-90">
-            Open ↗
-          </span>
           <a
             href={href}
             target="_blank"
