@@ -50,8 +50,8 @@ const galleryItems: GalleryItem[] = [
     height: 806,
     col: [2, 6],
     row: [2, 15],
-    mobileCol: [2, 8],
-    mobileRow: [3, 8],
+    mobileCol: [2, 11],
+    mobileRow: [3, 10],
   },
   {
     src: '/social-proof/flent-postcard.png',
@@ -60,8 +60,8 @@ const galleryItems: GalleryItem[] = [
     height: 683,
     col: [7, 9],
     row: [5, 21],
-    mobileCol: [7, 13],
-    mobileRow: [10, 15],
+    mobileCol: [8, 17],
+    mobileRow: [11, 18],
     href: 'https://www.instagram.com/p/DVizDjukR3s/',
   },
   {
@@ -71,8 +71,8 @@ const galleryItems: GalleryItem[] = [
     height: 600,
     col: [10, 14],
     row: [1, 13],
-    mobileCol: [12, 18],
-    mobileRow: [2, 7],
+    mobileCol: [13, 22],
+    mobileRow: [2, 9],
   },
   {
     src: '/social-proof/fairmont-card.png',
@@ -81,8 +81,8 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [15, 17],
     row: [8, 21],
-    mobileCol: [17, 23],
-    mobileRow: [11, 16],
+    mobileCol: [18, 27],
+    mobileRow: [12, 19],
     href: 'https://www.instagram.com/reel/DXlc4OGkqdy/?igsh=MXBwYnBnaWllYzVpeA==',
   },
   {
@@ -92,8 +92,8 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [18, 21],
     row: [4, 13],
-    mobileCol: [22, 28],
-    mobileRow: [5, 10],
+    mobileCol: [23, 32],
+    mobileRow: [5, 12],
   },
 ]
 

@@ -1,7 +1,14 @@
-const footerLinks = ['Home', 'Program', 'Rewards', 'Tastemakers', 'Process', 'Apply']
-const footerLinkHref: Record<string, string> = {
-  Apply: '#apply',
-}
+const footerLinks = [
+  { label: 'Flent', href: 'https://www.flent.in/', external: true },
+  { label: 'Home', href: '/#home' },
+  { label: "FAQ's", href: '/faq' },
+  { label: 'Apply', href: '/#apply' },
+]
+
+const socialLinks = [
+  { label: 'Instagram', href: 'https://www.instagram.com/flent.in/', icon: '/social/instagram.svg' },
+  { label: 'X', href: 'https://x.com/flenthomes', icon: '/social/x.png' },
+]
 
 export function Footer() {
   return (
@@ -25,13 +32,33 @@ export function Footer() {
 
         <nav aria-label="Footer navigation" className="absolute right-0 top-[33%] flex flex-col gap-5 text-sm text-[#f4f1ea]/60 md:top-[32%] md:gap-6 md:text-base">
           {footerLinks.map((link) => (
-            <a key={link} href={footerLinkHref[link] ?? '#'} className="transition-opacity duration-300 hover:text-[#f4f1ea]/88">
-              {link}
+            <a
+              key={link.label}
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noreferrer' : undefined}
+              className="transition-opacity duration-300 hover:text-[#f4f1ea]/88"
+            >
+              {link.label}
             </a>
           ))}
         </nav>
 
         <div className="absolute bottom-0 left-0 space-y-4 font-sans text-xs leading-none text-[#f4f1ea]/22 md:text-sm">
+          <div className="flex gap-4 text-[#f4f1ea]/42">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open Flent on ${link.label}`}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#f4f1ea]/18 transition duration-300 hover:border-[#f4f1ea]/45 hover:opacity-80"
+              >
+                <img src={link.icon} alt="" className="h-3.5 w-3.5 object-contain invert" loading="lazy" decoding="async" />
+              </a>
+            ))}
+          </div>
           <div className="flex gap-5">
             <a href="#" className="transition-opacity duration-300 hover:text-[#f4f1ea]/55">
               Privacy Policy
