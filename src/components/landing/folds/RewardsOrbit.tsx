@@ -146,13 +146,13 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.1}
-        className="absolute left-1/2 top-[min(57vh,30rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(6vh,2.75rem)] text-center md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
+        className="absolute left-1/2 top-[min(52vh,27rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(6vh,2.75rem)] text-center md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
       >
         <motion.div style={{ y: unlockY }}>
-          <h2 className="font-sans text-[1.625rem] font-medium leading-none tracking-[0.06em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[0.05em]">
+          <h2 className="font-sans text-[1.45rem] font-medium leading-none tracking-[0.06em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[0.05em]">
             What showing up unlocks.
           </h2>
-          <p className="mx-auto mt-[min(6.5vh,2.75rem)] max-w-md text-[1.125rem] leading-[1.18] text-[#E8F5F0]/90 md:text-[1.375rem] md:leading-[1.15]">
+          <p className="mx-auto mt-[min(3.8vh,1.75rem)] max-w-md text-[1.125rem] leading-[1.18] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:text-[1.375rem] md:leading-[1.15]">
             Full Catalog
             <br />
             Unlocks on joining

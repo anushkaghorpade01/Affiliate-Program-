@@ -20,7 +20,7 @@ const tastemakerArchiveCards = [
   {
     label: 'Baboon Bees',
     title: 'Archive Portrait',
-    src: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=820&q=85',
+    src: '/tastemakers/anmol-maini.png',
     className: 'z-[4] -ml-8 w-[14rem] rotate-[-0.75deg] md:-ml-10 md:w-[20rem]',
   },
   {

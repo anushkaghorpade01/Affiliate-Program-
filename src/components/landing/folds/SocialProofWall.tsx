@@ -50,8 +50,8 @@ const galleryItems: GalleryItem[] = [
     height: 806,
     col: [2, 6],
     row: [2, 15],
-    mobileCol: [2, 11],
-    mobileRow: [3, 10],
+    mobileCol: [2, 13],
+    mobileRow: [3, 11],
   },
   {
     src: '/social-proof/flent-postcard.png',
@@ -60,8 +60,8 @@ const galleryItems: GalleryItem[] = [
     height: 683,
     col: [7, 9],
     row: [5, 21],
-    mobileCol: [8, 17],
-    mobileRow: [11, 18],
+    mobileCol: [8, 19],
+    mobileRow: [12, 20],
     href: 'https://www.instagram.com/p/DVizDjukR3s/',
   },
   {
@@ -180,13 +180,18 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
         className="relative z-[1] block h-full w-full min-h-0 min-w-0 object-contain"
       />
       {href ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`Open ${alt}`}
-          className="absolute inset-0 z-[2] cursor-pointer"
-        />
+        <>
+          <span className="pointer-events-none absolute right-2 top-2 z-[3] rounded-full bg-[#E8F5F0]/76 px-2 py-0.5 text-[0.5rem] font-medium uppercase leading-none tracking-[0.07em] text-[#003328]/82 opacity-60 shadow-[0_6px_18px_rgba(0,51,40,0.1)] transition duration-300 group-hover:opacity-90">
+            Open ↗
+          </span>
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${alt}`}
+            className="absolute inset-0 z-[2] cursor-pointer"
+          />
+        </>
       ) : null}
     </motion.div>
   )

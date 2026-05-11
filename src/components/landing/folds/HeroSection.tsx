@@ -33,13 +33,13 @@ export function HeroSection() {
         <div className="pointer-events-none absolute left-1/2 top-[32rem] z-10 -translate-x-1/2 select-none">
           <FloatingKey className="h-[13rem] w-[9.25rem]" />
         </div>
-        <p className="absolute left-6 top-[47rem] max-w-[20.5rem] text-base leading-relaxed text-[#dff2ec]/80">
+        <p className="absolute left-6 top-[48.5rem] max-w-[20.5rem] text-base leading-relaxed text-[#dff2ec]/80">
           Share Flent within your circles, create around it, or help someone find their next home. Your recommendations now get rewarded.
         </p>
         <a
           href="#apply"
           aria-label="Jump to tastemaker application form"
-          className="absolute right-6 top-[55rem] z-30 inline-flex items-center justify-center rounded-full bg-[#D4A853] px-10 py-3 text-sm font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
+          className="absolute right-6 top-[56.5rem] z-30 inline-flex items-center justify-center rounded-full bg-[#D4A853] px-10 py-3 text-sm font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
         >
           Apply now
         </a>
