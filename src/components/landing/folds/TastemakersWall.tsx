@@ -49,13 +49,13 @@ export function TastemakersWall() {
       <div className="relative mx-auto flex min-h-[88vh] max-w-[92rem] flex-col">
         <FoldReveal>
           <div className="relative min-h-[18rem] md:min-h-[24rem]">
-            <h2 className="font-display text-[clamp(5.5rem,18vw,14rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
+            <h2 className="font-display text-[clamp(4.25rem,14vw,10.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
               Wall of
             </h2>
             <p className="mt-7 max-w-[14rem] text-left text-[0.95rem] leading-[1.12] tracking-[-0.02em] text-[#1a1a18]/82 md:mt-8 md:max-w-[15rem] md:text-[1.05rem]">
               A living archive of taste, influence, and the people who move culture quietly.
             </p>
-            <h2 className="absolute right-0 top-[5.75rem] font-display text-[clamp(4.35rem,15vw,13rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b] md:top-[7.25rem]">
+            <h2 className="mt-5 text-right font-display text-[clamp(3.25rem,11vw,9.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b] md:absolute md:right-0 md:top-[8.5rem] md:mt-0 md:text-[clamp(4rem,11.5vw,10.5rem)] lg:top-[9rem]">
               Tastemakers
             </h2>
           </div>

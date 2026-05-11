@@ -17,10 +17,12 @@ export function HeroSection() {
         <br />
         <span className="italic">Tastemakers</span>
       </p>
-      <a href="#apply" aria-label="Jump to tastemaker application form">
-        <Button className="absolute right-6 top-[39rem] bg-[#D4A853] px-10 text-white hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] md:right-12 md:top-[34.8rem] md:px-12">
-          Apply now
-        </Button>
+      <a
+        href="#apply"
+        aria-label="Jump to tastemaker application form"
+        className="absolute right-6 top-[39rem] z-30 inline-flex items-center justify-center rounded-full bg-[#D4A853] px-10 py-3 text-sm font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50 md:right-12 md:top-[34.8rem] md:px-12 md:text-base"
+      >
+        Apply now
       </a>
 
       <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -43,7 +45,7 @@ export function HeroSection() {
         </div>
 
         <div className="relative mt-10 flex min-h-[420px] items-start justify-start md:min-h-[560px] lg:mt-0">
-          <div className="absolute left-1/2 top-[-2%] -translate-x-1/2 md:left-[-18%] md:top-[8%] md:translate-x-0">
+          <div className="pointer-events-none absolute left-1/2 top-[-2%] -translate-x-1/2 select-none md:left-[-18%] md:top-[8%] md:translate-x-0">
             <FloatingKey
               className="z-10 h-[15rem] w-[10.5rem] md:h-[31rem] md:w-[22rem] xl:h-[35rem] xl:w-[25rem]"
             />

@@ -226,7 +226,7 @@ export function SocialProofWall() {
   const collageX = useTransform(smooth, [0, 1], [0, -maxScroll])
 
   return (
-    <section ref={ref} className="relative -mt-20 h-[300vh] rounded-t-[2.75rem] md:-mt-28 md:h-[340vh] md:rounded-t-[4.5rem]">
+    <section ref={ref} className="relative -mt-10 h-[300vh] rounded-t-[2.75rem] md:-mt-12 md:h-[340vh] md:rounded-t-[4.5rem]">
       <div className="sticky top-0 h-screen overflow-hidden rounded-t-[2.75rem] md:rounded-t-[4.5rem]">
         <motion.div
           style={{ y: bgY }}
