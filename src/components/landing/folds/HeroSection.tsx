@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 
 export function HeroSection() {
