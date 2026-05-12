@@ -1,11 +1,38 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Zin Display Condensed';
+  src: url('/font/ZinDisplayCondensed.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Plus Jakarta Sans variable — files from Fontshare bundle (PlusJakartaSans_Complete WEB) */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/font/plus-jakarta/PlusJakartaSans-Variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/font/plus-jakarta/PlusJakartaSans-VariableItalic.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
-  --font-display: 'Zin Display', 'Times New Roman', serif;
-  --font-sans: 'Jakarta Sans Plus', 'Inter', 'Segoe UI', sans-serif;
+  --font-display: 'Zin Display Condensed', serif;
+  --font-zin: 'Zin Display Condensed', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 :root {
+  --font-zin: 'Zin Display Condensed', serif;
   font-family: var(--font-sans);
   color: #E8F5F0;
   background: #000d09;
@@ -31,6 +58,26 @@ html {
 
 body {
   background: #000d09;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-zin);
+}
+
+.font-zin {
+  font-family: var(--font-zin);
+  font-weight: 100;
+}
+
+.font-zin-italic {
+  font-family: var(--font-zin);
+  font-style: italic;
+  font-weight: 100;
 }
 
 .grain {

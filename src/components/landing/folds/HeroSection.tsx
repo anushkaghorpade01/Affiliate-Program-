@@ -2,7 +2,10 @@ import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative h-[66rem] scroll-mt-0 overflow-hidden px-6 pt-28 md:h-[calc(clamp(42rem,55.8vw,72rem)+6rem)] md:px-12 md:pt-16">
+    <section
+      id="home"
+      className="relative h-[56rem] scroll-mt-0 overflow-hidden px-6 pb-8 pt-12 md:h-[calc(clamp(42rem,55.8vw,72rem)+6rem)] md:px-12 md:pb-0 md:pt-16"
+    >
       <div className="pointer-events-none absolute inset-x-0 -bottom-24 top-0 flex items-center justify-center">
         <img
           src="/hero-background.png"
@@ -11,38 +14,38 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="md:hidden">
-        <img
-          src="/flent-logo-white.png"
-          alt="Flent"
-          className="absolute left-6 top-[3.75rem] h-auto w-24"
-        />
-        <h1 className="absolute left-6 top-[11.5rem] font-display text-[1.9rem] leading-[0.92] tracking-[-0.03em] text-[#E8F5F0]">
+      <div className="relative z-[1] flex flex-col gap-5 md:hidden">
+        <img src="/flent-logo-white.png" alt="Flent" className="mb-[5px] h-auto w-24 shrink-0" />
+        <h1 className="font-display text-[clamp(2.35rem,8vw,3.55rem)] leading-[1.05] tracking-[-0.03em] text-[#E8F5F0]">
           Your influence is real
           <br />
           Now it’s rewarding too
         </h1>
-        <p className="absolute left-6 top-[19rem] max-w-[21rem] text-base leading-relaxed text-[#dff2ec]/80">
-          For creators, connectors, and people whose recommendations already move people.
+        <p className="max-w-[21rem] text-sm leading-[1.1] text-[#dff2ec]/90">
+          For creators, connectors, and people whose
+          <br />
+          recommendations already move people.
         </p>
-        <p className="absolute right-6 top-[27rem] max-w-[10rem] text-right text-sm leading-tight tracking-[0.02em] text-[#dff2ec]/78">
+        <p className="mt-8 max-w-[11rem] text-left text-sm leading-tight tracking-[0.02em] text-[#dff2ec]/88">
           Flent&apos;s search for
           <br />
           <span className="italic">Tastemakers</span>
         </p>
-        <div className="pointer-events-none absolute left-1/2 top-[32rem] z-10 -translate-x-1/2 select-none">
-          <FloatingKey className="h-[13rem] w-[9.25rem]" />
+        <div className="pointer-events-none flex justify-center py-3 select-none">
+          <FloatingKey className="h-[17rem] w-[11.25rem] shrink-0" />
         </div>
-        <p className="absolute left-6 top-[48.5rem] max-w-[20.5rem] text-base leading-relaxed text-[#dff2ec]/80">
+        <div className="-mt-[3.125rem] flex justify-end">
+          <a
+            href="#apply"
+            aria-label="Jump to tastemaker application form"
+            className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-8 py-2.5 text-sm font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
+          >
+            Apply now
+          </a>
+        </div>
+        <p className="mt-8 max-w-[20.5rem] text-sm leading-[1.1] text-[#dff2ec]/90">
           Share Flent within your circles, create around it, or help someone find their next home. Your recommendations now get rewarded.
         </p>
-        <a
-          href="#apply"
-          aria-label="Jump to tastemaker application form"
-          className="absolute right-6 top-[56.5rem] z-30 inline-flex items-center justify-center rounded-full bg-[#D4A853] px-10 py-3 text-sm font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
-        >
-          Apply now
-        </a>
       </div>
 
       <p className="absolute right-12 top-[11.5rem] hidden text-right text-2xl tracking-[0.02em] text-[#dff2ec]/78 md:block">
@@ -66,7 +69,7 @@ export function HeroSection() {
             className="h-auto w-32"
           />
           <br />
-          <h1 className="font-display text-[3.3rem] leading-[0.92] tracking-[-0.03em] text-[#E8F5F0] xl:text-[4.5rem]">
+          <h1 className="font-display text-[3.55rem] leading-[0.92] tracking-[-0.03em] text-[#E8F5F0] xl:text-[4.75rem]">
             Your influence is real
             <br />
             Now it’s rewarding too

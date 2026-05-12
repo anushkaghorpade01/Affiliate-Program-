@@ -96,7 +96,7 @@ export function FAQPage() {
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
                   className="group flex w-full items-center justify-between gap-8 py-7 text-left md:py-9"
                 >
-                  <span className="max-w-[58rem] font-sans text-[clamp(1.38rem,3vw,2.25rem)] font-medium leading-[1.08] tracking-[-0.035em] text-[#E8F5F0]/88 transition duration-300 group-hover:text-[#E8F5F0]">
+                  <span className="max-w-[58rem] font-display text-[clamp(1.38rem,3vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.035em] text-[#E8F5F0]/88 transition duration-300 group-hover:text-[#E8F5F0]">
                     {item.question}
                   </span>
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#E8F5F0]/35 text-2xl leading-none text-[#E8F5F0]/88 transition duration-300 group-hover:scale-105 group-hover:border-[#E8F5F0]/70 md:h-12 md:w-12">

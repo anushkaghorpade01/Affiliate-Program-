@@ -1,18 +1,87 @@
-import { useEffect, useRef, useState } from 'react'
+import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
 
+/** Desktop: arcY / rotate via flex row + overlap. */
 const orbitPlaceholders = [
-  { rotate: -14, arcY: 22, mobileArcY: 4 },
-  { rotate: -7, arcY: 10, mobileArcY: 2 },
-  { rotate: -2, arcY: -8, mobileArcY: -1 },
-  { rotate: 1, arcY: -14, mobileArcY: -2 },
-  { rotate: 8, arcY: -5, mobileArcY: -1 },
-  { rotate: 12, arcY: 12, mobileArcY: 2 },
-  { rotate: 14, arcY: 24, mobileArcY: 4 },
+  { rotate: -14, arcY: 22 },
+  { rotate: -7, arcY: 10 },
+  { rotate: -2, arcY: -8 },
+  { rotate: 1, arcY: -14 },
+  { rotate: 8, arcY: -5 },
+  { rotate: 12, arcY: 12 },
+  { rotate: 14, arcY: 24 },
+] as const
+
+/**
+ * Mobile-only: premium editorial stack — matches reference arc & fan (Dyson omitted).
+ * Order: Redstory → Comet → SMEG → fig → Blue Tokai (outer wings swapped).
+ * Z: Redstory < Comet < SMEG > fig > Tokai. Vertical: wings low, inner pair level, hero apex.
+ */
+const MOBILE_ORBIT_COMPOSITION = [
+  {
+    assetIndex: 0,
+    left: '17.5%',
+    topPct: 51.05,
+    width: 'clamp(5.8rem, 28.5vw, 8.72rem)',
+    arcY: 5,
+    rotate: -12,
+    scale: 0.88,
+    z: 11,
+    opacity: 1,
+    blurPx: 0,
+  },
+  {
+    assetIndex: 4,
+    left: '33%',
+    topPct: 45.55,
+    width: 'clamp(5.85rem, 28.5vw, 8.75rem)',
+    arcY: 2,
+    rotate: -6,
+    scale: 0.92,
+    z: 23,
+    opacity: 1,
+    blurPx: 0,
+  },
+  {
+    assetIndex: 3,
+    left: '50%',
+    topPct: 39.85,
+    width: 'clamp(6.38rem, 30vw, 9.32rem)',
+    arcY: -6,
+    rotate: -1.25,
+    scale: 1,
+    z: 56,
+    opacity: 1,
+    blurPx: 0,
+  },
+  {
+    assetIndex: 5,
+    left: '66.5%',
+    topPct: 45.6,
+    width: 'clamp(5.85rem, 28.5vw, 8.75rem)',
+    arcY: 2,
+    rotate: 6,
+    scale: 0.92,
+    z: 34,
+    opacity: 1,
+    blurPx: 0,
+  },
+  {
+    assetIndex: 2,
+    left: '82%',
+    topPct: 51,
+    width: 'clamp(5.8rem, 28.5vw, 8.72rem)',
+    arcY: 5,
+    rotate: 12,
+    scale: 0.88,
+    z: 14,
+    opacity: 1,
+    blurPx: 0,
+  },
 ] as const
 
 /** Brand logos per orbit slot. */
@@ -28,7 +97,9 @@ const orbitAssets: Partial<Record<number, { src: string; alt: string }>> = {
 
 export function RewardsOrbit() {
   const ref = useRef<HTMLElement>(null)
-  const [isMobileOrbit, setIsMobileOrbit] = useState(false)
+  const [isMobileOrbit, setIsMobileOrbit] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  )
   const reduceMotion = useReducedMotion()
   const ambientMotion = !reduceMotion
   const factor = useCinematicIntensity()
@@ -53,106 +124,215 @@ export function RewardsOrbit() {
     <section
       ref={ref}
       className={cn(
-        'relative isolate min-h-[92vh] overflow-hidden bg-[#000d09] px-[5vw] pb-[6vh] md:min-h-[96vh]',
+        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[86vh] max-md:overflow-visible max-md:pb-[max(2.75vh,1rem)] md:min-h-[96vh] md:overflow-hidden md:pb-[6vh]',
         'before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,38,32,0.22)_0%,transparent_58%)]',
         'after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(ellipse_at_center,transparent_58%,rgba(0,0,0,0.48)_100%)] after:opacity-95',
       )}
     >
       <div className="grain pointer-events-none absolute inset-0 opacity-[0.22]" aria-hidden />
 
-      <FoldReveal className="absolute left-1/2 top-[min(14vh,8rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center md:max-w-[min(720px,50vw)]">
+      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(8vh,5.25rem)] max-md:z-[60] md:top-[min(14vh,8rem)] md:max-w-[min(720px,50vw)]">
         <motion.div style={{ y: introY }}>
           <p className="text-[1.125rem] leading-[1.32] text-[#E8F5F0]/78 md:text-xl md:leading-[1.3]">
-          The more Flent moves through your circles, the more your world opens up with it.
+            The more Flent moves through your circles, the more your world opens up with it.
           </p>
         </motion.div>
       </FoldReveal>
 
       <FoldReveal
         delay={0.06}
-        className="absolute left-1/2 top-[min(29vh,17rem)] z-[1] flex w-full max-w-[100vw] -translate-x-1/2 justify-center md:top-[min(27vh,16rem)] md:max-w-[min(1200px,84vw)]"
+        className="absolute left-1/2 top-[min(23vh,12.5rem)] z-[1] flex w-full max-w-[100vw] -translate-x-1/2 justify-center max-md:top-[min(30vh,15.5rem)] max-md:z-10 max-md:w-screen max-md:max-w-none md:top-[min(27vh,16rem)] md:max-w-[min(1200px,84vw)]"
       >
         <motion.div
           style={{ y: orbitY }}
           className={cn(
-            'relative flex w-full touch-pan-x justify-center pt-3 md:pt-0',
-            'overflow-x-auto overflow-y-visible pb-4 [-ms-overflow-style:none] [scrollbar-width:none] md:overflow-visible [&::-webkit-scrollbar]:hidden',
+            'relative w-full justify-center pt-2 md:flex md:pt-0',
+            'max-md:h-[clamp(268px,50vmin,388px)] max-md:overflow-visible max-md:pb-[min(7vh,2.75rem)] max-md:pt-[min(2vh,1rem)]',
+            'overflow-x-auto overflow-y-visible pb-4 [-ms-overflow-style:none] [scrollbar-width:none] md:h-auto md:overflow-visible md:pb-0 md:pt-0 [&::-webkit-scrollbar]:hidden',
           )}
         >
-          <div className="flex min-w-[min(100%,780px)] items-end justify-center gap-0 px-0 md:min-w-0">
-            {orbitPlaceholders.map((slot, idx) => {
-              const asset = orbitAssets[idx]
-              const arcY = isMobileOrbit ? slot.mobileArcY : slot.arcY
-              return (
-              <motion.div
-                key={idx}
-                className={cn(
-                  'relative shrink-0 overflow-hidden rounded-[1.25rem] border border-[rgba(232,245,240,0.12)] bg-[rgba(232,245,240,0.03)]',
-                  asset ? 'opacity-100' : 'opacity-[0.92]',
-                  'w-[clamp(4.25rem,13.6vw,4.85rem)] md:w-[clamp(9.375rem,11vw,11.875rem)]',
-                  'h-[clamp(5.8rem,17vw,6.45rem)] md:h-[clamp(11.875rem,22vh,14.375rem)]',
-                  '-ml-3 first:ml-0 md:-ml-7',
-                )}
-                initial={false}
-                animate={
-                  ambientMotion
-                    ? {
-                        y: [arcY, arcY - (isMobileOrbit ? 1.5 : 3), arcY + (isMobileOrbit ? 1.5 : 2), arcY],
-                        rotate: [slot.rotate - 0.35, slot.rotate + 0.35, slot.rotate],
-                      }
-                    : {
-                        y: arcY,
-                        rotate: slot.rotate,
-                      }
-                }
-                transition={
-                  ambientMotion
-                    ? {
-                        duration: 11 + idx * 0.65,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }
-                    : { duration: 0 }
-                }
-                whileHover={
-                  ambientMotion
-                    ? {
-                        y: arcY - 6,
-                        opacity: 1,
-                        boxShadow: '0 0 48px rgba(232,245,240,0.07)',
-                        transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
-                      }
-                    : undefined
-                }
-                aria-hidden={!asset}
-              >
-                {asset ? (
-                  <img
-                    src={asset.src}
-                    alt={asset.alt}
-                    width={480}
-                    height={480}
-                    className="pointer-events-none h-full w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : null}
-              </motion.div>
-              )
-            })}
+          <div
+            className={cn(
+              'relative w-full gap-0 px-0',
+              'max-md:mx-auto max-md:min-h-[clamp(268px,50vmin,388px)] max-md:min-w-0 max-md:w-full',
+              'flex min-w-0 items-end justify-center md:flex md:min-w-0',
+            )}
+          >
+            {isMobileOrbit
+              ? MOBILE_ORBIT_COMPOSITION.map((slot, compositionIdx) => {
+                  const asset = orbitAssets[slot.assetIndex]
+                  const baseRotate = slot.rotate
+                  const rotateWobble = Math.abs(baseRotate) < 2 ? 0.035 : 0.07
+                  const arcY = slot.arcY
+
+                  const wrapperStyle: CSSProperties = {
+                    left: slot.left,
+                    top: `${slot.topPct}%`,
+                    zIndex: slot.z,
+                    width: slot.width,
+                    transform: 'translate(-50%, -50%)',
+                  }
+
+                  return (
+                    <div
+                      key={`orbit-mobile-${slot.assetIndex}-${compositionIdx}`}
+                      className={cn('max-md:absolute', 'md:contents')}
+                      style={wrapperStyle}
+                    >
+                      <motion.div
+                        className={cn(
+                          'shrink-0 overflow-hidden rounded-[1.25rem] border border-[rgba(232,245,240,0.12)] bg-[rgba(232,245,240,0.03)]',
+                          asset ? 'opacity-100' : 'opacity-[0.92]',
+                          'max-md:h-full max-md:w-full max-md:shadow-[0_22px_52px_-20px_rgba(0,0,0,0.82)]',
+                          'max-md:aspect-square md:relative',
+                          'md:aspect-auto md:w-[clamp(9.375rem,11vw,11.875rem)]',
+                          'md:h-[clamp(11.875rem,22vh,14.375rem)]',
+                          'md:-ml-7 md:shadow-none md:first:ml-0',
+                          'md:z-auto',
+                        )}
+                        style={{
+                          opacity: slot.opacity,
+                          filter: slot.blurPx > 0 ? `blur(${slot.blurPx}px)` : undefined,
+                        }}
+                        initial={false}
+                        animate={
+                          ambientMotion
+                            ? {
+                                y: [arcY, arcY - 2, arcY + 1.5, arcY],
+                                rotate: [
+                                  baseRotate - rotateWobble,
+                                  baseRotate + rotateWobble,
+                                  baseRotate,
+                                ],
+                                scale: [
+                                  slot.scale - 0.008,
+                                  slot.scale + 0.008,
+                                  slot.scale,
+                                ],
+                              }
+                            : {
+                                y: arcY,
+                                rotate: baseRotate,
+                                scale: slot.scale,
+                              }
+                        }
+                        transition={
+                          ambientMotion
+                            ? {
+                                duration: 12 + compositionIdx * 0.55,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                              }
+                            : { duration: 0 }
+                        }
+                        whileHover={
+                          ambientMotion
+                            ? {
+                                y: arcY - 4,
+                                opacity: 1,
+                                filter: 'blur(0px)',
+                                scale: slot.scale * 1.02,
+                                boxShadow: '0 0 56px rgba(232,245,240,0.08)',
+                                transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+                              }
+                            : undefined
+                        }
+                        aria-hidden={!asset}
+                      >
+                        {asset ? (
+                          <img
+                            src={asset.src}
+                            alt={asset.alt}
+                            width={480}
+                            height={480}
+                            className="pointer-events-none h-full w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : null}
+                      </motion.div>
+                    </div>
+                  )
+                })
+              : [...orbitPlaceholders].map((slot, idx) => {
+                  const asset = orbitAssets[idx]
+                  const arcY = slot.arcY
+                  const baseRotate = slot.rotate
+                  const rotateWobble = 0.35
+                  return (
+                    <div key={`orbit-${idx}`} className="md:contents">
+                      <motion.div
+                        className={cn(
+                          'shrink-0 overflow-hidden rounded-[1.25rem] border border-[rgba(232,245,240,0.12)] bg-[rgba(232,245,240,0.03)]',
+                          asset ? 'opacity-100' : 'opacity-[0.92]',
+                          'relative aspect-auto h-[clamp(11.875rem,22vh,14.375rem)] w-[clamp(9.375rem,11vw,11.875rem)]',
+                          '-ml-7 shadow-none first:ml-0',
+                        )}
+                        initial={false}
+                        animate={
+                          ambientMotion
+                            ? {
+                                y: [arcY, arcY - 3, arcY + 2, arcY],
+                                rotate: [
+                                  baseRotate - rotateWobble,
+                                  baseRotate + rotateWobble,
+                                  baseRotate,
+                                ],
+                              }
+                            : {
+                                y: arcY,
+                                rotate: baseRotate,
+                              }
+                        }
+                        transition={
+                          ambientMotion
+                            ? {
+                                duration: 11 + idx * 0.65,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                              }
+                            : { duration: 0 }
+                        }
+                        whileHover={
+                          ambientMotion
+                            ? {
+                                y: arcY - 6,
+                                opacity: 1,
+                                boxShadow: '0 0 48px rgba(232,245,240,0.07)',
+                                transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+                              }
+                            : undefined
+                        }
+                        aria-hidden={!asset}
+                      >
+                        {asset ? (
+                          <img
+                            src={asset.src}
+                            alt={asset.alt}
+                            width={480}
+                            height={480}
+                            className="pointer-events-none h-full w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : null}
+                      </motion.div>
+                    </div>
+                  )
+                })}
           </div>
         </motion.div>
       </FoldReveal>
 
       <FoldReveal
         delay={0.1}
-        className="absolute left-1/2 top-[min(52vh,27rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(6vh,2.75rem)] text-center md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
+        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(62vh,31.5rem)] max-md:z-[60] max-md:pt-[min(4vh,1.6rem)] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
       >
         <motion.div style={{ y: unlockY }}>
-          <h2 className="font-sans text-[1.45rem] font-medium leading-none tracking-[0.06em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[0.05em]">
+          <h2 className="font-display text-[1.45rem] font-normal leading-none tracking-[-0.02em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[-0.025em]">
             What showing up unlocks.
           </h2>
-          <p className="mx-auto mt-[min(3.8vh,1.75rem)] max-w-md text-[1.125rem] leading-[1.18] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:text-[1.375rem] md:leading-[1.15]">
+          <p className="mx-auto mt-[min(3vh,1.35rem)] max-w-md font-sans text-[1.125rem] leading-[1.18] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:text-[1.375rem] md:leading-[1.15]">
             Full Catalog
             <br />
             Unlocks on joining

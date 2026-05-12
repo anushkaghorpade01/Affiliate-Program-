@@ -21,7 +21,7 @@ export function ApplicationFold() {
   const keyParallax = useTransform(smooth, [0, 1], [0, factor * -28])
 
   return (
-    <section id="apply" ref={ref} className="relative -mt-6 scroll-mt-8 overflow-hidden px-6 pb-24 pt-24 md:px-12">
+    <section id="apply" ref={ref} className="relative -mt-6 scroll-mt-8 overflow-hidden px-6 pb-12 pt-20 md:px-12 md:pb-24 md:pt-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#dff2ec]/20 to-transparent" />
       <motion.div
         style={{ y: bgY }}
@@ -75,7 +75,7 @@ export function ApplicationFold() {
           </form>
         </FoldReveal>
 
-        <FoldReveal delay={0.06} className="relative flex min-h-[340px] items-center justify-center rounded-[1.6rem]">
+        <FoldReveal delay={0.06} className="relative flex min-h-[210px] items-center justify-center rounded-[1.6rem] md:min-h-[340px]">
           <FloatingKey scrollParallaxY={keyParallax} />
         </FoldReveal>
       </motion.div>

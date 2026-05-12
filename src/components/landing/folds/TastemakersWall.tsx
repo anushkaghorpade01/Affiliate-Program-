@@ -46,9 +46,9 @@ export function TastemakersWall() {
     <section ref={ref} className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 md:min-h-[92vh] md:px-12 md:pt-10">
       <motion.div style={{ y: grainY }} className="grain pointer-events-none absolute inset-0 opacity-[0.18]" />
 
-      <div className="relative mx-auto flex min-h-[88vh] max-w-[92rem] flex-col">
+      <div className="relative mx-auto flex min-h-0 max-w-[92rem] flex-col md:min-h-[88vh]">
         <FoldReveal>
-          <div className="relative min-h-[18rem] md:min-h-[24rem]">
+          <div className="relative min-h-0 md:min-h-[24rem]">
             <h2 className="font-display text-[clamp(4.25rem,14vw,10.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
               Wall of
             </h2>
@@ -61,7 +61,7 @@ export function TastemakersWall() {
           </div>
         </FoldReveal>
 
-        <FoldReveal delay={0.1} className="mt-auto">
+        <FoldReveal delay={0.1} className="mt-40 md:mt-auto">
           <motion.div
             style={{ y: railY }}
             className="relative left-1/2 flex w-[calc(100vw+6rem)] -translate-x-1/2 items-end overflow-visible pb-0 pl-[8vw] md:w-[calc(100vw+10rem)] md:pl-[14vw]"

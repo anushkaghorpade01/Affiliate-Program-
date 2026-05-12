@@ -22,12 +22,51 @@ function useTouchFlipEnabled() {
 
 function TrackFlipCard({ card }: { card: TrackItem }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [isMobileTrack, setIsMobileTrack] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  )
   const isTouchFlipEnabled = useTouchFlipEnabled()
   const isInView = useInView(ref, { amount: 0.62, margin: '-12% 0px -12% 0px' })
   const [isHovered, setIsHovered] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
 
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 767px)')
+    const sync = () => setIsMobileTrack(query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
+
   if (!card.image) return null
+
+  if (isMobileTrack) {
+    return (
+      <div
+        ref={ref}
+        className="relative h-[17rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]"
+      >
+        <img
+          src={card.image.src}
+          alt={card.image.alt}
+          className="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+        {/* Soft veil: photo stays visible but muted for readable type */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[1.35rem] bg-[#000d09]/[0.38]"
+          aria-hidden
+        />
+        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/78 via-black/28 to-transparent p-5 pt-12">
+          <p className="font-display text-[1.35rem] leading-[0.98] tracking-[-0.02em] text-[#E8F5F0]">
+            {card.title}
+          </p>
+          <p className="mt-2.5 max-w-[28ch] text-[0.8125rem] leading-[1.22] text-[#E8F5F0]/86">{card.copy}</p>
+        </div>
+      </div>
+    )
+  }
 
   const isFlipped = isHovered || (isTouchFlipEnabled && isInView) || isFocused
 
@@ -104,10 +143,10 @@ export function InteractiveTracks() {
                   initial="rest"
                   animate="rest"
                   key={card.title}
-                  className="group relative h-[25rem] overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-[#003328] to-[#001c16] p-7"
+                  className="group relative h-[17rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-[#003328] to-[#001c16] p-6 md:h-[25rem] md:rounded-[2rem] md:p-7"
                 >
-                  <motion.p variants={{ rest: { y: 0 }, hover: { y: -18 } }} className="font-display text-4xl leading-[1] text-[#E8F5F0]">{card.title}</motion.p>
-                  <motion.p variants={{ rest: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }} className="absolute bottom-8 left-7 max-w-[22ch] text-base text-[#dff2ec]/80">{card.copy}</motion.p>
+                  <motion.p variants={{ rest: { y: 0 }, hover: { y: -18 } }} className="font-display text-3xl leading-[1] text-[#E8F5F0] md:text-4xl">{card.title}</motion.p>
+                  <motion.p variants={{ rest: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }} className="absolute bottom-6 left-6 max-w-[22ch] text-sm text-[#dff2ec]/80 md:bottom-8 md:left-7 md:text-base">{card.copy}</motion.p>
                 </motion.div>
               ),
             )}

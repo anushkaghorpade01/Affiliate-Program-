@@ -1,6 +1,9 @@
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
+import {
+  cinematicScrollSpring,
+  cinematicScrollSpringMobile,
+} from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
@@ -96,8 +99,8 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [15, 17],
     row: [8, 21],
-    mobileCol: [18, 27],
-    mobileRow: [12, 19],
+    mobileCol: [20, 29],
+    mobileRow: [14, 22],
     href: 'https://www.instagram.com/reel/DXlc4OGkqdy/?igsh=MXBwYnBnaWllYzVpeA==',
   },
   {
@@ -107,8 +110,8 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [18, 21],
     row: [4, 13],
-    mobileCol: [23, 32],
-    mobileRow: [5, 12],
+    mobileCol: [23, 29],
+    mobileRow: [4, 12],
   },
 ]
 
@@ -238,7 +241,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
             alt={alt}
             width={width}
             height={height}
-            className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
+            className="block h-full w-auto max-w-full min-w-0 rounded-xl object-contain md:w-full"
           />
           {href ? (
             <span
@@ -272,11 +275,22 @@ export function SocialProofWall() {
   const ref = useRef<HTMLElement>(null)
   const galleryRef = useRef<HTMLDivElement>(null)
   const factor = useCinematicIntensity()
+  const [scrollSpring, setScrollSpring] = useState<
+    typeof cinematicScrollSpring | typeof cinematicScrollSpringMobile
+  >(cinematicScrollSpring)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const sync = () =>
+      setScrollSpring(mq.matches ? cinematicScrollSpringMobile : cinematicScrollSpring)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end end'],
   })
-  const smooth = useSpring(scrollYProgress, cinematicScrollSpring)
+  const smooth = useSpring(scrollYProgress, scrollSpring)
   const bgY = useTransform(smooth, [0, 1], [factor * 22, factor * -22])
   const grainY = useTransform(smooth, [0, 1], [factor * -12, factor * 12])
 
@@ -302,7 +316,10 @@ export function SocialProofWall() {
   const collageX = useTransform(smooth, [0, 1], [0, -maxScroll])
 
   return (
-    <section ref={ref} className="relative -mt-10 h-[300vh] rounded-t-[2.75rem] md:-mt-12 md:h-[340vh] md:rounded-t-[4.5rem]">
+    <section
+      ref={ref}
+      className="relative -mt-10 h-[278vh] rounded-t-[2.75rem] md:h-[340vh] md:-mt-12 md:rounded-t-[4.5rem]"
+    >
       <div className="sticky top-0 h-screen overflow-hidden rounded-t-[2.75rem] md:rounded-t-[4.5rem]">
         <motion.div
           style={{ y: bgY }}
@@ -318,8 +335,10 @@ export function SocialProofWall() {
               The word on the street.
             </h2>
           </FoldReveal>
-          <p className="ml-[42vw] mr-auto mt-4 max-w-[16.75rem] text-left text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 md:ml-[52vw] md:mt-5 md:max-w-[18rem] md:text-sm md:leading-[1.14]">
-          <br /> <br /> Reshares, reposts, tags, threads,
+          <p className="mx-auto mt-6 max-w-[min(18rem,88vw)] text-center text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 max-md:text-balance md:ml-[52vw] md:mr-auto md:mt-5 md:max-w-[18rem] md:text-left md:text-sm md:leading-[1.14]">
+            <br className="hidden md:block" aria-hidden />
+            <br className="hidden md:block" aria-hidden />
+            Reshares, reposts, tags, threads,
             <br />
             mentions, conversations.
             <br />
