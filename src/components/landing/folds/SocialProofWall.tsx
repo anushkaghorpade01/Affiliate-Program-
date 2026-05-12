@@ -44,7 +44,7 @@ const GRID_TEMPLATE_STYLE = {
 
 const GRID_COLUMN_CLASSES = `[grid-template-columns:repeat(${MOBILE_GRID_COLUMNS},minmax(0,1fr))] md:[grid-template-columns:repeat(${GRID_COLUMNS},minmax(0,1fr))]`
 
-const GRID_GAP_CLASSES = 'gap-x-2 gap-y-2 md:gap-x-3 md:gap-y-3'
+const GRID_GAP_CLASSES = 'gap-x-1.5 gap-y-1.5 md:gap-x-3 md:gap-y-3'
 
 type GridRange = readonly [start: number, end: number]
 
@@ -78,7 +78,7 @@ const galleryItems: GalleryItem[] = [
     height: 683,
     col: [7, 9],
     row: [5, 21],
-    mobileCol: [8, 19],
+    mobileCol: [9, 20],
     mobileRow: [12, 20],
     href: 'https://www.instagram.com/p/DVizDjukR3s/',
   },
@@ -99,7 +99,7 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [15, 17],
     row: [8, 21],
-    mobileCol: [20, 29],
+    mobileCol: [18, 29],
     mobileRow: [14, 22],
     href: 'https://www.instagram.com/reel/DXlc4OGkqdy/?igsh=MXBwYnBnaWllYzVpeA==',
   },

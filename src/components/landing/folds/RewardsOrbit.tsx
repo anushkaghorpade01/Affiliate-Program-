@@ -124,7 +124,7 @@ export function RewardsOrbit() {
     <section
       ref={ref}
       className={cn(
-        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[calc(86vh-118px)] max-md:overflow-visible max-md:pb-[max(1rem,calc(max(2.75vh,1rem)-118px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
+        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[calc(94vh-92px)] max-md:overflow-visible max-md:pb-[max(1.5rem,calc(max(3.25vh,1.125rem)-76px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
         'before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,38,32,0.22)_0%,transparent_58%)]',
         'after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(ellipse_at_center,transparent_58%,rgba(0,0,0,0.48)_100%)] after:opacity-95',
       )}

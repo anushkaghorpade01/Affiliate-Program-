@@ -56,7 +56,7 @@ export function Footer() {
 
         <nav
           aria-label="Social links"
-          className="mt-5 flex flex-wrap items-baseline gap-x-8 gap-y-2 font-sans text-[0.8125rem] font-semibold leading-snug tracking-[0.02em] text-[#f4f1ea]/88 md:absolute md:bottom-5 md:left-0 md:mt-0 md:gap-x-14 md:text-[0.95rem]"
+          className="mt-5 flex flex-wrap items-baseline gap-x-8 gap-y-2 font-sans text-[0.8125rem] font-semibold leading-snug tracking-[0.02em] text-[#f4f1ea]/68 md:absolute md:bottom-5 md:left-0 md:mt-0 md:gap-x-14 md:text-[0.95rem] md:text-[#f4f1ea]/88"
         >
           {socialLinks.map((link) => (
             <a
@@ -64,7 +64,7 @@ export function Footer() {
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="whitespace-nowrap transition-opacity duration-300 hover:text-[#f4f1ea]"
+              className="whitespace-nowrap transition-opacity duration-300 hover:text-[#f4f1ea]/82 md:hover:text-[#f4f1ea]"
             >
               {link.label}
             </a>

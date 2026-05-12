@@ -5,7 +5,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative h-[calc(56rem-76px)] scroll-mt-0 overflow-hidden px-6 pb-5 pt-5 md:h-[calc(clamp(42rem,55.8vw,72rem)+6rem)] md:px-12 md:pb-0 md:pt-16"
+      className="relative h-[calc(56rem-80px)] scroll-mt-0 overflow-hidden px-6 pb-5 pt-5 md:h-[calc(clamp(42rem,55.8vw,72rem)+6rem)] md:px-12 md:pb-0 md:pt-16"
     >
       <div className="pointer-events-none absolute inset-x-0 -bottom-24 top-0 flex items-center justify-center">
         <img
@@ -28,7 +28,7 @@ export function HeroSection() {
           </a>
           <HeroMobileShare className="shrink-0" />
         </div>
-        <h1 className="mt-1 font-display text-[clamp(2.2rem,7.5vw,3.35rem)] leading-[1.05] tracking-[-0.03em] text-[#E8F5F0]">
+        <h1 className="mt-6 font-display text-[clamp(2.2rem,7.5vw,3.35rem)] leading-[1.05] tracking-[-0.03em] text-[#E8F5F0]">
           Your influence is real
           <br />
           Now it’s rewarding too
@@ -38,7 +38,7 @@ export function HeroSection() {
           <br />
           recommendations already move people.
         </p>
-        <p className="mt-16 max-w-[11rem] text-left text-sm leading-tight tracking-[0.02em] text-[#dff2ec]/88">
+        <p className="mt-11 max-w-[11rem] text-left text-sm leading-tight tracking-[0.02em] text-[#dff2ec]/88">
           Flent&apos;s search for
           <br />
           <span className="italic">Tastemakers</span>

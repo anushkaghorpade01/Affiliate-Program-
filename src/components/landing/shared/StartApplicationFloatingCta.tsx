@@ -82,11 +82,6 @@ export function StartApplicationFloatingCta({ cinematicSectionRef }: Props) {
   const targetOpacity = cinematicInView && !nextInView ? scrollFade : 0
   const pulseActive = targetOpacity > 0.04 && !reduceMotion
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   if (!mounted) return null
 
   return createPortal(
@@ -101,7 +96,6 @@ export function StartApplicationFloatingCta({ cinematicSectionRef }: Props) {
     >
       <motion.a
         href="#apply"
-        onClick={handleClick}
         initial={false}
         animate={
           pulseActive

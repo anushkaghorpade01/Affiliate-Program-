@@ -70,7 +70,9 @@ export function ApplicationFold() {
             </div>
             <input placeholder="City" className="h-12 w-full rounded-2xl border border-white/15 bg-[#000d09]/40 px-4 text-[#E8F5F0] placeholder:text-[#dff2ec]/45" />
             <textarea placeholder="In one line - what makes a house a home?&#10;&#10;Take your time." className="h-28 w-full rounded-2xl border border-white/15 bg-[#000d09]/40 px-4 py-3 text-[#E8F5F0] placeholder:text-[#dff2ec]/45" />
-            <Button className="w-full bg-[#D4A853] text-[#000d09] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(212,168,83,0.4)]">Submit application</Button>
+            <Button className="w-full bg-[#D4A853] text-[#000d09] transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] max-md:hover:-translate-y-0.5 max-md:hover:shadow-[0_7px_24px_rgba(212,168,83,0.3)] max-md:active:scale-[0.985] max-md:active:translate-y-px max-md:active:shadow-[0_3px_14px_rgba(212,168,83,0.34)] md:duration-500">
+              Submit application
+            </Button>
             <p className="text-xs text-[#dff2ec]/60">By applying you agree to our T&amp;Cs. We do not spam. Ever.</p>
           </form>
         </FoldReveal>
