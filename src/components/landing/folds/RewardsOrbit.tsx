@@ -108,6 +108,8 @@ export function RewardsOrbit() {
     offset: ['start end', 'end start'],
   })
   const smooth = useSpring(scrollYProgress, cinematicScrollSpring)
+  const glowParallaxY = useTransform(smooth, [0, 1], [factor * 11, factor * -11])
+  const grainParallaxY = useTransform(smooth, [0, 1], [factor * -19, factor * 19])
   const introY = useTransform(smooth, [0, 1], [factor * 18, factor * -18])
   const orbitY = useTransform(smooth, [0, 1], [factor * 28, factor * -28])
   const unlockY = useTransform(smooth, [0, 1], [factor * 14, factor * -22])
@@ -124,14 +126,21 @@ export function RewardsOrbit() {
     <section
       ref={ref}
       className={cn(
-        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[calc(94vh-92px)] max-md:overflow-visible max-md:pb-[max(1.5rem,calc(max(3.25vh,1.125rem)-76px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
-        'before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,38,32,0.22)_0%,transparent_58%)]',
-        'after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(ellipse_at_center,transparent_58%,rgba(0,0,0,0.48)_100%)] after:opacity-95',
+        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[min(calc(94vh-92px),42rem)] max-md:overflow-visible max-md:pb-[max(1.5rem,calc(max(3.25vh,1.125rem)-76px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
       )}
     >
-      <div className="grain pointer-events-none absolute inset-0 opacity-[0.22]" aria-hidden />
+      <motion.div
+        style={{ y: glowParallaxY }}
+        className="pointer-events-none absolute -inset-y-[14%] inset-x-0 bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,38,32,0.22)_0%,transparent_58%)]"
+        aria-hidden
+      />
+      <motion.div
+        style={{ y: grainParallaxY }}
+        className="grain pointer-events-none absolute inset-0 opacity-[0.22]"
+        aria-hidden
+      />
 
-      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(calc(8vh-10px),calc(5.25rem-10px))] max-md:z-[60] md:top-[min(11.5vh,6.75rem)] md:max-w-[min(720px,50vw)]">
+      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(calc(8vh-10px),calc(5.25rem-10px))] md:top-[min(11.5vh,6.75rem)] md:max-w-[min(720px,50vw)]">
         <motion.div style={{ y: introY }}>
           <p className="text-[1.125rem] leading-[1.32] text-[#E8F5F0]/78 md:text-xl md:leading-[1.3]">
             The more Flent moves through your circles, the more your world opens up with it.
@@ -326,7 +335,7 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.1}
-        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(calc(62vh-30px),calc(31.5rem-30px))] max-md:z-[60] max-md:pt-[max(0px,calc(min(4vh,1.6rem)-10px))] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
+        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(calc(62vh-30px),calc(31.5rem-30px))] max-md:pt-[max(0px,calc(min(4vh,1.6rem)-10px))] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
       >
         <motion.div style={{ y: unlockY }}>
           <h2 className="font-display text-[1.45rem] font-normal leading-none tracking-[-0.02em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[-0.025em]">

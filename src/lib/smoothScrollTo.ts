@@ -1,6 +1,6 @@
-/** ease-in-out cubic — closer to hero motion curves than native smooth scroll */
-function easeInOutCubic(t: number): number {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+/** Flatter through the mid-range than cubic — long anchor trips feel less rushed between folds. */
+function easeInOutQuint(t: number): number {
+  return t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2
 }
 
 function parseScrollMarginTop(el: Element): number {
@@ -15,7 +15,15 @@ export function getDocumentScrollYForElement(element: Element): number {
   return rect.top + window.scrollY - margin
 }
 
-export function smoothScrollToY(targetY: number, durationMs = 840): Promise<void> {
+/** Distance-scaled duration (~520px/s average) so motion stays perceptibly smooth across many folds. */
+function computeScrollDuration(distancePx: number): number {
+  const MIN_MS = 700
+  const MAX_MS = 5400
+  const PX_PER_MS = 520 / 1000
+  return Math.round(Math.min(MAX_MS, Math.max(MIN_MS, distancePx / PX_PER_MS)))
+}
+
+export function smoothScrollToY(targetY: number, durationMs?: number): Promise<void> {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const startY = window.scrollY
   const change = targetY - startY
@@ -25,14 +33,16 @@ export function smoothScrollToY(targetY: number, durationMs = 840): Promise<void
     return Promise.resolve()
   }
 
+  const resolvedDuration = durationMs ?? computeScrollDuration(Math.abs(change))
+
   return new Promise((resolve) => {
     let startTime: number | null = null
 
     function step(now: number) {
       if (startTime === null) startTime = now
       const elapsed = now - startTime
-      const t = Math.min(1, elapsed / durationMs)
-      window.scrollTo(0, startY + change * easeInOutCubic(t))
+      const t = Math.min(1, elapsed / resolvedDuration)
+      window.scrollTo(0, startY + change * easeInOutQuint(t))
       if (t < 1) requestAnimationFrame(step)
       else resolve()
     }
@@ -42,6 +52,9 @@ export function smoothScrollToY(targetY: number, durationMs = 840): Promise<void
 
 export function smoothScrollElementIntoView(element: HTMLElement | null): void {
   if (!element) return
-  const targetY = getDocumentScrollYForElement(element)
-  void smoothScrollToY(Math.max(0, targetY))
+  const initialY = Math.max(0, getDocumentScrollYForElement(element))
+  void smoothScrollToY(initialY).then(() => {
+    const finalY = Math.max(0, getDocumentScrollYForElement(element))
+    if (Math.abs(window.scrollY - finalY) > 3) window.scrollTo(0, finalY)
+  })
 }

@@ -1,143 +1,445 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
+const EASE = [0.22, 1, 0.36, 1] as const
+
+/** Paired with hero logo row (`HeroSection` uses `h-9` = 36px). */
+const RIBBON_H = 36
+const CLOSED_W = RIBBON_H
+/** Toggle + divider + three compact icon hits + padding */
+const OPEN_W = 138
+
+const ICON_REVEAL_DELAY_MS = 300
+const ICON_HIDE_COLLAPSE_MS = 220
+const ICON_STAGGER_S = 0.052
+
+/** Tabler Icons `share` (MIT) — outline; same treatment as `WhatsAppOutlineIcon` */
 function ShareGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <circle cx="18" cy="5" r="2.25" fill="currentColor" />
-      <circle cx="6" cy="12" r="2.25" fill="currentColor" />
-      <circle cx="18" cy="19" r="2.25" fill="currentColor" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('text-[#ffffff]/88', className)}
+      aria-hidden
+    >
       <path
-        d="M8 11.25 14.5 7M8 12.75 14.5 17"
+        d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
         stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
-
-function WhatsAppIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.47-4.45-9.92-9.91-9.92zm5.52 13.86c-.24.67-.97 1.24-1.59 1.42-.43.12-.98.22-3.18-.67-2.67-1.13-4.38-3.87-4.51-4.05-.13-.18-1.08-1.44-1.08-2.75 0-1.31.68-1.96.92-2.23.24-.26.53-.33.71-.33.18 0 .36 0 .52.01.17.01.39-.06.61.46.22.54.76 1.85.83 1.99.07.13.12.29.02.47-.1.18-.15.29-.3.45-.15.15-.32.34-.46.46-.14.11-.29.24-.13.46.16.22.71 1.17 1.54 1.9 1.06.95 1.95 1.24 2.23 1.39.28.15.44.13.6-.08.16-.21.69-.8.87-1.07.18-.27.36-.23.6-.14.24.1 1.52.72 1.78.85.26.13.43.2.49.31.06.11.06.64-.18 1.31z" />
-    </svg>
-  )
-}
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  )
-}
-
-function LinkIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M10 13a5 5 0 010-7l1.2-1.2a5 5 0 017.07 7.07L17 12"
-        stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="1.15"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M14 11a5 5 0 010 7l-1.2 1.2a5 5 0 01-7.07-7.07L7 12"
+        d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.7 10.7l6.6 -3.4"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.7 13.3l6.6 3.4"
+        stroke="currentColor"
+        strokeWidth="1.15"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   )
 }
+
+/** Tabler Icons `brand-whatsapp` (MIT) — outline, scaled via parent `className` */
+function WhatsAppOutlineIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('text-[#ffffff]/88', className)}
+      aria-hidden
+    >
+      <path
+        d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Minimal × — close affordance only (not the X.com brand mark). */
+function CloseMenuIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('text-[#ffffff]/88', className)}
+      aria-hidden
+    >
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+/** Tabler Icons `brand-x` (MIT) — X / Twitter mark; same treatment as `WhatsAppOutlineIcon` */
+function TwitterXOutlineIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('text-[#ffffff]/88', className)}
+      aria-hidden
+    >
+      <path
+        d="M4 4l11.733 16h4.267l-11.733 -16z"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Tabler Icons `copy` (MIT) — overlapping rounded rects; same treatment as `WhatsAppOutlineIcon` */
+function CopyOutlineIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('text-[#ffffff]/88', className)}
+      aria-hidden
+    >
+      <path
+        d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function CheckThinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M5.5 12.5 10 17 18.5 6.5"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+const ribbonSurface =
+  'relative overflow-hidden rounded-full border border-[#ebe6dc]/[0.07] bg-[rgba(0,11,9,0.16)] shadow-[0_2px_16px_rgba(0,0,0,0.045)] backdrop-blur-[9px] backdrop-saturate-[1.08] ring-1 ring-[#f4f1ea]/[0.035]'
+
+const iconHit =
+  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/34 outline-none transition-[color,opacity,background-color,transform] duration-[480ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[rgba(223,242,236,0.04)] hover:text-[#d8cfc0]/78 hover:opacity-100 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/14 active:scale-[0.98]'
 
 export function HeroMobileShare({ className }: { className?: string }) {
-  const [open, setOpen] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const [iconsVisible, setIconsVisible] = useState(false)
+  const [copyPhase, setCopyPhase] = useState<'idle' | 'copied'>('idle')
+  const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
 
+  const clearTimers = useCallback(() => {
+    if (revealTimerRef.current) clearTimeout(revealTimerRef.current)
+    if (collapseTimerRef.current) clearTimeout(collapseTimerRef.current)
+    revealTimerRef.current = null
+    collapseTimerRef.current = null
+  }, [])
+
+  const collapseRibbon = useCallback(() => {
+    clearTimers()
+    setIconsVisible(false)
+    const ms = reduceMotion ? 0 : ICON_HIDE_COLLAPSE_MS
+    collapseTimerRef.current = setTimeout(() => {
+      setExpanded(false)
+      setCopyPhase('idle')
+      collapseTimerRef.current = null
+    }, ms)
+  }, [clearTimers, reduceMotion])
+
+  const expandRibbon = useCallback(() => {
+    clearTimers()
+    setExpanded(true)
+    const ms = reduceMotion ? 0 : ICON_REVEAL_DELAY_MS
+    revealTimerRef.current = setTimeout(() => {
+      setIconsVisible(true)
+      revealTimerRef.current = null
+    }, ms)
+  }, [clearTimers, reduceMotion])
+
+  useEffect(() => () => clearTimers(), [clearTimers])
+
   useEffect(() => {
-    if (!open) return
-    const close = (e: MouseEvent) => {
-      if (!rootRef.current?.contains(e.target as Node)) setOpen(false)
+    if (!expanded) return
+    const onDoc = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) collapseRibbon()
     }
-    document.addEventListener('mousedown', close)
-    return () => document.removeEventListener('mousedown', close)
-  }, [open])
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [expanded, collapseRibbon])
+
+  useEffect(() => {
+    if (!expanded) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') collapseRibbon()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [expanded, collapseRibbon])
+
+  const toggleAnchor = () => {
+    if (expanded) collapseRibbon()
+    else expandRibbon()
+  }
 
   const wa = () => {
     const text = encodeURIComponent(shareUrl)
     window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer')
-    setOpen(false)
+    collapseRibbon()
   }
 
-  const x = () => {
+  const xShare = () => {
     const u = encodeURIComponent(shareUrl)
     window.open(`https://twitter.com/intent/tweet?url=${u}`, '_blank', 'noopener,noreferrer')
-    setOpen(false)
+    collapseRibbon()
   }
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 1600)
-      setOpen(false)
+      setCopyPhase('copied')
+      window.setTimeout(() => setCopyPhase('idle'), 2000)
     } catch {
-      setOpen(false)
+      collapseRibbon()
+    }
+  }
+
+  const morphEase = reduceMotion ? { duration: 0.12 } : { duration: 0.42, ease: EASE }
+
+  const widthTransition = reduceMotion
+    ? { duration: 0.15 }
+    : { duration: expanded ? 0.56 : 0.48, ease: EASE }
+
+  const iconMotion = (index: number) => {
+    if (reduceMotion) {
+      return {
+        opacity: iconsVisible ? 1 : 0,
+        x: 0,
+        transition: { duration: 0.12 },
+      }
+    }
+    if (!iconsVisible) {
+      return {
+        opacity: 0,
+        x: 8,
+        transition: { duration: 0.18, ease: EASE },
+      }
+    }
+    return {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.46,
+        delay: 0.08 + index * ICON_STAGGER_S,
+        ease: EASE,
+      },
     }
   }
 
   return (
-    <div ref={rootRef} className={cn('pointer-events-auto relative z-[45]', className)}>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-label="Share this page"
-        onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#dff2ec]/12 bg-[#dff2ec]/[0.05] text-[#dff2ec]/65 shadow-none backdrop-blur-[2px] transition hover:border-[#dff2ec]/18 hover:bg-[#dff2ec]/[0.08] hover:text-[#dff2ec]/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/35 active:scale-[0.97]"
+    <div className={cn('pointer-events-auto relative z-[45] flex items-center', className)}>
+      <motion.div
+        ref={rootRef}
+        role={expanded ? 'dialog' : undefined}
+        aria-label={expanded ? 'Share via' : undefined}
+        initial={false}
+        animate={{
+          width: expanded ? OPEN_W : CLOSED_W,
+          height: RIBBON_H,
+        }}
+        transition={widthTransition}
+        className={cn(ribbonSurface, 'flex items-stretch')}
       >
-        <ShareGlyph className="h-[17px] w-[17px]" />
-      </button>
-
-      {open ? (
         <div
-          role="dialog"
-          aria-label="Share via"
-          className="absolute right-0 top-[calc(100%+6px)] z-50 flex gap-0.5 rounded-xl border border-[#dff2ec]/14 bg-[#001811]/90 p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.45)] backdrop-blur-md"
+          className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(165deg,rgba(223,242,236,0.05)_0%,transparent_46%,rgba(0,0,0,0.06)_100%)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-[1px] rounded-full shadow-[inset_0_1px_1px_rgba(244,241,234,0.04)]"
+          aria-hidden
+        />
+
+        <button
+          type="button"
+          aria-expanded={expanded}
+          aria-haspopup="dialog"
+          aria-label={expanded ? 'Close share menu' : 'Share this page'}
+          onClick={toggleAnchor}
+          className={cn(
+            'relative z-[1] flex h-full w-9 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/48 outline-none transition-[color,transform] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[#ebe6dc]/72 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/18',
+            !expanded && 'hover:scale-[1.03] active:scale-[1]',
+          )}
         >
-          <button
-            type="button"
-            aria-label="Share on WhatsApp"
-            onClick={wa}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-[#25D366] transition hover:bg-[#dff2ec]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/35"
-          >
-            <WhatsAppIcon className="h-[18px] w-[18px]" />
-          </button>
-          <button
-            type="button"
-            aria-label="Share on X"
-            onClick={x}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-[#dff2ec]/80 transition hover:bg-[#dff2ec]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/35"
-          >
-            <XIcon className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            aria-label={copied ? 'Link copied' : 'Copy link'}
-            onClick={copy}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-[#dff2ec]/70 transition hover:bg-[#dff2ec]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/35"
-          >
-            <LinkIcon className="h-[17px] w-[17px]" />
-          </button>
+          <AnimatePresence mode="wait" initial={false}>
+            {expanded ? (
+              <motion.span
+                key="close"
+                role="presentation"
+                initial={reduceMotion ? false : { opacity: 0, rotate: -45 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 45 }}
+                transition={morphEase}
+                className="flex items-center justify-center"
+              >
+                <CloseMenuIcon className="h-[13px] w-[13px]" />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="share"
+                role="presentation"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
+                transition={morphEase}
+                className="flex items-center justify-center"
+              >
+                <ShareGlyph className="h-[13px] w-[13px]" />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+
+        <div
+          className={cn(
+            'relative z-[1] flex min-w-0 flex-1 items-center',
+            expanded ? 'opacity-100' : 'pointer-events-none opacity-0',
+          )}
+          aria-hidden={!expanded}
+        >
+          <div
+            className="mx-1 h-4 w-px shrink-0 bg-[linear-gradient(180deg,transparent,rgba(235,230,220,0.14),transparent)]"
+            aria-hidden
+          />
+
+          <div className="flex flex-1 items-center justify-end gap-0.5 pr-1.5">
+            <motion.button
+              type="button"
+              aria-label="Share on WhatsApp"
+              onClick={wa}
+              animate={iconMotion(0)}
+              className={iconHit}
+            >
+              <WhatsAppOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
+            </motion.button>
+
+            <motion.button
+              type="button"
+              aria-label="Share on X"
+              onClick={xShare}
+              animate={iconMotion(1)}
+              className={iconHit}
+            >
+              <TwitterXOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
+            </motion.button>
+
+            <motion.button
+              type="button"
+              aria-label={copyPhase === 'copied' ? 'Link copied' : 'Copy link'}
+              onClick={copy}
+              animate={iconMotion(2)}
+              className={cn(
+                iconHit,
+                copyPhase === 'copied' && 'text-[#d4c4a8]/55 hover:text-[#d8cca8]/72',
+              )}
+            >
+              <span className="sr-only" aria-live="polite">
+                {copyPhase === 'copied' ? 'Copied' : ''}
+              </span>
+              <AnimatePresence mode="wait" initial={false}>
+                {copyPhase === 'idle' ? (
+                  <motion.span
+                    key="link"
+                    role="presentation"
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
+                    transition={morphEase}
+                    className="pointer-events-none flex items-center justify-center"
+                  >
+                    <CopyOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="copied"
+                    role="presentation"
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
+                    transition={morphEase}
+                    className="pointer-events-none flex items-center justify-center"
+                  >
+                    <CheckThinIcon className="h-[12px] w-[12px]" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
         </div>
-      ) : null}
+      </motion.div>
     </div>
   )
 }

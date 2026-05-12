@@ -114,15 +114,21 @@ export function InteractiveTracks() {
     offset: ['start end', 'end start'],
   })
   const smooth = useSpring(scrollYProgress, cinematicScrollSpring)
-  const bgY = useTransform(smooth, [0, 1], [factor * 24, factor * -24])
-  const headingY = useTransform(smooth, [0, 1], [factor * 18, factor * -18])
-  const tilesY = useTransform(smooth, [0, 1], [factor * 34, factor * -34])
+  const bgY = useTransform(smooth, [0, 1], [factor * 13, factor * -13])
+  const vignetteY = useTransform(smooth, [0, 1], [factor * -10, factor * 10])
+  const headingY = useTransform(smooth, [0, 1], [factor * 21, factor * -21])
+  const tilesY = useTransform(smooth, [0, 1], [factor * 38, factor * -38])
 
   return (
     <section ref={ref} className="relative -mt-4 overflow-hidden px-6 pb-[calc(9rem-84px)] pt-16 md:px-12 md:pb-32 md:pt-20">
       <motion.div
         style={{ y: bgY }}
         className="pointer-events-none absolute inset-0 bg-[#000d09]"
+        aria-hidden
+      />
+      <motion.div
+        style={{ y: vignetteY }}
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(232,245,240,0.04)_0%,transparent_55%)]"
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl">

@@ -16,17 +16,21 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-[1] flex flex-col gap-5 pt-2 md:hidden">
-        <div className="mb-[5px] flex items-center justify-between gap-3">
+        <div className="mb-[5px] flex h-9 items-center justify-between gap-3">
           <a
             href="https://www.flent.in"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Flent — visit flent.in"
-            className="shrink-0"
+            className="flex h-full w-24 shrink-0 items-center justify-start"
           >
-            <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-24" />
+            <img
+              src="/flent-logo-white.png"
+              alt="Flent"
+              className="max-h-full w-full object-contain object-left"
+            />
           </a>
-          <HeroMobileShare className="shrink-0" />
+          <HeroMobileShare className="h-full shrink-0" />
         </div>
         <h1 className="mt-6 font-display text-[clamp(2.2rem,7.5vw,3.35rem)] leading-[1.05] tracking-[-0.03em] text-[#E8F5F0]">
           Your influence is real

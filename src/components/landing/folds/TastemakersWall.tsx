@@ -39,8 +39,9 @@ export function TastemakersWall() {
     offset: ['start end', 'end start'],
   })
   const smooth = useSpring(scrollYProgress, cinematicScrollSpring)
-  const railY = useTransform(smooth, [0, 1], [factor * 18, factor * -18])
-  const grainY = useTransform(smooth, [0, 1], [factor * -8, factor * 8])
+  const grainY = useTransform(smooth, [0, 1], [factor * -11, factor * 11])
+  const headlineY = useTransform(smooth, [0, 1], [factor * 13, factor * -13])
+  const railY = useTransform(smooth, [0, 1], [factor * 22, factor * -22])
 
   return (
     <section ref={ref} id="tastemakers-wall" className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 md:min-h-[92vh] md:px-12 md:pt-10">
@@ -48,7 +49,7 @@ export function TastemakersWall() {
 
       <div className="relative mx-auto flex min-h-0 max-w-[92rem] flex-col md:min-h-[88vh]">
         <FoldReveal>
-          <div className="relative min-h-0 md:min-h-[24rem]">
+          <motion.div style={{ y: headlineY }} className="relative min-h-0 md:min-h-[24rem]">
             <h2 className="font-display text-[clamp(4.25rem,14vw,10.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
               Wall of
             </h2>
@@ -58,7 +59,7 @@ export function TastemakersWall() {
             <h2 className="mt-5 text-right font-display text-[clamp(3.25rem,11vw,9.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b] md:absolute md:right-0 md:top-[8.5rem] md:mt-0 md:text-[clamp(4rem,11.5vw,10.5rem)] lg:top-[9rem]">
               Tastemakers
             </h2>
-          </div>
+          </motion.div>
         </FoldReveal>
 
         <FoldReveal delay={0.1} className="mt-40 md:mt-auto">
