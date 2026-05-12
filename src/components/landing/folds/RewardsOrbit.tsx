@@ -124,14 +124,14 @@ export function RewardsOrbit() {
     <section
       ref={ref}
       className={cn(
-        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[86vh] max-md:overflow-visible max-md:pb-[max(2.75vh,1rem)] md:min-h-[96vh] md:overflow-hidden md:pb-[6vh]',
+        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[calc(86vh-162px)] max-md:overflow-visible max-md:pb-[max(0px,calc(max(2.75vh,1rem)-162px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
         'before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,38,32,0.22)_0%,transparent_58%)]',
         'after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(ellipse_at_center,transparent_58%,rgba(0,0,0,0.48)_100%)] after:opacity-95',
       )}
     >
       <div className="grain pointer-events-none absolute inset-0 opacity-[0.22]" aria-hidden />
 
-      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(8vh,5.25rem)] max-md:z-[60] md:top-[min(14vh,8rem)] md:max-w-[min(720px,50vw)]">
+      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(calc(8vh-10px),calc(5.25rem-10px))] max-md:z-[60] md:top-[min(11.5vh,6.75rem)] md:max-w-[min(720px,50vw)]">
         <motion.div style={{ y: introY }}>
           <p className="text-[1.125rem] leading-[1.32] text-[#E8F5F0]/78 md:text-xl md:leading-[1.3]">
             The more Flent moves through your circles, the more your world opens up with it.
@@ -141,13 +141,13 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.06}
-        className="absolute left-1/2 top-[min(23vh,12.5rem)] z-[1] flex w-full max-w-[100vw] -translate-x-1/2 justify-center max-md:top-[min(30vh,15.5rem)] max-md:z-10 max-md:w-screen max-md:max-w-none md:top-[min(27vh,16rem)] md:max-w-[min(1200px,84vw)]"
+        className="absolute left-1/2 top-[min(23vh,12.5rem)] z-[1] flex w-full max-w-[100vw] -translate-x-1/2 justify-center max-md:top-[min(calc(26vh-36px),calc(13.75rem-36px))] max-md:z-10 max-md:w-screen max-md:max-w-none md:top-[min(27vh,16rem)] md:max-w-[min(1200px,84vw)]"
       >
         <motion.div
           style={{ y: orbitY }}
           className={cn(
             'relative w-full justify-center pt-2 md:flex md:pt-0',
-            'max-md:h-[clamp(268px,50vmin,388px)] max-md:overflow-visible max-md:pb-[min(7vh,2.75rem)] max-md:pt-[min(2vh,1rem)]',
+            'max-md:h-[clamp(268px,50vmin,388px)] max-md:overflow-visible max-md:pb-[max(0px,calc(min(7vh,2.75rem)-12px))] max-md:pt-[max(0px,calc(min(1vh,0.5rem)-4px))]',
             'overflow-x-auto overflow-y-visible pb-4 [-ms-overflow-style:none] [scrollbar-width:none] md:h-auto md:overflow-visible md:pb-0 md:pt-0 [&::-webkit-scrollbar]:hidden',
           )}
         >
@@ -326,7 +326,7 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.1}
-        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(62vh,31.5rem)] max-md:z-[60] max-md:pt-[min(4vh,1.6rem)] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
+        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(calc(62vh-30px),calc(31.5rem-30px))] max-md:z-[60] max-md:pt-[max(0px,calc(min(4vh,1.6rem)-10px))] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
       >
         <motion.div style={{ y: unlockY }}>
           <h2 className="font-display text-[1.45rem] font-normal leading-none tracking-[-0.02em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[-0.025em]">

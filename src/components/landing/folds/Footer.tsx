@@ -13,8 +13,8 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-black px-6 pb-6 pt-8 text-[#f4f1ea] md:min-h-[58vh] md:px-12 md:pb-10 md:pt-14">
-      <div className="relative mx-auto min-h-[22rem] max-w-[92rem] md:min-h-[34rem]">
+    <footer className="relative overflow-hidden bg-black px-6 pb-6 pt-8 text-[#f4f1ea] md:min-h-[48vh] md:px-12 md:pb-8 md:pt-12">
+      <div className="relative mx-auto min-h-[calc(22rem-27px)] max-w-[92rem] md:min-h-[28rem]">
         <img
           src="/flent-logo-white.png"
           alt="Flent"
@@ -26,26 +26,33 @@ export function Footer() {
         />
 
         <p className="mt-5 max-w-[23rem] font-sans text-[clamp(0.9rem,1.55vw,1.55rem)] font-medium uppercase leading-[1.08] tracking-[0.035em] text-[#f4f1ea]/92 md:mt-8">
-          <span className="text-[#d87542]">/</span> DISCOVERED <span className="text-[#f4f1ea]/42">THROUGH</span> PEOPLE,
+          DISCOVERED <span className="text-[#f4f1ea]/42">THROUGH</span> PEOPLE,
           <br />
           SHARED <span className="text-[#f4f1ea]/42">THROUGH</span> TASTE
         </p>
 
-        <nav aria-label="Footer navigation" className="absolute right-0 top-[30%] flex flex-col gap-3 text-sm text-[#f4f1ea]/60 md:top-[32%] md:gap-6 md:text-base">
-          {footerLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target={link.external ? '_blank' : undefined}
-              rel={link.external ? 'noreferrer' : undefined}
-              className="transition-opacity duration-300 hover:text-[#f4f1ea]/88"
-            >
-              {link.label}
-            </a>
+        <nav
+          aria-label="Footer navigation"
+          className="absolute left-0 top-[44%] flex items-start gap-x-6 text-left text-sm text-[#f4f1ea]/60 md:top-[56%] md:gap-x-10 md:text-base"
+        >
+          {[footerLinks.slice(0, 2), footerLinks.slice(2, 4)].map((column, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-3 md:gap-6">
+              {column.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noreferrer' : undefined}
+                  className="transition-opacity duration-300 hover:text-[#f4f1ea]/88"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 space-y-3 font-sans text-xs leading-none text-[#f4f1ea]/22 md:space-y-4 md:text-sm">
+        <div className="absolute bottom-6 left-0 space-y-2 font-sans text-xs leading-none text-[#f4f1ea]/22 md:bottom-0 md:space-y-3 md:text-sm">
           <div className="flex gap-4 text-[#f4f1ea]/42">
             {socialLinks.map((link) => (
               <a

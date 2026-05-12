@@ -247,7 +247,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
             <span
               style={mobileOpenBadgeStyle ?? undefined}
               className={cn(
-                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90',
+                'pointer-events-none absolute z-[3] hidden rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90 md:block',
                 mobileOpenBadgeStyle ? '' : 'right-1.5 top-1.5',
               )}
             >
@@ -271,6 +271,9 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
   )
 }
 
+const FOLD2_SCROLL_OFFSET_DESKTOP = ['start start', 'end end'] as const
+const FOLD2_SCROLL_OFFSET_MOBILE = ['start start', 'end 54%'] as const
+
 export function SocialProofWall() {
   const ref = useRef<HTMLElement>(null)
   const galleryRef = useRef<HTMLDivElement>(null)
@@ -278,17 +281,23 @@ export function SocialProofWall() {
   const [scrollSpring, setScrollSpring] = useState<
     typeof cinematicScrollSpring | typeof cinematicScrollSpringMobile
   >(cinematicScrollSpring)
+  const [scrollOffset, setScrollOffset] = useState<
+    typeof FOLD2_SCROLL_OFFSET_DESKTOP | typeof FOLD2_SCROLL_OFFSET_MOBILE
+  >(FOLD2_SCROLL_OFFSET_DESKTOP)
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
-    const sync = () =>
-      setScrollSpring(mq.matches ? cinematicScrollSpringMobile : cinematicScrollSpring)
+    const sync = () => {
+      const mobile = mq.matches
+      setScrollSpring(mobile ? cinematicScrollSpringMobile : cinematicScrollSpring)
+      setScrollOffset(mobile ? FOLD2_SCROLL_OFFSET_MOBILE : FOLD2_SCROLL_OFFSET_DESKTOP)
+    }
     sync()
     mq.addEventListener('change', sync)
     return () => mq.removeEventListener('change', sync)
   }, [])
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start start', 'end end'],
+    offset: [...scrollOffset],
   })
   const smooth = useSpring(scrollYProgress, scrollSpring)
   const bgY = useTransform(smooth, [0, 1], [factor * 22, factor * -22])
@@ -335,9 +344,7 @@ export function SocialProofWall() {
               The word on the street.
             </h2>
           </FoldReveal>
-          <p className="mx-auto mt-6 max-w-[min(18rem,88vw)] text-center text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 max-md:text-balance md:ml-[52vw] md:mr-auto md:mt-5 md:max-w-[18rem] md:text-left md:text-sm md:leading-[1.14]">
-            <br className="hidden md:block" aria-hidden />
-            <br className="hidden md:block" aria-hidden />
+          <p className="mx-auto mt-6 max-w-[min(18rem,88vw)] text-center text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 max-md:text-balance md:mt-5 md:max-w-[22rem] md:text-sm md:leading-[1.14] md:text-balance">
             Reshares, reposts, tags, threads,
             <br />
             mentions, conversations.

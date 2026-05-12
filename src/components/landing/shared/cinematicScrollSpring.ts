@@ -6,10 +6,10 @@ export const cinematicScrollSpring = {
   restDelta: 0.0008,
 } as const
 
-/** Slightly snappier follow on narrow viewports (fold 2 horizontal scrub). */
+/** Snappier follow on narrow viewports — fold 2 horizontal scrub (mobile only). */
 export const cinematicScrollSpringMobile = {
-  stiffness: 92,
-  damping: 36,
-  mass: 0.32,
+  stiffness: 160,
+  damping: 27,
+  mass: 0.22,
   restDelta: 0.0008,
 } as const

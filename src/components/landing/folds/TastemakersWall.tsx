@@ -43,7 +43,7 @@ export function TastemakersWall() {
   const grainY = useTransform(smooth, [0, 1], [factor * -8, factor * 8])
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 md:min-h-[92vh] md:px-12 md:pt-10">
+    <section ref={ref} id="tastemakers-wall" className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 md:min-h-[92vh] md:px-12 md:pt-10">
       <motion.div style={{ y: grainY }} className="grain pointer-events-none absolute inset-0 opacity-[0.18]" />
 
       <div className="relative mx-auto flex min-h-0 max-w-[92rem] flex-col md:min-h-[88vh]">
