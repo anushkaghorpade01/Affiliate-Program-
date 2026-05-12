@@ -272,7 +272,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
 }
 
 const FOLD2_SCROLL_OFFSET_DESKTOP = ['start start', 'end end'] as const
-const FOLD2_SCROLL_OFFSET_MOBILE = ['start start', 'end 54%'] as const
+const FOLD2_SCROLL_OFFSET_MOBILE = ['start start', 'end 50%'] as const
 
 export function SocialProofWall() {
   const ref = useRef<HTMLElement>(null)
@@ -327,7 +327,7 @@ export function SocialProofWall() {
   return (
     <section
       ref={ref}
-      className="relative -mt-10 h-[278vh] rounded-t-[2.75rem] md:h-[340vh] md:-mt-12 md:rounded-t-[4.5rem]"
+      className="relative -mt-10 h-[185vh] rounded-t-[2.75rem] md:h-[340vh] md:-mt-12 md:rounded-t-[4.5rem]"
     >
       <div className="sticky top-0 h-screen overflow-hidden rounded-t-[2.75rem] md:rounded-t-[4.5rem]">
         <motion.div

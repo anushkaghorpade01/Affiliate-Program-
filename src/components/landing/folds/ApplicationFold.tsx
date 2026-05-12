@@ -75,8 +75,11 @@ export function ApplicationFold() {
           </form>
         </FoldReveal>
 
-        <FoldReveal delay={0.06} className="relative flex min-h-[210px] items-center justify-center rounded-[1.6rem] md:min-h-[340px]">
-          <FloatingKey scrollParallaxY={keyParallax} />
+        <FoldReveal delay={0.06} className="relative flex min-h-[210px] items-center justify-center rounded-[1.6rem] md:min-h-[400px]">
+          <FloatingKey
+            scrollParallaxY={keyParallax}
+            className="md:h-[19rem] md:w-[13.25rem]"
+          />
         </FoldReveal>
       </motion.div>
     </section>
