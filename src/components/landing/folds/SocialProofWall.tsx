@@ -234,14 +234,14 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
       )}
     >
       <div className="relative z-[1] flex h-full w-full min-h-0 min-w-0 items-center justify-center md:block">
-        <div className="relative inline-block h-full max-w-full md:block md:w-full">
+        <div className="relative inline-block h-full max-w-full overflow-hidden rounded-xl md:block md:w-full">
           <img
             ref={imgRef}
             src={src}
             alt={alt}
             width={width}
             height={height}
-            className="block h-full w-auto max-w-full min-w-0 rounded-xl object-contain md:w-full"
+            className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
           />
           {href ? (
             <span

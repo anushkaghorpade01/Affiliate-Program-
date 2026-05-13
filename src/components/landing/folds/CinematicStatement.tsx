@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
@@ -148,7 +148,17 @@ function ProcessSeparator(): ReactNode {
 
 export function CinematicStatement() {
   const ref = useRef<HTMLElement>(null)
+  const [mobileFeaturesStatic, setMobileFeaturesStatic] = useState(false)
   const factor = useCinematicIntensity()
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const sync = () => setMobileFeaturesStatic(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
@@ -210,8 +220,11 @@ export function CinematicStatement() {
             </motion.div>
           </FoldReveal>
 
-          <FoldReveal delay={0.16} className="mt-8 md:mt-28">
-            <motion.div style={{ y: featuresY }} className="grid gap-2.5 md:grid-cols-2 md:gap-6">
+          <FoldReveal delay={0.16} staticOnMobile className="mt-8 md:mt-28">
+            <motion.div
+              style={{ y: mobileFeaturesStatic ? 0 : featuresY }}
+              className="grid gap-2.5 md:grid-cols-2 md:gap-6"
+            >
               {featureCards.map((card) => (
                 <FeatureCard
                   key={card.title}

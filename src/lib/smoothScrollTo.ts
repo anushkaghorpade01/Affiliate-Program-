@@ -17,9 +17,9 @@ export function getDocumentScrollYForElement(element: Element): number {
 
 /** Distance-scaled duration (~520px/s average) so motion stays perceptibly smooth across many folds. */
 function computeScrollDuration(distancePx: number): number {
-  const MIN_MS = 700
-  const MAX_MS = 5400
-  const PX_PER_MS = 520 / 1000
+  const MIN_MS = 520
+  const MAX_MS = 4200
+  const PX_PER_MS = 620 / 1000
   return Math.round(Math.min(MAX_MS, Math.max(MIN_MS, distancePx / PX_PER_MS)))
 }
 

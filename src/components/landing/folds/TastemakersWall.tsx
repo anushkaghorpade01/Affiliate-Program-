@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
@@ -33,6 +33,29 @@ const tastemakerArchiveCards = [
 
 export function TastemakersWall() {
   const ref = useRef<HTMLElement>(null)
+  const [mobileLayout, setMobileLayout] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  )
+  const [coarsePointer, setCoarsePointer] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: none), (pointer: coarse)').matches,
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const pq = window.matchMedia('(hover: none), (pointer: coarse)')
+    const sync = () => {
+      setMobileLayout(mq.matches)
+      setCoarsePointer(pq.matches)
+    }
+    sync()
+    mq.addEventListener('change', sync)
+    pq.addEventListener('change', sync)
+    return () => {
+      mq.removeEventListener('change', sync)
+      pq.removeEventListener('change', sync)
+    }
+  }, [])
   const factor = useCinematicIntensity()
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -49,7 +72,7 @@ export function TastemakersWall() {
 
       <div className="relative mx-auto flex min-h-0 max-w-[92rem] flex-col md:min-h-[88vh]">
         <FoldReveal>
-          <motion.div style={{ y: headlineY }} className="relative min-h-0 md:min-h-[24rem]">
+          <motion.div style={{ y: mobileLayout ? 0 : headlineY }} className="relative min-h-0 md:min-h-[24rem]">
             <h2 className="font-display text-[clamp(4.25rem,14vw,10.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
               Wall of
             </h2>
@@ -64,14 +87,14 @@ export function TastemakersWall() {
 
         <FoldReveal delay={0.1} className="mt-40 md:mt-auto">
           <motion.div
-            style={{ y: railY }}
+            style={{ y: mobileLayout ? 0 : railY }}
             className="relative left-1/2 flex w-[calc(100vw+6rem)] -translate-x-1/2 items-end overflow-visible pb-0 pl-[8vw] md:w-[calc(100vw+10rem)] md:pl-[14vw]"
           >
             {tastemakerArchiveCards.map((card) => (
               <motion.article
                 key={card.title}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={coarsePointer ? undefined : { y: -6 }}
+                transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
                 className={card.className}
               >
                 <p className="mb-1.5 text-[0.62rem] leading-none tracking-[-0.01em] text-[#1a1a18]/38 md:text-[0.68rem]">

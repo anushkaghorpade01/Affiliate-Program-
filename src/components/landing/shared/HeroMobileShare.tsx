@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
-/** Paired with hero logo row (`HeroSection` uses `h-9` = 36px). */
-const RIBBON_H = 36
+/** ~3.5px taller than prior 36px row; paired with `HeroSection` mobile logo row `h-10`. */
+const RIBBON_H = 40
 const CLOSED_W = RIBBON_H
-/** Toggle + divider + three compact icon hits + padding */
-const OPEN_W = 138
+const OPEN_W = 153
 
 const ICON_REVEAL_DELAY_MS = 300
 const ICON_HIDE_COLLAPSE_MS = 220
-const ICON_STAGGER_S = 0.052
 
 /** Tabler Icons `share` (MIT) — outline; same treatment as `WhatsAppOutlineIcon` */
 function ShareGlyph({ className }: { className?: string }) {
@@ -180,7 +178,7 @@ const ribbonSurface =
   'relative overflow-hidden rounded-full border border-[#ebe6dc]/[0.07] bg-[rgba(0,11,9,0.16)] shadow-[0_2px_16px_rgba(0,0,0,0.045)] backdrop-blur-[9px] backdrop-saturate-[1.08] ring-1 ring-[#f4f1ea]/[0.035]'
 
 const iconHit =
-  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/34 outline-none transition-[color,opacity,background-color,transform] duration-[480ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[rgba(223,242,236,0.04)] hover:text-[#d8cfc0]/78 hover:opacity-100 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/14 active:scale-[0.98]'
+  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/34 outline-none transition-[color,opacity,background-color] duration-200 ease-out hover:bg-[rgba(223,242,236,0.04)] hover:text-[#d8cfc0]/78 hover:opacity-100 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/14 active:scale-[0.98]'
 
 export function HeroMobileShare({ className }: { className?: string }) {
   const [expanded, setExpanded] = useState(false)
@@ -268,37 +266,11 @@ export function HeroMobileShare({ className }: { className?: string }) {
     }
   }
 
-  const morphEase = reduceMotion ? { duration: 0.12 } : { duration: 0.42, ease: EASE }
-
   const widthTransition = reduceMotion
     ? { duration: 0.15 }
     : { duration: expanded ? 0.56 : 0.48, ease: EASE }
 
-  const iconMotion = (index: number) => {
-    if (reduceMotion) {
-      return {
-        opacity: iconsVisible ? 1 : 0,
-        x: 0,
-        transition: { duration: 0.12 },
-      }
-    }
-    if (!iconsVisible) {
-      return {
-        opacity: 0,
-        x: 8,
-        transition: { duration: 0.18, ease: EASE },
-      }
-    }
-    return {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.46,
-        delay: 0.08 + index * ICON_STAGGER_S,
-        ease: EASE,
-      },
-    }
-  }
+  const iconFade = iconsVisible ? 'opacity-100' : 'opacity-0'
 
   return (
     <div className={cn('pointer-events-auto relative z-[45] flex items-center', className)}>
@@ -330,37 +302,16 @@ export function HeroMobileShare({ className }: { className?: string }) {
           aria-label={expanded ? 'Close share menu' : 'Share this page'}
           onClick={toggleAnchor}
           className={cn(
-            'relative z-[1] flex h-full w-9 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/48 outline-none transition-[color,transform] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[#ebe6dc]/72 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/18',
-            !expanded && 'hover:scale-[1.03] active:scale-[1]',
+            'relative z-[1] flex h-full w-10 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/48 outline-none transition-colors duration-200 ease-out hover:text-[#ebe6dc]/72 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/18',
           )}
         >
-          <AnimatePresence mode="wait" initial={false}>
+          <span className="flex items-center justify-center" aria-hidden>
             {expanded ? (
-              <motion.span
-                key="close"
-                role="presentation"
-                initial={reduceMotion ? false : { opacity: 0, rotate: -45 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 45 }}
-                transition={morphEase}
-                className="flex items-center justify-center"
-              >
-                <CloseMenuIcon className="h-[13px] w-[13px]" />
-              </motion.span>
+              <CloseMenuIcon className="h-[16.5px] w-[16.5px]" />
             ) : (
-              <motion.span
-                key="share"
-                role="presentation"
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-                transition={morphEase}
-                className="flex items-center justify-center"
-              >
-                <ShareGlyph className="h-[13px] w-[13px]" />
-              </motion.span>
+              <ShareGlyph className="h-[16.5px] w-[16.5px]" />
             )}
-          </AnimatePresence>
+          </span>
         </button>
 
         <div
@@ -376,67 +327,45 @@ export function HeroMobileShare({ className }: { className?: string }) {
           />
 
           <div className="flex flex-1 items-center justify-end gap-0.5 pr-1.5">
-            <motion.button
+            <button
               type="button"
               aria-label="Share on WhatsApp"
               onClick={wa}
-              animate={iconMotion(0)}
-              className={iconHit}
+              className={cn(iconHit, iconFade)}
             >
-              <WhatsAppOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
-            </motion.button>
+              <WhatsAppOutlineIcon className="pointer-events-none h-[15.5px] w-[15.5px]" />
+            </button>
 
-            <motion.button
+            <button
               type="button"
               aria-label="Share on X"
               onClick={xShare}
-              animate={iconMotion(1)}
-              className={iconHit}
+              className={cn(iconHit, iconFade)}
             >
-              <TwitterXOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
-            </motion.button>
+              <TwitterXOutlineIcon className="pointer-events-none h-[15.5px] w-[15.5px]" />
+            </button>
 
-            <motion.button
+            <button
               type="button"
               aria-label={copyPhase === 'copied' ? 'Link copied' : 'Copy link'}
               onClick={copy}
-              animate={iconMotion(2)}
               className={cn(
                 iconHit,
+                iconFade,
                 copyPhase === 'copied' && 'text-[#d4c4a8]/55 hover:text-[#d8cca8]/72',
               )}
             >
               <span className="sr-only" aria-live="polite">
                 {copyPhase === 'copied' ? 'Copied' : ''}
               </span>
-              <AnimatePresence mode="wait" initial={false}>
+              <span className="pointer-events-none flex items-center justify-center">
                 {copyPhase === 'idle' ? (
-                  <motion.span
-                    key="link"
-                    role="presentation"
-                    initial={reduceMotion ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-                    transition={morphEase}
-                    className="pointer-events-none flex items-center justify-center"
-                  >
-                    <CopyOutlineIcon className="pointer-events-none h-[12px] w-[12px]" />
-                  </motion.span>
+                  <CopyOutlineIcon className="pointer-events-none h-[15.5px] w-[15.5px]" />
                 ) : (
-                  <motion.span
-                    key="copied"
-                    role="presentation"
-                    initial={reduceMotion ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-                    transition={morphEase}
-                    className="pointer-events-none flex items-center justify-center"
-                  >
-                    <CheckThinIcon className="h-[12px] w-[12px]" />
-                  </motion.span>
+                  <CheckThinIcon className="h-[15.5px] w-[15.5px] text-[#ebe6dc]/88" />
                 )}
-              </AnimatePresence>
-            </motion.button>
+              </span>
+            </button>
           </div>
         </div>
       </motion.div>

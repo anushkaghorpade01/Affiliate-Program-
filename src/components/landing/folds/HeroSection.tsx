@@ -16,7 +16,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-[1] flex flex-col gap-5 pt-2 md:hidden">
-        <div className="mb-[5px] flex h-9 items-center justify-between gap-3">
+        <div className="mb-[5px] flex h-10 items-center justify-between gap-3">
           <a
             href="https://www.flent.in"
             target="_blank"
@@ -50,7 +50,7 @@ export function HeroSection() {
         <div className="pointer-events-none -mt-2 flex justify-center py-3 select-none">
           <FloatingKey className="h-[17rem] w-[11.25rem] shrink-0" />
         </div>
-        <div className="-mt-[calc(4rem+36px)] flex justify-end">
+        <div className="-mt-[calc(4rem+40px)] flex justify-end">
           <a
             href="#apply"
             aria-label="Jump to tastemaker application form"
