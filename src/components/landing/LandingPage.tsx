@@ -31,7 +31,7 @@ export function LandingPage() {
         '',
         `${window.location.pathname}${window.location.search}#apply`,
       )
-      smoothScrollElementIntoView(applyEl)
+      smoothScrollElementIntoView(applyEl, { durationMs: 0 })
     }
 
     document.addEventListener('click', onDocumentClick, true)

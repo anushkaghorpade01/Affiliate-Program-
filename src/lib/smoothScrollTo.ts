@@ -33,6 +33,12 @@ export function smoothScrollToY(targetY: number, durationMs?: number): Promise<v
     return Promise.resolve()
   }
 
+  /** Jump without animating through intermediate folds (e.g. Apply CTA). */
+  if (durationMs === 0) {
+    window.scrollTo(0, Math.max(0, targetY))
+    return Promise.resolve()
+  }
+
   const resolvedDuration = durationMs ?? computeScrollDuration(Math.abs(change))
 
   return new Promise((resolve) => {
@@ -50,10 +56,13 @@ export function smoothScrollToY(targetY: number, durationMs?: number): Promise<v
   })
 }
 
-export function smoothScrollElementIntoView(element: HTMLElement | null): void {
+export function smoothScrollElementIntoView(
+  element: HTMLElement | null,
+  options?: { durationMs?: number },
+): void {
   if (!element) return
   const initialY = Math.max(0, getDocumentScrollYForElement(element))
-  void smoothScrollToY(initialY).then(() => {
+  void smoothScrollToY(initialY, options?.durationMs).then(() => {
     const finalY = Math.max(0, getDocumentScrollYForElement(element))
     if (Math.abs(window.scrollY - finalY) > 3) window.scrollTo(0, finalY)
   })

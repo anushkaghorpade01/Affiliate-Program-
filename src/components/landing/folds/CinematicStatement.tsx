@@ -201,7 +201,7 @@ export function CinematicStatement() {
             </FoldReveal>
           </motion.div>
 
-          <FoldReveal delay={0.12} className="mt-8 md:mt-20">
+          <FoldReveal delay={0.12} className="mt-[calc(2rem+4.5px)] md:mt-20">
             <motion.div style={{ y: stepsY }} className="flex flex-col gap-5 md:flex-row md:items-start md:gap-0">
               {processSteps.map((step, index) => (
                 <div key={step.number} className="contents">

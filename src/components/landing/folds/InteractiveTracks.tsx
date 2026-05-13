@@ -44,7 +44,7 @@ function TrackFlipCard({ card }: { card: TrackItem }) {
     return (
       <div
         ref={ref}
-        className="relative h-[17rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]"
+        className="relative h-[16rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]"
       >
         <img
           src={card.image.src}
@@ -149,7 +149,7 @@ export function InteractiveTracks() {
                   initial="rest"
                   animate="rest"
                   key={card.title}
-                  className="group relative h-[17rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-[#003328] to-[#001c16] p-6 md:h-[21rem] md:rounded-[1.75rem] md:p-6"
+                  className="group relative h-[16rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-[#003328] to-[#001c16] p-6 md:h-[21rem] md:rounded-[1.75rem] md:p-6"
                 >
                   <motion.p variants={{ rest: { y: 0 }, hover: { y: -18 } }} className="font-display text-3xl leading-[1] text-[#E8F5F0] md:text-[2rem] md:leading-[1.02]">{card.title}</motion.p>
                   <motion.p variants={{ rest: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }} className="absolute bottom-6 left-6 max-w-[22ch] text-sm text-[#dff2ec]/80 md:bottom-7 md:left-6 md:text-[0.9375rem]">{card.copy}</motion.p>
