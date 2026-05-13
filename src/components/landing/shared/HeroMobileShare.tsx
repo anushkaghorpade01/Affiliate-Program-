@@ -284,7 +284,7 @@ export function HeroMobileShare({ className }: { className?: string }) {
           height: RIBBON_H,
         }}
         transition={widthTransition}
-        className={cn(ribbonSurface, 'flex items-stretch')}
+        className={cn(ribbonSurface, 'flex items-center')}
       >
         <div
           className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(165deg,rgba(223,242,236,0.05)_0%,transparent_46%,rgba(0,0,0,0.06)_100%)]"
@@ -302,10 +302,11 @@ export function HeroMobileShare({ className }: { className?: string }) {
           aria-label={expanded ? 'Close share menu' : 'Share this page'}
           onClick={toggleAnchor}
           className={cn(
-            'relative z-[1] flex h-full w-10 shrink-0 items-center justify-center rounded-full text-[#ebe6dc]/48 outline-none transition-colors duration-200 ease-out hover:text-[#ebe6dc]/72 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/18',
+            'relative z-[1] flex h-full min-h-0 items-center justify-center rounded-full text-[#ebe6dc]/48 outline-none transition-colors duration-200 ease-out hover:text-[#ebe6dc]/72 focus-visible:ring-1 focus-visible:ring-[#ebe6dc]/18',
+            expanded ? 'w-10 shrink-0' : 'min-w-0 flex-1',
           )}
         >
-          <span className="flex items-center justify-center" aria-hidden>
+          <span className="flex size-[17px] items-center justify-center [&_svg]:block" aria-hidden>
             {expanded ? (
               <CloseMenuIcon className="h-[16.5px] w-[16.5px]" />
             ) : (
@@ -316,8 +317,10 @@ export function HeroMobileShare({ className }: { className?: string }) {
 
         <div
           className={cn(
-            'relative z-[1] flex min-w-0 flex-1 items-center',
-            expanded ? 'opacity-100' : 'pointer-events-none opacity-0',
+            'relative z-[1] flex min-w-0 items-center',
+            expanded
+              ? 'min-w-0 flex-1 opacity-100'
+              : 'pointer-events-none w-0 flex-none overflow-hidden opacity-0',
           )}
           aria-hidden={!expanded}
         >

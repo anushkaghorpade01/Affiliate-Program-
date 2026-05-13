@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView, useScroll, useSpring, useTransform } from 'framer-motion'
+import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { trackItems } from '@/components/landing/data'
 import type { TrackItem } from '@/components/landing/types'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
@@ -108,6 +108,7 @@ function TrackFlipCard({ card }: { card: TrackItem }) {
 
 export function InteractiveTracks() {
   const ref = useRef<HTMLElement>(null)
+  const reduceMotion = useReducedMotion()
   const factor = useCinematicIntensity()
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -158,6 +159,34 @@ export function InteractiveTracks() {
             )}
           </motion.div>
         </FoldReveal>
+
+        <div className="mt-10 flex justify-end md:hidden">
+          <a
+            href="#apply"
+            aria-label="Start application — scroll to form"
+            className="flex cursor-pointer items-baseline gap-[0.35em] font-display text-sm font-light tracking-[0.16em] text-[rgba(244,241,234,0.78)] outline-none transition-[color,text-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[rgba(252,249,244,0.95)] focus-visible:ring-1 focus-visible:ring-[#f4f1ea]/25 active:text-[rgba(252,249,244,0.88)]"
+          >
+            <span>Start application</span>
+            {reduceMotion ? (
+              <span aria-hidden className="inline-block font-light leading-none">
+                ↓
+              </span>
+            ) : (
+              <motion.span
+                aria-hidden
+                className="inline-block font-light leading-none"
+                animate={{ y: [0, 2.5, 0] }}
+                transition={{
+                  duration: 2.35,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                ↓
+              </motion.span>
+            )}
+          </a>
+        </div>
       </div>
     </section>
   )

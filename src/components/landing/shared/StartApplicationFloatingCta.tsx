@@ -89,7 +89,7 @@ export function StartApplicationFloatingCta({ cinematicSectionRef }: Props) {
       initial={false}
       animate={{ opacity: targetOpacity }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed bottom-8 right-6 z-[100] md:bottom-12 md:right-12"
+      className="fixed bottom-8 right-6 z-[100] hidden md:block md:bottom-12 md:right-12"
       style={{
         pointerEvents: targetOpacity > 0.04 ? 'auto' : 'none',
       }}

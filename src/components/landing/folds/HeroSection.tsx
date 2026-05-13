@@ -47,8 +47,8 @@ export function HeroSection() {
           <br />
           <span className="italic">Tastemakers</span>
         </p>
-        <div className="pointer-events-none -mt-2 flex justify-center py-3 select-none">
-          <FloatingKey className="h-[17rem] w-[11.25rem] shrink-0" />
+        <div className="pointer-events-none flex justify-center py-3 select-none">
+          <FloatingKey className="relative h-[17rem] w-[11.25rem] shrink-0 -translate-y-8" />
         </div>
         <div className="-mt-[calc(4rem+40px)] flex justify-end">
           <a

@@ -247,7 +247,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
             <span
               style={mobileOpenBadgeStyle ?? undefined}
               className={cn(
-                'pointer-events-none absolute z-[3] hidden rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90 md:block',
+                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90 max-md:block md:hidden',
                 mobileOpenBadgeStyle ? '' : 'right-1.5 top-1.5',
               )}
             >

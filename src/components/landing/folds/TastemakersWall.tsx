@@ -6,21 +6,21 @@ import { useCinematicIntensity } from '@/components/landing/shared/useCinematicI
 
 const tastemakerArchiveCards = [
   {
-    label: 'Superpower',
-    title: 'Object Study',
-    src: 'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=720&q=85',
+    label: 'Bangalore',
+    title: 'Amarnath',
+    src: '/tastemakers/amarnath-tastemaker.png',
     className: 'z-[1] w-[10rem] translate-y-10 rotate-[-2deg] opacity-90 md:w-[13rem] md:translate-y-12',
-  },
-  {
-    label: 'Character AI',
-    title: 'City Lens',
-    src: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=720&q=85',
-    className: 'z-[2] -ml-7 w-[12rem] translate-y-2 rotate-[1.5deg] md:-ml-8 md:w-[16rem] md:translate-y-4',
   },
   {
     label: 'Bangalore',
     title: 'Chhavi',
     src: '/tastemakers/chhavi-nift.png',
+    className: 'z-[2] -ml-7 w-[12rem] translate-y-2 rotate-[1.5deg] md:-ml-8 md:w-[16rem] md:translate-y-4',
+  },
+  {
+    label: 'Bangalore',
+    title: 'Kaashvi',
+    src: '/tastemakers/kaashvi-tastemaker.png',
     className: 'z-[3] -ml-8 w-[13rem] rotate-[0.6deg] opacity-95 md:-ml-10 md:w-[18.5rem]',
   },
   {
@@ -30,9 +30,9 @@ const tastemakerArchiveCards = [
     className: 'z-[4] -ml-8 w-[14rem] rotate-[-0.75deg] md:-ml-10 md:w-[20rem]',
   },
   {
-    label: 'Waverly',
-    title: 'Atmosphere',
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=720&q=85',
+    label: 'Bangalore',
+    title: 'Deep',
+    src: '/tastemakers/deep-tastemaker.png',
     className: 'z-[3] -ml-8 w-[11rem] translate-y-8 rotate-[2deg] md:-ml-10 md:w-[15rem] md:translate-y-10',
   },
 ] as const

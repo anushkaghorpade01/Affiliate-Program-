@@ -148,7 +148,9 @@ function ProcessSeparator(): ReactNode {
 
 export function CinematicStatement() {
   const ref = useRef<HTMLElement>(null)
-  const [mobileFeaturesStatic, setMobileFeaturesStatic] = useState(false)
+  const [mobileFeaturesStatic, setMobileFeaturesStatic] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  )
   const factor = useCinematicIntensity()
 
   useEffect(() => {
@@ -190,23 +192,23 @@ export function CinematicStatement() {
         <div className="relative mx-auto max-w-7xl">
           <motion.div style={{ y: heroY }}>
             <FoldReveal className="max-w-[58rem] md:max-w-[55%]">
-              <h2 className="font-display text-[3.8rem] leading-[0.88] tracking-[-0.04em] text-[#dff2ec] md:text-[7.25rem]">
-                Start earning from day one.
+              <h2 className="font-display text-[3rem] leading-[0.9] tracking-[-0.04em] text-[#dff2ec] md:text-[7.25rem] md:leading-[0.88]">
+                You bring the influence. We handle the rest.
               </h2>
             </FoldReveal>
-            <FoldReveal delay={0.08} className="mt-6 max-w-[28rem]">
+            <FoldReveal delay={0.08} className="mt-[calc(1.5rem-3px)] max-w-[28rem] md:mt-6">
               <p className="text-base leading-[1.35] text-[#dff2ec]/68 md:text-lg">
-                You bring the influence. We handle the rest.
+                Start earning from day one.
               </p>
             </FoldReveal>
           </motion.div>
 
           <FoldReveal delay={0.12} className="mt-[calc(2rem+4.5px)] md:mt-20">
-            <motion.div style={{ y: stepsY }} className="flex flex-col gap-5 md:flex-row md:items-start md:gap-0">
+            <motion.div style={{ y: stepsY }} className="flex flex-col gap-3 md:flex-row md:items-start md:gap-0">
               {processSteps.map((step, index) => (
                 <div key={step.number} className="contents">
                   <div className="max-w-[23rem] md:w-[30%]">
-                    <p className="text-xs tracking-[0.28em] text-[#dff2ec]/38">{step.number}</p>
+                    <p className="text-xs tracking-[0.2em] text-[#dff2ec]/38 md:tracking-[0.28em]">{step.number}</p>
                     <h3 className="mt-3 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] md:mt-5">
                       {step.title}
                     </h3>
@@ -225,7 +227,10 @@ export function CinematicStatement() {
               style={{ y: mobileFeaturesStatic ? 0 : featuresY }}
               className="grid gap-2.5 md:grid-cols-2 md:gap-6"
             >
-              {featureCards.map((card) => (
+              {(mobileFeaturesStatic
+                ? featureCards.filter((c) => c.visual !== 'resources')
+                : featureCards
+              ).map((card) => (
                 <FeatureCard
                   key={card.title}
                   title={card.title}
