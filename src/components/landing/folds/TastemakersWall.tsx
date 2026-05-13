@@ -18,8 +18,14 @@ const tastemakerArchiveCards = [
     className: 'z-[2] -ml-7 w-[12rem] translate-y-2 rotate-[1.5deg] md:-ml-8 md:w-[16rem] md:translate-y-4',
   },
   {
-    label: 'Baboon Bees',
-    title: 'Archive Portrait',
+    label: 'Bangalore',
+    title: 'Chhavi',
+    src: '/tastemakers/chhavi-nift.png',
+    className: 'z-[3] -ml-8 w-[13rem] rotate-[0.6deg] opacity-95 md:-ml-10 md:w-[18.5rem]',
+  },
+  {
+    label: 'Bangalore',
+    title: 'Anmol',
     src: '/tastemakers/anmol-maini.png',
     className: 'z-[4] -ml-8 w-[14rem] rotate-[-0.75deg] md:-ml-10 md:w-[20rem]',
   },
