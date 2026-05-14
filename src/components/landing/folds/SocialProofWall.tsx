@@ -1,5 +1,10 @@
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import {
+  PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+} from '@/components/landing/principalSupportingMobileTypography'
 import {
   cinematicScrollSpring,
   cinematicScrollSpringMobile,
@@ -7,21 +12,6 @@ import {
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
-
-/** Visible bitmap rect inside an `<img>` using `object-fit: contain` (for badge anchoring). */
-function getObjectContainInset(img: HTMLImageElement) {
-  const W = img.clientWidth
-  const H = img.clientHeight
-  const nw = img.naturalWidth
-  const nh = img.naturalHeight
-  if (!W || !H || !nw || !nh) return null
-  const scale = Math.min(W / nw, H / nh)
-  const dispW = nw * scale
-  const dispH = nh * scale
-  const offsetX = (W - dispW) / 2
-  const offsetY = (H - dispH) / 2
-  return { offsetX, offsetY, dispW, dispH }
-}
 
 /**
  * Horizontal scroll gallery. See `/guide.md` for the full system.
@@ -167,50 +157,7 @@ function GridDebugOverlay() {
 
 function EditorialFrame({ src, alt, width, height, href, className, style }: EditorialFrameProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const imgRef = useRef<HTMLImageElement>(null)
   const [tilt, setTilt] = useState('rotateX(0deg) rotateY(0deg) translateZ(0px)')
-  const [mobileOpenBadgeStyle, setMobileOpenBadgeStyle] = useState<CSSProperties | null>(null)
-
-  useEffect(() => {
-    if (!href) return
-
-    const img = imgRef.current
-    if (!img) return
-
-    const mq = window.matchMedia('(max-width: 767px)')
-
-    const updateMobileBadge = () => {
-      if (!mq.matches) {
-        setMobileOpenBadgeStyle(null)
-        return
-      }
-      const inset = getObjectContainInset(img)
-      if (!inset) {
-        setMobileOpenBadgeStyle(null)
-        return
-      }
-      const pad = 6
-      setMobileOpenBadgeStyle({
-        top: inset.offsetY + pad,
-        left: inset.offsetX + inset.dispW - pad,
-        right: 'auto',
-        transform: 'translateX(-100%)',
-      })
-    }
-
-    updateMobileBadge()
-    mq.addEventListener('change', updateMobileBadge)
-    img.addEventListener('load', updateMobileBadge)
-
-    const ro = new ResizeObserver(updateMobileBadge)
-    ro.observe(img)
-
-    return () => {
-      mq.removeEventListener('change', updateMobileBadge)
-      img.removeEventListener('load', updateMobileBadge)
-      ro.disconnect()
-    }
-  }, [href, src])
 
   return (
     <motion.div
@@ -236,24 +183,12 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
       <div className="relative z-[1] flex h-full w-full min-h-0 min-w-0 items-center justify-center md:block">
         <div className="relative inline-block h-full max-w-full overflow-hidden rounded-xl md:block md:w-full">
           <img
-            ref={imgRef}
             src={src}
             alt={alt}
             width={width}
             height={height}
             className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
           />
-          {href ? (
-            <span
-              style={mobileOpenBadgeStyle ?? undefined}
-              className={cn(
-                'pointer-events-none absolute z-[3] rounded-full bg-[#E8F5F0]/70 px-1.5 py-px text-[0.45rem] font-normal capitalize leading-none tracking-[0.02em] text-[#003328]/75 opacity-55 shadow-[0_3px_10px_rgba(0,51,40,0.08)] transition duration-300 group-hover:opacity-90 max-md:block md:hidden',
-                mobileOpenBadgeStyle ? '' : 'right-1.5 top-1.5',
-              )}
-            >
-              Open
-            </span>
-          ) : null}
         </div>
       </div>
       {href ? (
@@ -327,7 +262,7 @@ export function SocialProofWall() {
   return (
     <section
       ref={ref}
-      className="relative -mt-10 h-[185vh] rounded-t-[2.75rem] md:h-[340vh] md:-mt-12 md:rounded-t-[4.5rem]"
+      className="relative z-[2] -mt-10 h-[185vh] rounded-t-[2.75rem] max-md:z-[2] md:z-auto md:h-[340vh] md:-mt-12 md:rounded-t-[4.5rem]"
     >
       <div className="sticky top-0 h-screen overflow-hidden rounded-t-[2.75rem] md:rounded-t-[4.5rem]">
         <motion.div
@@ -340,18 +275,34 @@ export function SocialProofWall() {
 
         <div className="relative mx-auto flex h-full min-h-0 w-[92vw] flex-col pb-8 pt-10 md:pb-12 md:pt-14">
           <FoldReveal>
-            <h2 className="text-center font-display text-[2.45rem] leading-[0.95] tracking-[-0.03em] text-[#003328] md:text-[5.9rem]">
-              The word on the street.
+            <h2
+              className={cn(
+                'text-center text-[#003328]',
+                PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+                PRINCIPAL_HEADLINE_CLASSNAME,
+              )}
+            >
+              <span className="max-md:hidden">The word on the street.</span>
+              <span className="block md:hidden">People already talk about us.</span>
             </h2>
           </FoldReveal>
-          <p className="mx-auto mt-6 max-w-[min(18rem,88vw)] text-center text-[0.8125rem] leading-[1.12] tracking-[0.018em] text-[#003328]/58 max-md:text-balance md:mt-5 md:max-w-[22rem] md:text-sm md:leading-[1.14] md:text-balance">
-            Reshares, reposts, tags, threads,
-            <br />
-            mentions, conversations.
-            <br />
-            The little internet things
-            <br />
-            that move Flent around.
+          <p
+            className={cn(
+              'mx-auto px-1 text-center font-sans font-normal text-[#003328]/58 max-md:text-balance md:text-balance',
+              PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+              'md:mt-5 md:max-w-[22rem] md:text-[calc(0.875rem+1.5px)] md:leading-[1.14] md:tracking-[0.018em]',
+            )}
+          >
+            <span className="md:hidden">Be one of them. Get rewarded for it.</span>
+            <span className="hidden md:block">
+              Reshares, reposts, tags, threads,
+              <br />
+              mentions, conversations.
+              <br />
+              The little internet things
+              <br />
+              that move Flent around.
+            </span>
           </p>
 
           <div className="relative mt-8 min-h-0 flex-1 overflow-visible md:mt-14">

@@ -1,10 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
+import type { MotionValue } from 'framer-motion'
 import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { trackItems } from '@/components/landing/data'
+import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import {
+  PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+} from '@/components/landing/principalSupportingMobileTypography'
 import type { TrackItem } from '@/components/landing/types'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
+import { MobileSnapCarousel } from '@/components/landing/shared/MobileSnapCarousel'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
+import { cn } from '@/lib/utils'
 
 function useTouchFlipEnabled() {
   const [enabled, setEnabled] = useState(false)
@@ -20,53 +28,66 @@ function useTouchFlipEnabled() {
   return enabled
 }
 
+function TrackMobileFacingCard({ card }: { card: TrackItem }) {
+  if (!card.image) return null
+  return (
+    <div className="relative h-[16rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]">
+      <img
+        src={card.image.src}
+        alt={card.image.alt}
+        className="h-full w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 rounded-[1.35rem] bg-[#000d09]/[0.38]"
+        aria-hidden
+      />
+      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/78 via-black/28 to-transparent p-5 pt-12">
+        <p className="font-display text-[1.35rem] leading-[0.98] tracking-[-0.02em] text-[#E8F5F0]">
+          {card.title}
+        </p>
+        <p className="mt-2.5 max-w-none text-[0.8125rem] leading-[1.26] text-[#E8F5F0]/86 sm:max-w-[28ch]">
+          {card.mobileCopy ?? card.copy}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function TracksMobileCarousel({ tilesY }: { tilesY: MotionValue<number> }) {
+  const slideCards = trackItems.filter((t): t is TrackItem & { image: NonNullable<TrackItem['image']> } =>
+    Boolean(t.image),
+  )
+
+  const slides = slideCards.map((card, slideIdx) => ({
+    key: card.title,
+    'aria-label': `${slideIdx + 1} of ${slideCards.length}: ${card.title}`,
+    dotLabel: card.title,
+    content: <TrackMobileFacingCard card={card} />,
+  }))
+
+  return (
+    <MobileSnapCarousel
+      yMotion={tilesY}
+      regionAriaLabel="Tastemaker track cards — swipe sideways to explore"
+      slides={slides}
+      tone="tracks"
+      breakoutClassName="relative left-1/2 w-[100vw] max-w-[100vw] -translate-x-1/2 px-0"
+      scrollInsetCss="max(14px,calc((100vw - min(296px, 78vw))/2))"
+    />
+  )
+}
+
+
 function TrackFlipCard({ card }: { card: TrackItem }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [isMobileTrack, setIsMobileTrack] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
-  )
   const isTouchFlipEnabled = useTouchFlipEnabled()
   const isInView = useInView(ref, { amount: 0.62, margin: '-12% 0px -12% 0px' })
   const [isHovered, setIsHovered] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
 
-  useEffect(() => {
-    const query = window.matchMedia('(max-width: 767px)')
-    const sync = () => setIsMobileTrack(query.matches)
-    sync()
-    query.addEventListener('change', sync)
-    return () => query.removeEventListener('change', sync)
-  }, [])
-
   if (!card.image) return null
-
-  if (isMobileTrack) {
-    return (
-      <div
-        ref={ref}
-        className="relative h-[16rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]"
-      >
-        <img
-          src={card.image.src}
-          alt={card.image.alt}
-          className="h-full w-full object-cover"
-          loading="lazy"
-          decoding="async"
-        />
-        {/* Soft veil: photo stays visible but muted for readable type */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-[1.35rem] bg-[#000d09]/[0.38]"
-          aria-hidden
-        />
-        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/78 via-black/28 to-transparent p-5 pt-12">
-          <p className="font-display text-[1.35rem] leading-[0.98] tracking-[-0.02em] text-[#E8F5F0]">
-            {card.title}
-          </p>
-          <p className="mt-2.5 max-w-[28ch] text-[0.8125rem] leading-[1.22] text-[#E8F5F0]/86">{card.copy}</p>
-        </div>
-      </div>
-    )
-  }
 
   const isFlipped = isHovered || (isTouchFlipEnabled && isInView) || isFocused
 
@@ -121,7 +142,7 @@ export function InteractiveTracks() {
   const tilesY = useTransform(smooth, [0, 1], [factor * 38, factor * -38])
 
   return (
-    <section ref={ref} className="relative -mt-4 overflow-hidden px-6 pb-[calc(9rem-84px)] pt-16 md:px-12 md:pb-32 md:pt-20">
+    <section ref={ref} className="relative -mt-4 overflow-x-visible overflow-y-hidden px-6 pb-[calc(9rem-84px)] pt-16 max-md:overflow-x-visible md:overflow-hidden md:px-12 md:pb-32 md:pt-20">
       <motion.div
         style={{ y: bgY }}
         className="pointer-events-none absolute inset-0 bg-[#000d09]"
@@ -132,12 +153,37 @@ export function InteractiveTracks() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(232,245,240,0.04)_0%,transparent_55%)]"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl max-md:overflow-x-visible md:overflow-x-hidden">
         <FoldReveal>
-          <motion.h2 style={{ y: headingY }} className="max-w-4xl font-display text-[2.8rem] leading-[0.95] tracking-[-0.03em] text-[#E8F5F0] md:text-[4.7rem]">Not all tastemakers move the same way.</motion.h2>
+          <motion.div style={{ y: headingY }}>
+            <h2
+              className={cn(
+                PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+                'max-w-4xl text-[#E8F5F0]',
+                PRINCIPAL_HEADLINE_CLASSNAME,
+              )}
+            >
+              Not all tastemakers move the same way.
+            </h2>
+            <p
+              className={cn(
+                'font-sans text-left text-[#E8F5F0]/82 md:hidden',
+                PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                'max-md:px-0 max-md:max-w-4xl',
+              )}
+            >
+              You might be one. You might be all three.
+            </p>
+          </motion.div>
         </FoldReveal>
-        <FoldReveal delay={0.08} className="mt-12">
-          <motion.div style={{ y: tilesY }} className="grid gap-6 md:grid-cols-3 md:gap-5">
+        <FoldReveal delay={0.08} className="mt-12 max-md:overflow-x-visible">
+          <div className="md:hidden">
+            <TracksMobileCarousel tilesY={tilesY} />
+          </div>
+          <motion.div
+            style={{ y: tilesY }}
+            className="hidden grid gap-6 md:grid md:grid-cols-3 md:gap-5"
+          >
             {trackItems.map((card) =>
               card.image ? (
                 <TrackFlipCard
@@ -163,10 +209,10 @@ export function InteractiveTracks() {
         <div className="mt-10 flex justify-end md:hidden">
           <a
             href="#apply"
-            aria-label="Start application — scroll to form"
+            aria-label="Jump to tastemaker application form"
             className="flex cursor-pointer items-baseline gap-[0.35em] font-display text-sm font-light tracking-[0.16em] text-[rgba(244,241,234,0.78)] outline-none transition-[color,text-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[rgba(252,249,244,0.95)] focus-visible:ring-1 focus-visible:ring-[#f4f1ea]/25 active:text-[rgba(252,249,244,0.88)]"
           >
-            <span>Start application</span>
+            <span>Apply now</span>
             {reduceMotion ? (
               <span aria-hidden className="inline-block font-light leading-none">
                 ↓

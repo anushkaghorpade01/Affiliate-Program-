@@ -124,9 +124,9 @@ export function StartApplicationFloatingCta({ cinematicSectionRef }: Props) {
         }}
         tabIndex={targetOpacity > 0.04 ? 0 : -1}
         className="flex cursor-pointer items-baseline gap-[0.35em] font-display text-sm font-light tracking-[0.16em] outline-none focus-visible:ring-1 focus-visible:ring-[#f4f1ea]/25 md:text-[0.9375rem]"
-        aria-label="Start application — scroll to form"
+        aria-label="Jump to tastemaker application form"
       >
-        <span>Start application</span>
+        <span>Apply now</span>
         {reduceMotion ? (
           <span aria-hidden className="inline-block font-light leading-none">
             ↓

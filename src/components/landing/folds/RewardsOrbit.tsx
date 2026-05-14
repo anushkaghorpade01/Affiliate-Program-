@@ -1,5 +1,7 @@
 import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import { PRINCIPAL_HEADLINE_MOBILE_TOP_INSET } from '@/components/landing/principalSupportingMobileTypography'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
@@ -126,7 +128,9 @@ export function RewardsOrbit() {
     <section
       ref={ref}
       className={cn(
-        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh] max-md:min-h-[min(calc(94vh-92px),42rem)] max-md:overflow-visible max-md:pb-[max(1.5rem,calc(max(3.25vh,1.125rem)-76px))] md:min-h-[calc(96vh-180px)] md:overflow-hidden md:pb-[max(1.25rem,calc(6vh-180px))]',
+        'relative isolate bg-[#000d09] px-[5vw] pb-[4vh]',
+        'max-md:min-h-0 max-md:overflow-visible max-md:pb-12 max-md:pt-6',
+        'md:min-h-[calc(96vh-245px)] md:overflow-hidden md:pb-[90px]',
       )}
     >
       <motion.div
@@ -140,7 +144,22 @@ export function RewardsOrbit() {
         aria-hidden
       />
 
-      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center max-md:top-[min(calc(8vh-10px),calc(5.25rem-10px))] md:top-[min(11.5vh,6.75rem)] md:max-w-[min(720px,50vw)]">
+      <FoldReveal className="relative z-[2] mx-auto w-full max-w-[min(92vw,720px)] px-2 pb-0 pt-4 text-center max-md:mb-8 md:hidden">
+        <motion.div style={{ y: introY }}>
+          <h1
+            className={cn(
+              PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+              'flex flex-col items-center gap-[6px] text-[#E8F5F0]',
+              PRINCIPAL_HEADLINE_CLASSNAME,
+            )}
+          >
+            <span className="block">Showing up has its own</span>
+            <span className="block">rewards</span>
+          </h1>
+        </motion.div>
+      </FoldReveal>
+
+      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] hidden w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center md:top-[min(11.5vh,6.75rem)] md:block md:max-w-[min(720px,50vw)]">
         <motion.div style={{ y: introY }}>
           <p className="text-[1.125rem] leading-[1.32] text-[#E8F5F0]/78 md:text-xl md:leading-[1.3]">
             The more Flent moves through your circles, the more your world opens up with it.
@@ -150,20 +169,24 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.06}
-        className="absolute left-1/2 top-[min(23vh,12.5rem)] z-[1] flex w-full max-w-[100vw] -translate-x-1/2 justify-center max-md:top-[min(calc(26vh-36px),calc(13.75rem-36px))] max-md:z-10 max-md:w-screen max-md:max-w-none md:top-[min(27vh,16rem)] md:max-w-[min(1200px,84vw)]"
+        className={cn(
+          'z-10 flex w-full justify-center self-stretch',
+          'relative left-auto top-auto mx-auto max-w-[min(92vw,720px)] translate-x-0 max-md:mt-3',
+          'md:absolute md:z-[1] md:left-1/2 md:top-[min(27vh,16rem)] md:mx-0 md:max-w-[min(1200px,84vw)] md:-translate-x-1/2',
+        )}
       >
         <motion.div
           style={{ y: orbitY }}
           className={cn(
             'relative w-full justify-center pt-2 md:flex md:pt-0',
-            'max-md:h-[clamp(268px,50vmin,388px)] max-md:overflow-visible max-md:pb-[max(0px,calc(min(7vh,2.75rem)-12px))] max-md:pt-[max(0px,calc(min(1vh,0.5rem)-4px))]',
-            'overflow-x-auto overflow-y-visible pb-4 [-ms-overflow-style:none] [scrollbar-width:none] md:h-auto md:overflow-visible md:pb-0 md:pt-0 [&::-webkit-scrollbar]:hidden',
+            'max-md:h-[clamp(220px,44vmin,328px)] max-md:overflow-visible max-md:pb-0 max-md:pt-0',
+            'overflow-x-auto overflow-y-visible pb-0 [-ms-overflow-style:none] [scrollbar-width:none] md:h-auto md:overflow-visible md:pb-0 md:pt-0 [&::-webkit-scrollbar]:hidden',
           )}
         >
           <div
             className={cn(
-              'relative w-full gap-0 px-0',
-              'max-md:mx-auto max-md:min-h-[clamp(268px,50vmin,388px)] max-md:min-w-0 max-md:w-full',
+              'relative mx-auto w-full gap-0 px-0',
+              'max-md:min-h-[clamp(220px,44vmin,328px)] max-md:min-w-0 max-md:max-w-[min(92vw,720px)]',
               'flex min-w-0 items-end justify-center md:flex md:min-w-0',
             )}
           >
@@ -335,13 +358,23 @@ export function RewardsOrbit() {
 
       <FoldReveal
         delay={0.1}
-        className="absolute left-1/2 top-[min(42vh,21.5rem)] z-[1] w-full max-w-[min(720px,92vw)] -translate-x-1/2 pt-[min(3.25vh,1.25rem)] text-center max-md:top-[min(calc(62vh-30px),calc(31.5rem-30px))] max-md:pt-[max(0px,calc(min(4vh,1.6rem)-10px))] md:top-[52vh] md:pt-[min(5vh,2.5rem)]"
+        className={cn(
+          'z-[1] w-full max-w-[min(720px,92vw)] px-3 text-center',
+          'relative left-auto top-auto mx-auto translate-x-0 max-md:-mt-6 max-md:pt-0',
+          'md:absolute md:left-1/2 md:top-[52vh] md:mx-0 md:mt-0 md:max-w-[min(720px,92vw)] md:-translate-x-1/2 md:px-0 md:pt-[min(5vh,2.5rem)]',
+        )}
       >
         <motion.div style={{ y: unlockY }}>
-          <h2 className="font-display text-[1.45rem] font-normal leading-none tracking-[-0.02em] text-[#E8F5F0] md:text-[clamp(1.625rem,2.55vw,2.2rem)] md:tracking-[-0.025em]">
-            What showing up unlocks.
+          <h2 className="text-[#E8F5F0]">
+            <span className={cn('hidden md:block', PRINCIPAL_HEADLINE_CLASSNAME)}>
+              What showing up unlocks.
+            </span>
+            <span className="flex flex-col items-center gap-0 font-sans text-[calc(0.875rem+1.5px)] font-normal leading-[calc(1.38em-4.25px)] tracking-[0.01em] text-[#E8F5F0] md:hidden">
+              <span className="block">Just a few.</span>
+              <span className="block">The full list unlocks when you join.</span>
+            </span>
           </h2>
-          <p className="mx-auto mt-[min(3vh,1.35rem)] max-w-md font-sans text-[1.125rem] leading-[1.18] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:text-[1.375rem] md:leading-[1.15]">
+          <p className="mx-auto hidden max-w-md font-sans text-[calc(0.875rem+1.5px)] leading-[calc(1.18em-4.25px)] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:block md:text-[calc(1rem+1.5px)] md:leading-[calc(1.15em-4.25px)]">
             Full Catalog
             <br />
             Unlocks on joining

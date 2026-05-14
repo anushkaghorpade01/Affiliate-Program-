@@ -94,7 +94,7 @@ export function FAQPage() {
 
         <section className="pb-16 pt-20 md:pb-24 md:pt-28">
           <p className="mb-5 text-xs uppercase tracking-[0.32em] text-[#dff2ec]/42 md:text-sm">Flent Tastemakers</p>
-          <h1 className="max-w-[58rem] font-display text-[clamp(4rem,9vw,7.5rem)] leading-[0.9] tracking-[-0.045em] text-[#E8F5F0]">
+          <h1 className="max-w-[58rem] font-display text-[clamp(calc(4rem+0.75px),calc(9vw+0.75px),calc(7.5rem+0.75px))] leading-[0.9] tracking-[-0.045em] text-[#E8F5F0]">
             Frequently asked questions
           </h1>
         </section>

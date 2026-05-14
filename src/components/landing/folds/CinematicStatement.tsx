@@ -1,17 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import {
+  PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+} from '@/components/landing/principalSupportingMobileTypography'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
+import { MobileSnapCarousel } from '@/components/landing/shared/MobileSnapCarousel'
 import { StartApplicationFloatingCta } from '@/components/landing/shared/StartApplicationFloatingCta'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
 
-const processSteps = [
+type ProcessStep = {
+  number: string
+  title: string
+  body: string
+  mobileTitle?: string
+  mobileBody?: string
+}
+
+const processSteps: ProcessStep[] = [
   {
     number: '01',
     title: 'Apply as a Tastemaker',
     body: 'Fill out the application and tell us how you move culture, people, or recommendations around you.',
+    mobileBody: 'Two minutes. A few questions. We just want to know who you are.',
   },
   {
     number: '02',
@@ -22,6 +37,9 @@ const processSteps = [
     number: '03',
     title: 'Start sharing',
     body: 'Log into your dashboard to access your links, rewards, brand drops, and start earning immediately.',
+    mobileTitle: 'Do what you do',
+    mobileBody:
+      'Your dashboard, links, rewards, and earnings are waiting. Just show up the way you always do.',
   },
 ]
 
@@ -126,7 +144,7 @@ function FeatureCard({
       )}
     >
       <FeatureVisual type={visual} />
-      <div className="px-0.5 pb-0.5 pt-2.5 md:px-2 md:pb-2 md:pt-7">
+      <div className="px-0.5 pb-0.5 pt-5 md:px-2 md:pb-2 md:pt-8">
         <h3 className="font-display text-[1.22rem] leading-none tracking-[-0.02em] text-[#dff2ec] md:text-[2.35rem]">
           {title}
         </h3>
@@ -192,28 +210,42 @@ export function CinematicStatement() {
         <div className="relative mx-auto max-w-7xl">
           <motion.div style={{ y: heroY }}>
             <FoldReveal className="max-w-[58rem] md:max-w-[55%]">
-              <h2 className="font-display text-[3rem] leading-[0.9] tracking-[-0.04em] text-[#dff2ec] md:text-[7.25rem] md:leading-[0.88]">
-                You bring the influence. We handle the rest.
+              <h2 className={cn(PRINCIPAL_HEADLINE_MOBILE_TOP_INSET, 'text-[#dff2ec]', PRINCIPAL_HEADLINE_CLASSNAME)}>
+                <span className="flex flex-col items-start gap-[6px] md:hidden">
+                  <span className="block">You bring the influence.</span>
+                  <span className="block">We handle the rest.</span>
+                </span>
+                <span className="hidden md:block">
+                  You bring the influence.
+                  <br />
+                  We handle the rest.
+                </span>
               </h2>
             </FoldReveal>
-            <FoldReveal delay={0.08} className="mt-[calc(1.5rem-3px)] max-w-[28rem] md:mt-6">
-              <p className="text-base leading-[1.35] text-[#dff2ec]/68 md:text-lg">
+            <FoldReveal delay={0.08} className="max-w-[28rem] md:mt-6">
+              <p
+                className={cn(
+                  'font-sans text-[#dff2ec]/68',
+                  'leading-[1.35] md:text-[calc(1.125rem+1.5px)]',
+                  PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                )}
+              >
                 Start earning from day one.
               </p>
             </FoldReveal>
           </motion.div>
 
-          <FoldReveal delay={0.12} className="mt-[calc(2rem+4.5px)] md:mt-20">
-            <motion.div style={{ y: stepsY }} className="flex flex-col gap-3 md:flex-row md:items-start md:gap-0">
+          <FoldReveal delay={0.12} className="mt-[calc(1.5625rem+4.5px)] md:mt-20">
+            <motion.div style={{ y: stepsY }} className="flex flex-col gap-3 max-md:gap-[0.6rem] md:flex-row md:items-start md:gap-0">
               {processSteps.map((step, index) => (
                 <div key={step.number} className="contents">
                   <div className="max-w-[23rem] md:w-[30%]">
                     <p className="text-xs tracking-[0.2em] text-[#dff2ec]/38 md:tracking-[0.28em]">{step.number}</p>
-                    <h3 className="mt-3 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] md:mt-5">
-                      {step.title}
+                    <h3 className="mt-3 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] max-md:text-[1.48rem] md:mt-5">
+                      {mobileFeaturesStatic && step.mobileTitle ? step.mobileTitle : step.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-[1.45] text-[#dff2ec]/58 md:mt-5">
-                      {step.body}
+                    <p className="mt-2 text-sm font-normal leading-[1.45] text-[#dff2ec]/58 max-md:text-[0.8125rem] max-md:font-medium max-md:leading-[1.26] md:mt-5">
+                      {mobileFeaturesStatic && step.mobileBody ? step.mobileBody : step.body}
                     </p>
                   </div>
                   {index < processSteps.length - 1 ? <ProcessSeparator /> : null}
@@ -222,15 +254,37 @@ export function CinematicStatement() {
             </motion.div>
           </FoldReveal>
 
-          <FoldReveal delay={0.16} staticOnMobile className="mt-8 md:mt-28">
+          <FoldReveal delay={0.16} staticOnMobile className="mt-14 max-md:overflow-x-visible md:mt-28">
+            <h2
+              className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'mb-6 max-md:text-left text-[#dff2ec] md:hidden')}
+            >
+              We make it easy for
+              <br />
+              you to win.
+            </h2>
+            <div className="md:hidden">
+              <MobileSnapCarousel
+                tone="mist"
+                regionAriaLabel="Program features — swipe sideways to explore"
+                breakoutClassName="relative left-1/2 w-[100vw] max-w-[100vw] -translate-x-1/2 px-0"
+                scrollInsetCss="max(14px,calc((100vw - min(296px, 78vw))/2))"
+                slides={featureCards
+                  .filter((c) => !mobileFeaturesStatic || c.visual !== 'resources')
+                  .map((card, slideIdx, arr) => ({
+                    key: card.title,
+                    'aria-label': `${slideIdx + 1} of ${arr.length}: ${card.title}`,
+                    dotLabel: card.title,
+                    content: (
+                      <FeatureCard title={card.title} body={card.body} visual={card.visual} />
+                    ),
+                  }))}
+              />
+            </div>
             <motion.div
               style={{ y: mobileFeaturesStatic ? 0 : featuresY }}
-              className="grid gap-2.5 md:grid-cols-2 md:gap-6"
+              className="hidden gap-2.5 md:grid md:grid-cols-2 md:gap-6"
             >
-              {(mobileFeaturesStatic
-                ? featureCards.filter((c) => c.visual !== 'resources')
-                : featureCards
-              ).map((card) => (
+              {featureCards.map((card) => (
                 <FeatureCard
                   key={card.title}
                   title={card.title}

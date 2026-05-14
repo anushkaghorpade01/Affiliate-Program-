@@ -1,39 +1,45 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
+import { cn } from '@/lib/utils'
+
+/** Larger than principal fold headlines — “Wall of” / “Tastemakers” pair (mobile clamp + elevated md/xl). */
+const tastemakersWallHeadlineScale =
+  'text-[clamp(calc(4.15rem+0.75px),calc(11.75vw+0.75px),calc(6.1rem+0.75px))] md:text-[calc(5.85rem+0.75px)] xl:text-[calc(7.35rem+0.75px)]'
 
 const tastemakerArchiveCards = [
   {
     label: 'Bangalore',
     title: 'Amarnath',
     src: '/tastemakers/amarnath-tastemaker.png',
-    className: 'z-[1] w-[10rem] translate-y-10 rotate-[-2deg] opacity-90 md:w-[13rem] md:translate-y-12',
+    className: 'z-[1] w-[10.25rem] translate-y-10 rotate-[-2deg] opacity-90 md:w-[13rem] md:translate-y-12',
   },
   {
     label: 'Bangalore',
     title: 'Chhavi',
     src: '/tastemakers/chhavi-nift.png',
-    className: 'z-[2] -ml-7 w-[12rem] translate-y-2 rotate-[1.5deg] md:-ml-8 md:w-[16rem] md:translate-y-4',
+    className: 'z-[2] -ml-7 w-[12.25rem] translate-y-2 rotate-[1.5deg] md:-ml-8 md:w-[16rem] md:translate-y-4',
   },
   {
     label: 'Bangalore',
     title: 'Kaashvi',
     src: '/tastemakers/kaashvi-tastemaker.png',
-    className: 'z-[3] -ml-8 w-[13rem] rotate-[0.6deg] opacity-95 md:-ml-10 md:w-[18.5rem]',
+    className: 'z-[3] -ml-8 w-[13.25rem] rotate-[0.6deg] opacity-95 md:-ml-10 md:w-[18.5rem]',
   },
   {
     label: 'Bangalore',
     title: 'Anmol',
     src: '/tastemakers/anmol-maini.png',
-    className: 'z-[4] -ml-8 w-[14rem] rotate-[-0.75deg] md:-ml-10 md:w-[20rem]',
+    className: 'z-[4] -ml-8 w-[14.25rem] rotate-[-0.75deg] md:-ml-10 md:w-[20rem]',
   },
   {
     label: 'Bangalore',
     title: 'Deep',
     src: '/tastemakers/deep-tastemaker.png',
-    className: 'z-[3] -ml-8 w-[11rem] translate-y-8 rotate-[2deg] md:-ml-10 md:w-[15rem] md:translate-y-10',
+    className: 'z-[3] -ml-8 w-[11.25rem] translate-y-8 rotate-[2deg] md:-ml-10 md:w-[15rem] md:translate-y-10',
   },
 ] as const
 
@@ -73,28 +79,47 @@ export function TastemakersWall() {
   const railY = useTransform(smooth, [0, 1], [factor * 22, factor * -22])
 
   return (
-    <section ref={ref} id="tastemakers-wall" className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 md:min-h-[92vh] md:px-12 md:pt-10">
+    <section ref={ref} id="tastemakers-wall" className="relative overflow-hidden bg-[#f3eee8] px-6 pb-0 pt-8 max-md:pb-2 md:min-h-[92vh] md:px-12 md:pb-0 md:pt-10">
       <motion.div style={{ y: grainY }} className="grain pointer-events-none absolute inset-0 opacity-[0.18]" />
 
       <div className="relative mx-auto flex min-h-0 max-w-[92rem] flex-col md:min-h-[88vh]">
         <FoldReveal>
           <motion.div style={{ y: mobileLayout ? 0 : headlineY }} className="relative min-h-0 md:min-h-[24rem]">
-            <h2 className="font-display text-[clamp(4.25rem,14vw,10.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b]">
+            <h2
+              className={cn(
+                PRINCIPAL_HEADLINE_CLASSNAME,
+                'text-[#cda03b]',
+                tastemakersWallHeadlineScale,
+              )}
+            >
               Wall of
             </h2>
-            <p className="mt-7 max-w-[14rem] text-left text-[0.95rem] leading-[1.12] tracking-[-0.02em] text-[#1a1a18]/82 md:mt-8 md:max-w-[15rem] md:text-[1.05rem]">
-              A living archive of taste, influence, and the people who move culture quietly.
+            <p className="max-w-[14rem] text-left font-sans text-[calc(0.71875rem+1.5px)] leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 max-md:-mt-[10px] md:mt-[max(0px,calc(2rem-40px))] md:max-w-[15rem] md:text-[calc(0.84375rem+1.5px)] md:leading-[1.26] md:tracking-[-0.02em]">
+              Good taste got them here.
+              <br />
+              Could you be next?
             </p>
-            <h2 className="mt-5 text-right font-display text-[clamp(3.25rem,11vw,9.5rem)] leading-[0.78] tracking-[-0.065em] text-[#cda03b] md:absolute md:right-0 md:top-[8.5rem] md:mt-0 md:text-[clamp(4rem,11.5vw,10.5rem)] lg:top-[9rem]">
+            <h2
+              className={cn(
+                PRINCIPAL_HEADLINE_CLASSNAME,
+                'mt-[calc(1.25rem-15px)] text-[#cda03b]',
+                tastemakersWallHeadlineScale,
+                'text-right md:absolute md:right-0 md:top-[calc(8.5rem-15px)] md:mt-0 lg:top-[calc(9rem-15px)]',
+              )}
+            >
               Tastemakers
             </h2>
           </motion.div>
         </FoldReveal>
 
-        <FoldReveal delay={0.1} className="mt-40 md:mt-auto">
+        <FoldReveal delay={0.1} className="mt-[calc(7rem-1.25rem)] md:mt-auto">
           <motion.div
             style={{ y: mobileLayout ? 0 : railY }}
-            className="relative left-1/2 flex w-[calc(100vw+6rem)] -translate-x-1/2 items-end overflow-visible pb-0 pl-[8vw] md:w-[calc(100vw+10rem)] md:pl-[14vw]"
+            className={cn(
+              'relative left-1/2 flex w-[calc(100vw+6rem)] -translate-x-1/2 items-end overflow-visible pb-0',
+              'max-md:px-[8vw]',
+              'md:w-[calc(100vw+10rem)] md:px-0 md:pl-[14vw]',
+            )}
           >
             {tastemakerArchiveCards.map((card) => (
               <motion.article
