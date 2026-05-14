@@ -236,14 +236,21 @@ export function CinematicStatement() {
           </motion.div>
 
           <FoldReveal delay={0.12} className="mt-[calc(1.5625rem+4.5px)] md:mt-20">
-            <motion.div style={{ y: stepsY }} className="flex flex-col gap-3 max-md:gap-[0.6rem] md:flex-row md:items-start md:gap-0">
+            <motion.div
+              style={{ y: stepsY }}
+              className="flex flex-col gap-3 max-md:gap-[calc(0.6rem+10px)] md:flex-row md:items-start md:gap-0"
+            >
               {processSteps.map((step, index) => (
                 <div key={step.number} className="contents">
                   <div className="max-w-[23rem] md:w-[30%]">
-                    <p className="text-xs tracking-[0.2em] text-[#dff2ec]/38 md:tracking-[0.28em]">{step.number}</p>
-                    <h3 className="mt-3 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] max-md:text-[1.48rem] md:mt-5">
-                      {mobileFeaturesStatic && step.mobileTitle ? step.mobileTitle : step.title}
-                    </h3>
+                    <div className="flex flex-col gap-[calc(0.5rem-1.5px)] md:gap-[calc(0.75rem-1.5px)]">
+                      <p className="text-xs leading-none tracking-[0.2em] text-[#dff2ec]/38 md:tracking-[0.28em]">
+                        {step.number}
+                      </p>
+                      <h3 className="mt-0 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] max-md:text-[1.48rem]">
+                        {mobileFeaturesStatic && step.mobileTitle ? step.mobileTitle : step.title}
+                      </h3>
+                    </div>
                     <p className="mt-2 text-sm font-normal leading-[1.45] text-[#dff2ec]/58 max-md:text-[0.8125rem] max-md:font-medium max-md:leading-[1.26] md:mt-5">
                       {mobileFeaturesStatic && step.mobileBody ? step.mobileBody : step.body}
                     </p>
