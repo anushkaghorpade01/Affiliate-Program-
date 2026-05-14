@@ -27,7 +27,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-[4] mx-auto flex w-full max-w-lg flex-col items-center text-center md:hidden">
-        <div className="mb-5 flex h-10 w-full max-w-xl items-center justify-between gap-3 self-stretch">
+        <div className="mb-[calc(1.25rem+18px)] flex h-10 w-full max-w-xl items-center justify-between gap-3 self-stretch">
           <a
             href="https://www.flent.in"
             target="_blank"
