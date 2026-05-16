@@ -1,4 +1,4 @@
-import { handleSubmitApplicationRequest } from '../server/hubspotApplication'
+import { handleSubmitApplicationRequest } from './_hubspotApplication'
 
 /**
  * Vercel Serverless Function: POST JSON tastemaker application → HubSpot contact upsert.
