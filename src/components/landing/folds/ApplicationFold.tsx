@@ -5,6 +5,7 @@ import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHead
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT,
 } from '@/components/landing/principalSupportingMobileTypography'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
@@ -118,6 +119,7 @@ export function ApplicationFold() {
             className={cn(
               'font-sans text-[#dff2ec]/75',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+              PRINCIPAL_SUPPORT_WEB_BODY_FONT,
             )}
           >
             Taste &gt; following.

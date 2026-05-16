@@ -5,6 +5,7 @@ import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHead
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
 } from '@/components/landing/principalSupportingMobileTypography'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
@@ -223,7 +224,8 @@ export function CinematicStatement() {
                   'font-sans text-[#dff2ec]/68',
                   'leading-[1.35]',
                   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-                  'md:text-[calc(0.9375rem+1.5px)] md:leading-[1.4] md:tracking-[0.012em]',
+                  PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
+                  'md:leading-[1.4] md:tracking-[0.012em]',
                 )}
               >
                 Start earning from day one.

@@ -6,6 +6,7 @@ import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHead
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT,
 } from '@/components/landing/principalSupportingMobileTypography'
 import type { TrackItem } from '@/components/landing/types'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
@@ -211,7 +212,7 @@ export function InteractiveTracks() {
   return (
     <section
       ref={ref}
-      className="relative -mt-4 overflow-hidden px-6 pb-[calc(9rem-84px)] pt-[calc(4rem-17px)] max-md:overflow-x-visible max-md:overflow-y-hidden md:overflow-hidden md:px-12 md:pb-56 md:pt-[calc(5rem-17px)]"
+      className="relative -mt-4 overflow-hidden px-6 pb-[calc(9rem-84px)] pt-[calc(4rem-17px)] max-md:overflow-x-visible max-md:overflow-y-hidden md:overflow-hidden md:px-12 md:pb-28 md:pt-[calc(5rem-17px)]"
     >
       <motion.div
         style={{ y: bgY }}
@@ -239,6 +240,7 @@ export function InteractiveTracks() {
               className={cn(
                 'max-w-4xl text-left font-sans text-[#E8F5F0]/82',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                PRINCIPAL_SUPPORT_WEB_BODY_FONT,
                 'px-0',
               )}
             >
@@ -276,7 +278,7 @@ export function InteractiveTracks() {
           </motion.div>
         </FoldReveal>
 
-        <div className="mt-10 flex justify-end md:hidden">
+        <div className="mt-10 flex justify-end md:mt-14">
           <a
             href="#apply"
             aria-label="Jump to tastemaker application form"

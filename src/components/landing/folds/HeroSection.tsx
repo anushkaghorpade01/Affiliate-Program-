@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
-import { PRINCIPAL_SUPPORT_MOBILE_COMBINED } from '@/components/landing/principalSupportingMobileTypography'
+import { PRINCIPAL_SUPPORT_MOBILE_COMBINED, PRINCIPAL_SUPPORT_WEB_BODY_FONT } from '@/components/landing/principalSupportingMobileTypography'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 import { HeroMobileShare } from '@/components/landing/shared/HeroMobileShare'
 import { cn } from '@/lib/utils'
@@ -124,16 +124,24 @@ export function HeroSection() {
             <span className="block">Your influence is real.</span>
             <span className="block">Now it’s rewarding too.</span>
           </h1>
-          <p className={cn('font-sans text-[#dff2ec]/80', PRINCIPAL_SUPPORT_MOBILE_COMBINED)}>
+          <p
+            className={cn(
+              'font-sans text-[#dff2ec]/80',
+              PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+              PRINCIPAL_SUPPORT_WEB_BODY_FONT,
+            )}
+          >
             Get access to up to <span className={heroGoldAmountClass}>₹ 1 lakh</span> of Bangalore&apos;s best.
           </p>
-          <a
-            href="#apply"
-            aria-label="Jump to tastemaker application form"
-            className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-12 py-3 text-base font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
-          >
-            Apply now
-          </a>
+          <div className="pt-[53px]">
+            <a
+              href="#apply"
+              aria-label="Jump to tastemaker application form"
+              className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-12 py-3 text-base font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
+            >
+              Apply now
+            </a>
+          </div>
         </div>
 
         <div className="relative mt-10 flex w-full min-w-0 justify-center lg:mt-0 lg:items-center">

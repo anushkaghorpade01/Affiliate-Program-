@@ -4,6 +4,7 @@ import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHead
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT,
 } from '@/components/landing/principalSupportingMobileTypography'
 import {
   cinematicScrollSpring,
@@ -471,6 +472,7 @@ export function SocialProofWall() {
               className={cn(
                 'mx-auto text-balance px-1 text-center font-sans font-normal text-[#003328]/58',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                PRINCIPAL_SUPPORT_WEB_BODY_FONT,
                 '!mt-4',
               )}
             >
@@ -532,6 +534,7 @@ export function SocialProofWall() {
               className={cn(
                 'mx-auto text-balance px-1 text-center font-sans font-normal text-[#003328]/58',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                PRINCIPAL_SUPPORT_WEB_BODY_FONT,
                 '!mt-4',
               )}
             >
