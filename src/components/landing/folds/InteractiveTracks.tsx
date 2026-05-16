@@ -211,7 +211,7 @@ export function InteractiveTracks() {
   return (
     <section
       ref={ref}
-      className="relative -mt-4 overflow-x-visible overflow-y-hidden px-6 pb-[calc(9rem-84px)] pt-[calc(4rem-17px)] max-md:overflow-x-visible md:overflow-hidden md:px-12 md:pb-56 md:pt-[calc(5rem-17px)]"
+      className="relative -mt-4 overflow-hidden px-6 pb-[calc(9rem-84px)] pt-[calc(4rem-17px)] max-md:overflow-x-visible max-md:overflow-y-hidden md:overflow-hidden md:px-12 md:pb-56 md:pt-[calc(5rem-17px)]"
     >
       <motion.div
         style={{ y: bgY }}
@@ -223,7 +223,7 @@ export function InteractiveTracks() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(232,245,240,0.04)_0%,transparent_55%)]"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-7xl max-md:overflow-x-visible md:overflow-x-hidden">
+      <div className="relative mx-auto max-w-7xl overflow-hidden max-md:overflow-x-visible max-md:overflow-y-hidden">
         <FoldReveal>
           <motion.div style={{ y: headingY }}>
             <h2
