@@ -28,7 +28,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative z-[3] h-[calc(56rem-80px)] scroll-mt-0 overflow-x-hidden px-6 pb-5 pt-5 max-md:z-[3] max-md:overflow-visible md:z-auto md:h-[calc(clamp(42rem,55.8vw,72rem)+4rem)] md:overflow-hidden md:px-12 md:pb-0 md:pt-16"
+      className="relative z-[3] h-[calc(56rem-80px)] scroll-mt-0 overflow-x-hidden px-6 pb-5 pt-5 max-md:z-[3] max-md:overflow-visible md:z-auto md:h-[calc(clamp(42rem,54vw,66rem)+1.25rem)] md:overflow-hidden md:px-12 md:pb-0 md:pt-16"
     >
       <div
         className="pointer-events-none absolute inset-x-0 -bottom-24 top-0 flex items-center justify-center max-md:z-0 max-md:[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_71%,transparent_100%)] max-md:[mask-image:linear-gradient(to_bottom,#000_0%,#000_71%,transparent_100%)] md:[-webkit-mask-image:none] md:[mask-image:none]"

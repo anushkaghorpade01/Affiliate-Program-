@@ -51,19 +51,28 @@ function normalizePublicPath(raw: string | undefined): string {
   return t.startsWith('/') ? t : `/${t}`
 }
 
-/** WhatsApp / Facebook need an absolute https `og:image`; relative URLs are often ignored (wrong on-page image is used). */
-function siteOriginForOg(env: Record<string, string>): string | undefined {
+/**
+ * WhatsApp / Facebook / LinkedIn need an absolute https `og:image`; relative URLs are often ignored.
+ * Merge `process.env` with `loadEnv()` — Vercel dashboard vars live in `process.env`, not `.env` files.
+ */
+function siteOriginForOg(env: Record<string, string | undefined>): string | undefined {
   const trimmed =
     env.VITE_SITE_ORIGIN?.trim().replace(/\/$/, '') ||
     env.SITE_URL?.trim().replace(/\/$/, '')
   if (trimmed) return trimmed
-  const vercel = process.env.VERCEL_URL?.trim()
+
+  const prod = env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+  if (prod) {
+    return prod.startsWith('http') ? prod.replace(/\/$/, '') : `https://${prod.replace(/\/$/, '')}`
+  }
+
+  const vercel = env.VERCEL_URL?.trim()
   if (vercel) return `https://${vercel}`
   return undefined
 }
 
 function ogImageAbsoluteUrlPlugin(
-  env: Record<string, string>,
+  env: Record<string, string | undefined>,
   ogImagePath: string,
 ): Plugin {
   return {
@@ -72,6 +81,12 @@ function ogImageAbsoluteUrlPlugin(
       const origin = siteOriginForOg(env)
       const path = ogImagePath
       const imageUrl = origin ? `${origin}${path}` : path
+      if (!origin) {
+        console.warn(
+          '[vite] og:image has no site origin — using a relative path. Social crawlers usually require an absolute https URL.\n' +
+            '  Set VITE_SITE_ORIGIN (e.g. https://www.flent.in) in .env.production or Vercel env, or rely on VERCEL_URL during the Vercel build.',
+        )
+      }
       return html.split('__OG_IMAGE_URL__').join(imageUrl)
     },
   }
@@ -79,7 +94,9 @@ function ogImageAbsoluteUrlPlugin(
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const envFromFiles = loadEnv(mode, process.cwd(), '')
+  /** Vercel / CI inject vars into `process.env`; `loadEnv` only reads `.env*` files. */
+  const env: Record<string, string | undefined> = { ...envFromFiles, ...process.env }
   const ogImagePath = normalizePublicPath(env.VITE_OG_IMAGE)
 
   return {

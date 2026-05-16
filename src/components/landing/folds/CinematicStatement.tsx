@@ -257,12 +257,14 @@ export function CinematicStatement() {
             </motion.div>
           </FoldReveal>
 
-          <FoldReveal delay={0.16} staticOnMobile className="mt-14 max-md:overflow-x-visible md:mt-28">
-            <h2 className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'mb-6 text-left text-[#dff2ec] md:mb-8')}>
-              We make it easy for
-              <br />
-              you to win.
-            </h2>
+          <div className="mt-14 max-md:overflow-x-visible md:mt-28">
+            <FoldReveal delay={0.16} staticOnMobile>
+              <h2 className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'mb-6 text-left text-[#dff2ec] md:mb-8')}>
+                We make it easy for
+                <br />
+                you to win.
+              </h2>
+            </FoldReveal>
             <div className="md:hidden">
               <MobileSnapCarousel
                 tone="mist"
@@ -294,7 +296,7 @@ export function CinematicStatement() {
                 />
               ))}
             </motion.div>
-          </FoldReveal>
+          </div>
         </div>
       </section>
       <StartApplicationFloatingCta cinematicSectionRef={ref} />
