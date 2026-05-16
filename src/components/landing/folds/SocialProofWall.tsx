@@ -16,25 +16,42 @@ import { cn } from '@/lib/utils'
 /**
  * Horizontal scroll gallery. See `/guide.md` for the full system.
  *
- * - Gallery is a 20×20 grid; place each image with `col` / `row` ranges.
- * - Range end is exclusive (CSS grid line semantics): `[2, 8]` spans cols 2..7.
- * - Images must not overlap and should leave ≥1 empty track between edges.
+ * - **Desktop (md+)**: 20×20 grid — place each image with `col` / `row` (end exclusive). Fold-2 web view
+ *   uses the original **5-image** collage (Deepankar, postcard, Striver, Fairmont, tote); Kritika and Garv
+ *   are omitted on desktop via `hideOnDesktop`. Mobile layout is unchanged.
+ * - **Mobile**: 28×20 grid — use `mobileCol` / `mobileRow` (end exclusive). Column tracks use
+ *   `minmax(3.5rem, 1fr)`; gap is tighter than desktop so more width goes to tracks.
+ * - Images must not overlap; desktop placements keep breathing room per guide — mobile may sit flush on shared grid lines.
  *
- * Flip `DEBUG_GRID` to `true` to overlay the 400 cells with `col,row` labels
- * (per the guide's "Debug Mode") for picking placements, then flip back.
+ * **Grid overlay** (dashed cells + `col,row` labels): off by default; set `DEBUG_GRID` to `true`
+ * locally for placement work (see `/guide.md`). Mobile uses 28 columns, desktop 20.
  */
 const GRID_COLUMNS = 20
 const MOBILE_GRID_COLUMNS = 28
 const GRID_ROWS = 20
 const DEBUG_GRID = false
 
+/** Uniform scale for all collage tiles — preserves grid topology; scroll range uses scaled width (transform does not affect `scrollWidth`). */
+const COLLAGE_VISUAL_SCALE = 1.02
+
+/** Max width/height of each bitmap vs. its grid cell — shrinks painted area without clipping or changing grid lines. */
+const COLLAGE_IMAGE_MAX_PERCENT = 92
+
+/** Minimum track width on narrow viewports keeps collage tiles legible (more horizontal scroll, less tiny postage stamps). */
+const MOBILE_COL_MIN = '3.5rem'
+
 const GRID_TEMPLATE_STYLE = {
   gridTemplateRows: `repeat(${GRID_ROWS}, minmax(0, 1fr))`,
 } satisfies CSSProperties
 
-const GRID_COLUMN_CLASSES = `[grid-template-columns:repeat(${MOBILE_GRID_COLUMNS},minmax(0,1fr))] md:[grid-template-columns:repeat(${GRID_COLUMNS},minmax(0,1fr))]`
+/** Mobile: fixed ~28 columns with a floor on track size. Desktop: unchanged 20×20 `1fr` tracks. */
+const GRID_COLUMN_CLASSES = `[grid-template-columns:repeat(${MOBILE_GRID_COLUMNS},minmax(${MOBILE_COL_MIN},1fr))] md:[grid-template-columns:repeat(${GRID_COLUMNS},minmax(0,1fr))]`
 
-const GRID_GAP_CLASSES = 'gap-x-1.5 gap-y-1.5 md:gap-x-3 md:gap-y-3'
+/** Tighter gaps on mobile (more width to tracks, less visible gutter); md+ unchanged. */
+const GRID_GAP_CLASSES = 'gap-x-1 gap-y-1 md:gap-x-5 md:gap-y-5'
+
+/** Must match 28 × {@link MOBILE_COL_MIN} + 27 × mobile gap-x (`0.25rem` for `gap-1`). */
+const MOBILE_GALLERY_MIN_WIDTH = 'max-md:min-w-[calc(28*3.5rem+27*0.25rem)]'
 
 type GridRange = readonly [start: number, end: number]
 
@@ -43,23 +60,33 @@ type GalleryItem = {
   alt: string
   width: number
   height: number
+  /** Desktop 20×20 grid (ignored when `mobileOnly`). */
   col: GridRange
   row: GridRange
   mobileCol: GridRange
   mobileRow: GridRange
   href?: string
+  /** Hide on `md+` — still provide `col`/`row` for typing; unused in layout. */
+  mobileOnly?: boolean
+  /** Omitted from desktop grid (fold-2 “5 tiles” web layout); still shown on mobile. */
+  hideOnDesktop?: boolean
 }
 
+/**
+ * Mobile (**28×20**): asymmetric collage rects — disjoint cells, organic rhythm; grid overlay in dev only.
+ * Placement lives on the **plain `div` grid child** so layout isn’t swallowed by Framer Motion.
+ */
 const galleryItems: GalleryItem[] = [
   {
     src: '/social-proof/deepankar-tweet.png',
     alt: 'Social post about a house in Indiranagar',
     width: 1024,
     height: 806,
+    /** Desktop: original 5-up fold-2 grid (`2228ff2`); mobile placements unchanged below. */
     col: [2, 6],
     row: [2, 15],
-    mobileCol: [2, 13],
-    mobileRow: [3, 11],
+    mobileCol: [1, 6],
+    mobileRow: [1, 8],
   },
   {
     src: '/social-proof/flent-postcard.png',
@@ -68,8 +95,8 @@ const galleryItems: GalleryItem[] = [
     height: 683,
     col: [7, 9],
     row: [5, 21],
-    mobileCol: [9, 20],
-    mobileRow: [12, 20],
+    mobileCol: [3, 12],
+    mobileRow: [8, 15],
     href: 'https://www.instagram.com/p/DVizDjukR3s/',
   },
   {
@@ -79,8 +106,8 @@ const galleryItems: GalleryItem[] = [
     height: 600,
     col: [10, 14],
     row: [1, 13],
-    mobileCol: [13, 22],
-    mobileRow: [2, 9],
+    mobileCol: [7, 14],
+    mobileRow: [1, 7],
   },
   {
     src: '/social-proof/fairmont-card.png',
@@ -89,8 +116,8 @@ const galleryItems: GalleryItem[] = [
     height: 576,
     col: [15, 17],
     row: [8, 21],
-    mobileCol: [18, 29],
-    mobileRow: [14, 22],
+    mobileCol: [13, 18],
+    mobileRow: [8, 14],
     href: 'https://www.instagram.com/reel/DXlc4OGkqdy/?igsh=MXBwYnBnaWllYzVpeA==',
   },
   {
@@ -98,10 +125,81 @@ const galleryItems: GalleryItem[] = [
     alt: 'Flent tote bag held indoors',
     width: 1024,
     height: 576,
+    col: [17, 21],
+    row: [4, 14],
+    mobileCol: [11, 18],
+    mobileRow: [15, 23],
+  },
+  {
+    src: '/social-proof/tweet-kritika-kumari.png',
+    alt: 'Kritika on X praises Flent home design',
+    width: 1024,
+    height: 1200,
+    col: [1, 11],
+    row: [15, 22],
+    mobileCol: [1, 11],
+    mobileRow: [15, 22],
+    hideOnDesktop: true,
+  },
+  {
+    src: '/social-proof/tweet-garv-malik.png',
+    alt: 'Garv Malik post on flats and Flent interiors',
+    width: 1024,
+    height: 1200,
     col: [18, 21],
-    row: [4, 13],
-    mobileCol: [23, 29],
-    mobileRow: [4, 12],
+    row: [1, 8],
+    /** Mobile: +1 col each side; Striver shortened to [7,14); Supratik → [24,29). */
+    mobileCol: [14, 24],
+    mobileRow: [1, 7],
+    hideOnDesktop: true,
+  },
+  {
+    src: '/social-proof/tweet-prakash-mardi.png',
+    alt: 'Prakash Mardi recommends Flent on X',
+    width: 1024,
+    height: 900,
+    col: [1, 2],
+    row: [1, 2],
+    /** +2 cols right; left of Supratik (col 24). Up 1 row vs Garv mobile [1,7]. */
+    mobileCol: [19, 23],
+    mobileRow: [7, 13],
+    mobileOnly: true,
+  },
+  {
+    src: '/social-proof/tweet-kaashvi-saxena.png',
+    alt: 'Kaashvi Saxena post on brokerage-free Bengaluru rentals',
+    width: 1024,
+    height: 900,
+    col: [1, 2],
+    row: [1, 2],
+    /** Nudged +1 col right; end line 29 (28-col grid cap). */
+    mobileCol: [25, 29],
+    mobileRow: [15, 21],
+    mobileOnly: true,
+  },
+  {
+    src: '/social-proof/tweet-anurag-mundhada.png',
+    alt: 'Anurag Mundhada on X praises Flent homes and penthouse',
+    width: 1024,
+    height: 1200,
+    col: [1, 2],
+    row: [1, 2],
+    /** Starts col 18 (after Fairmont 13/18); translate ≈ +1.5 col. +1 row span at bottom. */
+    mobileCol: [18, 23],
+    mobileRow: [14, 23],
+    mobileOnly: true,
+  },
+  {
+    src: '/social-proof/tweet-supratik-das.png',
+    alt: 'Supratik Das on X praises Flent for the best homes in Bangalore',
+    width: 1024,
+    height: 900,
+    col: [1, 2],
+    row: [1, 2],
+    /** Mobile: shifted +1 col (clears Garv [14,24]); stacks with Kaashvi cols, disjoint rows. */
+    mobileCol: [24, 29],
+    mobileRow: [5, 10],
+    mobileOnly: true,
   },
 ]
 
@@ -112,50 +210,76 @@ type EditorialFrameProps = {
   height?: number
   href?: string
   className?: string
-  style?: CSSProperties
-}
-
-type GalleryPlacementStyle = CSSProperties & {
-  '--mobile-col': string
-  '--mobile-row': string
-  '--desktop-col': string
-  '--desktop-row': string
+  /** Fold-2 mobile: no tilt / hover lift — content stays clipped to the tile. */
+  staticVisual?: boolean
 }
 
 /**
- * Debug overlay — renders every cell of the 20×20 grid with its `col,row`
- * coordinate. Sits inside the panning container so it tracks the gallery.
+ * Debug overlays — labelled `col,row`; match desktop 20 cols vs mobile 28 cols.
  */
 function GridDebugOverlay() {
-  const cells: ReactNode[] = []
+  const mobileCells: ReactNode[] = []
   for (let row = 1; row <= GRID_ROWS; row++) {
-    for (let col = 1; col <= GRID_COLUMNS; col++) {
-      cells.push(
+    for (let col = 1; col <= MOBILE_GRID_COLUMNS; col++) {
+      mobileCells.push(
         <div
-          key={`${col},${row}`}
-          style={{ gridColumn: col, gridRow: row }}
-          className={cn(
-            'flex items-center justify-center border border-dashed border-[#003328]/30 bg-[#003328]/[0.02] font-mono text-[9px] leading-none text-[#003328]/65 md:text-[10px]',
-            col > GRID_COLUMNS ? 'md:hidden' : '',
-          )}
+          key={`m-${col},${row}`}
+          style={{ gridColumn: `${col} / ${col + 1}`, gridRow: `${row} / ${row + 1}` }}
+          className="flex items-center justify-center border border-dashed border-[#003328]/30 bg-[#003328]/[0.02] font-mono text-[9px] leading-none text-[#003328]/65"
         >
           {col},{row}
         </div>,
       )
     }
   }
+
+  const desktopCells: ReactNode[] = []
+  for (let row = 1; row <= GRID_ROWS; row++) {
+    for (let col = 1; col <= GRID_COLUMNS; col++) {
+      desktopCells.push(
+        <div
+          key={`d-${col},${row}`}
+          style={{ gridColumn: `${col} / ${col + 1}`, gridRow: `${row} / ${row + 1}` }}
+          className="flex items-center justify-center border border-dashed border-[#003328]/30 bg-[#003328]/[0.02] font-mono text-[9px] leading-none text-[#003328]/65 md:text-[10px]"
+        >
+          {col},{row}
+        </div>,
+      )
+    }
+  }
+
+  const mobileColsClass = `[grid-template-columns:repeat(${MOBILE_GRID_COLUMNS},minmax(${MOBILE_COL_MIN},1fr))]`
+  const desktopColsClass = `[grid-template-columns:repeat(${GRID_COLUMNS},minmax(0,1fr))]`
+
   return (
-    <div
-      aria-hidden
-      style={GRID_TEMPLATE_STYLE}
-      className={cn('pointer-events-none absolute inset-0 z-10 grid', GRID_COLUMN_CLASSES, GRID_GAP_CLASSES)}
-    >
-      {cells}
-    </div>
+    <>
+      <div
+        aria-hidden
+        style={GRID_TEMPLATE_STYLE}
+        className={cn(
+          'pointer-events-none absolute inset-0 z-10 grid md:hidden',
+          mobileColsClass,
+          GRID_GAP_CLASSES,
+        )}
+      >
+        {mobileCells}
+      </div>
+      <div
+        aria-hidden
+        style={GRID_TEMPLATE_STYLE}
+        className={cn(
+          'pointer-events-none absolute inset-0 z-10 hidden md:grid',
+          desktopColsClass,
+          GRID_GAP_CLASSES,
+        )}
+      >
+        {desktopCells}
+      </div>
+    </>
   )
 }
 
-function EditorialFrame({ src, alt, width, height, href, className, style }: EditorialFrameProps) {
+function EditorialFrame({ src, alt, width, height, href, className, staticVisual }: EditorialFrameProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState('rotateX(0deg) rotateY(0deg) translateZ(0px)')
 
@@ -163,6 +287,7 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
     <motion.div
       ref={ref}
       onMouseMove={(event) => {
+        if (staticVisual) return
         const rect = ref.current?.getBoundingClientRect()
         if (!rect) return
         const x = (event.clientX - rect.left) / rect.width
@@ -171,37 +296,49 @@ function EditorialFrame({ src, alt, width, height, href, className, style }: Edi
         const rotateX = (0.5 - y) * 4
         setTilt(`rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(2px)`)
       }}
-      onMouseLeave={() => setTilt('rotateX(0deg) rotateY(0deg) translateZ(0px)')}
-      style={{ transform: tilt, transformStyle: 'preserve-3d', ...style }}
-      whileHover={{ y: -4 }}
+      onMouseLeave={() => {
+        if (!staticVisual) setTilt('rotateX(0deg) rotateY(0deg) translateZ(0px)')
+      }}
+      style={
+        staticVisual
+          ? undefined
+          : ({ transform: tilt, transformStyle: 'preserve-3d' } satisfies CSSProperties)
+      }
+      whileHover={staticVisual ? undefined : { y: -4 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
       className={cn(
-        'group relative min-h-0 min-w-0 overflow-visible [perspective:900px]',
+        'group relative flex h-full w-full min-h-0 min-w-0 items-center justify-start',
+        staticVisual
+          ? 'overflow-visible'
+          : 'overflow-visible md:[perspective:900px]',
         className,
       )}
     >
-      <div className="relative z-[1] flex h-full w-full min-h-0 min-w-0 items-center justify-center md:block">
-        <div className="relative inline-block h-full max-w-full overflow-hidden rounded-xl md:block md:w-full">
-          <img
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            className="block h-full w-auto max-w-full min-w-0 object-contain md:w-full"
-          />
-        </div>
-      </div>
-      {href ? (
-        <>
+      <span className="relative flex h-full w-full min-h-0 min-w-0 items-center justify-start">
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          style={{
+            maxWidth: `${COLLAGE_IMAGE_MAX_PERCENT}%`,
+            maxHeight: `${COLLAGE_IMAGE_MAX_PERCENT}%`,
+          }}
+          className="pointer-events-none block h-auto w-auto rounded-[1.05rem] object-contain object-left select-none"
+        />
+        {href ? (
           <a
             href={href}
             target="_blank"
             rel="noreferrer"
             aria-label={`Open ${alt}`}
-            className="absolute inset-0 z-[2] cursor-pointer"
+            className="absolute inset-0 z-[2] cursor-pointer rounded-[1.05rem]"
           />
-        </>
-      ) : null}
+        ) : null}
+      </span>
     </motion.div>
   )
 }
@@ -219,12 +356,16 @@ export function SocialProofWall() {
   const [scrollOffset, setScrollOffset] = useState<
     typeof FOLD2_SCROLL_OFFSET_DESKTOP | typeof FOLD2_SCROLL_OFFSET_MOBILE
   >(FOLD2_SCROLL_OFFSET_DESKTOP)
+  const [galleryLayoutIsMobile, setGalleryLayoutIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
+  )
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
     const sync = () => {
       const mobile = mq.matches
       setScrollSpring(mobile ? cinematicScrollSpringMobile : cinematicScrollSpring)
       setScrollOffset(mobile ? FOLD2_SCROLL_OFFSET_MOBILE : FOLD2_SCROLL_OFFSET_DESKTOP)
+      setGalleryLayoutIsMobile(mobile)
     }
     sync()
     mq.addEventListener('change', sync)
@@ -238,9 +379,9 @@ export function SocialProofWall() {
   const bgY = useTransform(smooth, [0, 1], [factor * 22, factor * -22])
   const grainY = useTransform(smooth, [0, 1], [factor * -12, factor * 12])
 
-  // Vertical scroll progress drives a horizontal translation that exactly
-  // covers `galleryWidth − viewportWidth`, so the gallery's right edge
-  // lands flush at scroll progress 1 across every breakpoint.
+  // Vertical scroll progress drives a horizontal translation so the gallery's
+  // right edge lands flush at scroll progress 1. Extent uses scaled visual width
+  // (see COLLAGE_VISUAL_SCALE) because transform scale does not change scrollWidth.
   const [maxScroll, setMaxScroll] = useState(0)
   useEffect(() => {
     const galleryEl = galleryRef.current
@@ -248,7 +389,9 @@ export function SocialProofWall() {
     if (!galleryEl || !viewportEl) return
 
     const update = () => {
-      setMaxScroll(Math.max(galleryEl.scrollWidth - viewportEl.clientWidth, 0))
+      const logicalWidth = galleryEl.scrollWidth
+      const visualWidth = logicalWidth * COLLAGE_VISUAL_SCALE
+      setMaxScroll(Math.max(visualWidth - viewportEl.clientWidth, 0))
     }
     update()
 
@@ -282,56 +425,71 @@ export function SocialProofWall() {
                 PRINCIPAL_HEADLINE_CLASSNAME,
               )}
             >
-              <span className="max-md:hidden">The word on the street.</span>
-              <span className="block md:hidden">People already talk about us.</span>
+              <span className="block">Our homes rent themselves.</span>
             </h2>
           </FoldReveal>
           <p
             className={cn(
-              'mx-auto px-1 text-center font-sans font-normal text-[#003328]/58 max-md:text-balance md:text-balance',
+              'mx-auto text-balance px-1 text-center font-sans font-normal text-[#003328]/58',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-              'md:mt-5 md:max-w-[22rem] md:text-[calc(0.875rem+1.5px)] md:leading-[1.14] md:tracking-[0.018em]',
             )}
           >
-            <span className="md:hidden">Be one of them. Get rewarded for it.</span>
-            <span className="hidden md:block">
-              Reshares, reposts, tags, threads,
-              <br />
-              mentions, conversations.
-              <br />
-              The little internet things
-              <br />
-              that move Flent around.
-            </span>
+            We&apos;re a hot topic waiting for you to pick up.
           </p>
 
           <div className="relative mt-8 min-h-0 flex-1 overflow-visible md:mt-14">
             <motion.div
               ref={galleryRef}
-              style={{ x: collageX, ...GRID_TEMPLATE_STYLE }}
+              style={{
+                x: collageX,
+                scale: COLLAGE_VISUAL_SCALE,
+                transformOrigin: '0 0',
+                ...GRID_TEMPLATE_STYLE,
+              }}
               className={cn(
-                'relative grid h-full min-h-0 w-[235vw] min-w-[82rem] md:w-[170vw]',
+                'relative grid h-full min-h-0 w-[265vw] md:w-[170vw] md:min-w-[82rem]',
+                MOBILE_GALLERY_MIN_WIDTH,
                 GRID_COLUMN_CLASSES,
                 GRID_GAP_CLASSES,
               )}
             >
-              {galleryItems.map((item) => (
-                <EditorialFrame
-                  key={item.alt}
-                  src={item.src}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                  href={item.href}
-                  className="[grid-column:var(--mobile-col)] [grid-row:var(--mobile-row)] md:[grid-column:var(--desktop-col)] md:[grid-row:var(--desktop-row)]"
-                  style={{
-                    '--mobile-col': `${item.mobileCol[0]} / ${item.mobileCol[1]}`,
-                    '--mobile-row': `${item.mobileRow[0]} / ${item.mobileRow[1]}`,
-                    '--desktop-col': `${item.col[0]} / ${item.col[1]}`,
-                    '--desktop-row': `${item.row[0]} / ${item.row[1]}`,
-                  } as GalleryPlacementStyle}
-                />
-              ))}
+              {galleryItems.map((item) => {
+                const useMobileGrid = galleryLayoutIsMobile
+                const gridColumn = useMobileGrid
+                  ? `${item.mobileCol[0]} / ${item.mobileCol[1]}`
+                  : `${item.col[0]} / ${item.col[1]}`
+                const gridRow = useMobileGrid
+                  ? `${item.mobileRow[0]} / ${item.mobileRow[1]}`
+                  : `${item.row[0]} / ${item.row[1]}`
+
+                return (
+                  <div
+                    key={item.src}
+                    style={{ gridColumn, gridRow }}
+                    className={cn(
+                      'min-h-0 min-w-0',
+                      item.mobileOnly && 'md:hidden',
+                      item.hideOnDesktop && 'md:hidden',
+                      item.src === '/social-proof/tweet-anurag-mundhada.png' &&
+                        'translate-x-[calc(100%*3/10)]',
+                    )}
+                  >
+                    <EditorialFrame
+                      src={item.src}
+                      alt={item.alt}
+                      width={item.width}
+                      height={item.height}
+                      href={item.href}
+                      staticVisual={galleryLayoutIsMobile}
+                      className={
+                        item.src === '/social-proof/tweet-kritika-kumari.png'
+                          ? '[&_img]:[object-position:left_top]'
+                          : undefined
+                      }
+                    />
+                  </div>
+                )
+              })}
               {DEBUG_GRID ? <GridDebugOverlay /> : null}
             </motion.div>
           </div>

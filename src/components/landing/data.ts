@@ -21,7 +21,8 @@ export const trackItems: TrackItem[] = [
     title: 'The Connector',
     copy: 'Hosts circles, moves communities, turns recommendations into gatherings.',
     mobileCopy:
-      'Knows the city like no one else does. When someone is looking for a place to live, this is the person they call first.',
+      "Knows the city like no one else does. When someone is looking for a place to live, you're the person they call first.",
+    rewardStat: '30K',
     image: {
       src: '/tracks/connector.png',
       alt: 'The Connector tastemaker tile',
@@ -31,7 +32,8 @@ export const trackItems: TrackItem[] = [
     title: 'The Creator',
     copy: 'Shapes moodboards, stories, and visual taste language for homes.',
     mobileCopy:
-      'Turns taste into content. What they post, shoot, and share becomes a reference point for someone else.',
+      'Turns taste into content. What you post, shoot, and share becomes a reference point for everyone else.',
+    rewardStat: '20K',
     image: {
       src: '/tracks/creator.png',
       alt: 'The Creator tastemaker tile',
@@ -41,7 +43,7 @@ export const trackItems: TrackItem[] = [
     title: 'The Insider',
     copy: 'Knows the city, the corners, the upcoming places before everyone.',
     mobileCopy:
-      "Always in the conversation. Engages, reposts, and keeps things moving through every circle they're in.",
+      'Always in the conversation. You engage, repost, and keep the circle moving no matter where you are.',
     image: {
       src: '/tracks/insider.png',
       alt: 'The Insider tastemaker tile',

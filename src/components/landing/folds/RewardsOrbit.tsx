@@ -144,7 +144,7 @@ export function RewardsOrbit() {
         aria-hidden
       />
 
-      <FoldReveal className="relative z-[2] mx-auto w-full max-w-[min(92vw,720px)] px-2 pb-0 pt-4 text-center max-md:mb-8 md:hidden">
+      <FoldReveal className="relative z-[2] mx-auto w-full max-w-[min(92vw,720px)] px-2 pb-0 pt-4 text-center max-md:mb-8 md:mb-[min(3vh,1.75rem)]">
         <motion.div style={{ y: introY }}>
           <h1
             className={cn(
@@ -153,17 +153,8 @@ export function RewardsOrbit() {
               PRINCIPAL_HEADLINE_CLASSNAME,
             )}
           >
-            <span className="block">Showing up has its own</span>
-            <span className="block">rewards</span>
+            <span className="block">Show up and take what you deserve.</span>
           </h1>
-        </motion.div>
-      </FoldReveal>
-
-      <FoldReveal className="absolute left-1/2 top-[min(11vh,6rem)] z-[1] hidden w-full max-w-[min(720px,calc(100vw-10vw))] -translate-x-1/2 text-center md:top-[min(11.5vh,6.75rem)] md:block md:max-w-[min(720px,50vw)]">
-        <motion.div style={{ y: introY }}>
-          <p className="text-[1.125rem] leading-[1.32] text-[#E8F5F0]/78 md:text-xl md:leading-[1.3]">
-            The more Flent moves through your circles, the more your world opens up with it.
-          </p>
         </motion.div>
       </FoldReveal>
 
@@ -366,19 +357,11 @@ export function RewardsOrbit() {
       >
         <motion.div style={{ y: unlockY }}>
           <h2 className="text-[#E8F5F0]">
-            <span className={cn('hidden md:block', PRINCIPAL_HEADLINE_CLASSNAME)}>
-              What showing up unlocks.
-            </span>
-            <span className="flex flex-col items-center gap-0 font-sans text-[calc(0.875rem+1.5px)] font-normal leading-[calc(1.38em-4.25px)] tracking-[0.01em] text-[#E8F5F0] md:hidden">
-              <span className="block">Just a few.</span>
-              <span className="block">The full list unlocks when you join.</span>
+            <span className="flex flex-col items-center gap-0 font-sans text-[calc(0.875rem+1.5px)] font-normal leading-[calc(1.38em-4.25px)] tracking-[0.01em] text-[#E8F5F0]">
+              <span className="block">Apply Now.</span>
+              <span className="block">Unlock the full catalogue.</span>
             </span>
           </h2>
-          <p className="mx-auto hidden max-w-md font-sans text-[calc(0.875rem+1.5px)] leading-[calc(1.18em-4.25px)] text-[#E8F5F0]/90 md:mt-[min(6.5vh,2.75rem)] md:block md:text-[calc(1rem+1.5px)] md:leading-[calc(1.15em-4.25px)]">
-            Full Catalog
-            <br />
-            Unlocks on joining
-          </p>
         </motion.div>
       </FoldReveal>
     </section>

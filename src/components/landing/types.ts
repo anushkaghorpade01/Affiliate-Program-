@@ -12,4 +12,6 @@ export type TrackItem = {
     src: string
     alt: string
   }
+  /** Shown after ₹ on fold 4 track cards (mobile + desktop flip back). */
+  rewardStat?: string
 }

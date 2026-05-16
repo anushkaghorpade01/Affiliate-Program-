@@ -1,16 +1,30 @@
+import { motion, useReducedMotion } from 'framer-motion'
 import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
 import { PRINCIPAL_SUPPORT_MOBILE_COMBINED } from '@/components/landing/principalSupportingMobileTypography'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 import { HeroMobileShare } from '@/components/landing/shared/HeroMobileShare'
 import { cn } from '@/lib/utils'
 
+/** Same easing/duration as `FloatingKey` inner motion; ~40% y / ~40° rotate amplitude for subtler captions. */
+const MOBILE_HERO_CAPTION_FLOAT = {
+  transition: { duration: 10, repeat: Infinity, ease: 'easeInOut' as const },
+  animate: { y: [-2.5, 2.5, -2.5], rotate: [-1, 1, -1] },
+}
+
 const captionGold = 'text-[#d4b878]/96'
+
+/** Hero supporting line — rupee + amount share gold accent; slightly heavier for legibility across fonts. */
+const heroGoldAmountClass = cn(captionGold, 'font-semibold')
 
 /** Mobile hero only — compact pill / small label (desktop uses its own CTA classes). */
 const mobileApplyClasses =
   'inline-flex items-center justify-center rounded-full bg-[#d4a754] px-[calc(2rem+2px)] py-[calc(9px+1px)] font-sans text-[calc(14px+1px)] font-semibold tracking-[0.02em] text-white shadow-[0_8px_24px_rgba(212,167,84,0.35),inset_0_1px_0_rgba(255,255,255,0.32)] brightness-105 contrast-[1.03] transition-[transform,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:brightness-110 hover:shadow-[0_11px_30px_rgba(212,167,84,0.42),inset_0_1px_0_rgba(255,255,255,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4a754]/40'
 
 export function HeroSection() {
+  const reduceMotion = useReducedMotion()
+  const captionAnimate = reduceMotion ? undefined : MOBILE_HERO_CAPTION_FLOAT.animate
+  const captionTransition = reduceMotion ? undefined : MOBILE_HERO_CAPTION_FLOAT.transition
+
   return (
     <section
       id="home"
@@ -55,7 +69,7 @@ export function HeroSection() {
         </h1>
 
         <p className={cn('font-sans text-white/92', PRINCIPAL_SUPPORT_MOBILE_COMBINED)}>
-          Your recommendations can earn you up to ₹1 lakh.
+          Get access to up to <span className={heroGoldAmountClass}>₹ 1 lakh</span> of Bangalore&apos;s best.
         </p>
 
         <div className="mt-[calc(2rem-7.5px)]">
@@ -69,25 +83,29 @@ export function HeroSection() {
         </div>
 
         <div className="relative mx-auto mt-12 h-[min(58svh,24.5rem)] w-full max-w-[min(92vw,21.5rem)]">
-          <p
-            className={`pointer-events-none absolute left-[12%] top-[33%] z-[2] max-w-[7.8rem] text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+          <motion.p
+            className={`pointer-events-none absolute left-[12%] top-[33%] z-[2] max-w-[7.8rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+            animate={captionAnimate}
+            transition={captionTransition}
           >
             Flent&apos;s search for
             <br />
             <span className="font-sans italic">Tastemakers</span>
-          </p>
+          </motion.p>
 
           <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center pt-[4%] select-none">
             <FloatingKey className="relative h-[min(105vw,68rem)] w-[min(75vw,40rem)] -rotate-[4deg]" />
           </div>
 
-          <p
-            className={`pointer-events-none absolute left-[68%] top-[60%] z-[2] max-w-[6.4rem] text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+          <motion.p
+            className={`pointer-events-none absolute left-[68%] top-[60%] z-[2] max-w-[6.4rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+            animate={captionAnimate}
+            transition={captionTransition}
           >
             Limited spots
             <br />
             available
-          </p>
+          </motion.p>
         </div>
       </div>
 
@@ -116,14 +134,12 @@ export function HeroSection() {
             <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-32" />
           </a>
           <br />
-          <h1 className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'text-[#E8F5F0]')}>
-            Your influence is real
-            <br />
-            Now it’s rewarding too
+          <h1 className={cn('mt-2 flex flex-col gap-[6px] text-[#E8F5F0]', PRINCIPAL_HEADLINE_CLASSNAME)}>
+            <span className="block">Your influence is real.</span>
+            <span className="block">Now it’s rewarding too.</span>
           </h1>
-          <p className="max-w-xl text-[calc(1.25rem+1.5px)] leading-relaxed text-[#dff2ec]/80">
-            For creators, connectors, and people whose recommendations already move people. <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            Share Flent within your circles, create around it, or help someone find their next home. Your recommendations now get rewarded.
+          <p className={cn('font-sans text-[#dff2ec]/80', PRINCIPAL_SUPPORT_MOBILE_COMBINED)}>
+            Get access to up to <span className={heroGoldAmountClass}>₹ 1 lakh</span> of Bangalore&apos;s best.
           </p>
         </div>
 

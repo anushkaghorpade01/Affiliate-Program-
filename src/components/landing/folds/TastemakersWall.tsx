@@ -6,9 +6,13 @@ import { FoldReveal } from '@/components/landing/shared/FoldReveal'
 import { useCinematicIntensity } from '@/components/landing/shared/useCinematicIntensity'
 import { cn } from '@/lib/utils'
 
-/** Larger than principal fold headlines — “Wall of” / “Tastemakers” pair (mobile clamp + elevated md/xl). */
-const tastemakersWallHeadlineScale =
-  'text-[clamp(calc(4.15rem+0.75px),calc(11.75vw+0.75px),calc(6.1rem+0.75px))] md:text-[calc(5.85rem+0.75px)] xl:text-[calc(7.35rem+0.75px)]'
+/** Narrow viewports only — legacy larger “Wall of” / “Tastemakers” display scale. */
+const tastemakersWallHeadlineMobileScale =
+  'max-md:text-[clamp(calc(4.15rem+0.75px),calc(11.75vw+0.75px),calc(6.1rem+0.75px))]'
+
+/** Desktop: larger display scale for Wall / Tastemakers (mobile uses {@link tastemakersWallHeadlineMobileScale}). */
+const tastemakersWallHeadlineMdScale =
+  'md:text-[calc(5.85rem+0.75px)] xl:text-[calc(7.35rem+0.75px)]'
 
 const tastemakerArchiveCards = [
   {
@@ -89,12 +93,13 @@ export function TastemakersWall() {
               className={cn(
                 PRINCIPAL_HEADLINE_CLASSNAME,
                 'text-[#cda03b]',
-                tastemakersWallHeadlineScale,
+                tastemakersWallHeadlineMobileScale,
+                tastemakersWallHeadlineMdScale,
               )}
             >
               Wall of
             </h2>
-            <p className="max-w-[14rem] text-left font-sans text-[calc(0.71875rem+1.5px)] leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 max-md:-mt-[10px] md:mt-[max(0px,calc(2rem-40px))] md:max-w-[15rem] md:text-[calc(0.84375rem+1.5px)] md:leading-[1.26] md:tracking-[-0.02em]">
+            <p className="hidden max-w-[14rem] text-left font-sans text-[calc(0.71875rem+1.5px)] leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 md:mt-[max(0px,calc(2rem-40px))] md:block md:max-w-[15rem]">
               Good taste got them here.
               <br />
               Could you be next?
@@ -102,13 +107,19 @@ export function TastemakersWall() {
             <h2
               className={cn(
                 PRINCIPAL_HEADLINE_CLASSNAME,
-                'mt-[calc(1.25rem-15px)] text-[#cda03b]',
-                tastemakersWallHeadlineScale,
-                'text-right md:absolute md:right-0 md:top-[calc(8.5rem-15px)] md:mt-0 lg:top-[calc(9rem-15px)]',
+                'mt-[calc(1.25rem-15px)] text-right text-[#cda03b]',
+                tastemakersWallHeadlineMobileScale,
+                tastemakersWallHeadlineMdScale,
+                'md:absolute md:right-0 md:top-[calc(8.5rem-15px)] md:mt-0 lg:top-[calc(9rem-15px)]',
               )}
             >
               Tastemakers
             </h2>
+            <p className="mt-4 w-full max-w-[14rem] text-left font-sans text-[calc(0.71875rem+1.5px)] leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 md:hidden">
+              Good taste got them here.
+              <br />
+              Could you be next?
+            </p>
           </motion.div>
         </FoldReveal>
 

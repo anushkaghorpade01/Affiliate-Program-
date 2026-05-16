@@ -211,14 +211,9 @@ export function CinematicStatement() {
           <motion.div style={{ y: heroY }}>
             <FoldReveal className="max-w-[58rem] md:max-w-[55%]">
               <h2 className={cn(PRINCIPAL_HEADLINE_MOBILE_TOP_INSET, 'text-[#dff2ec]', PRINCIPAL_HEADLINE_CLASSNAME)}>
-                <span className="flex flex-col items-start gap-[6px] md:hidden">
+                <span className="flex flex-col items-start gap-[6px]">
                   <span className="block">You bring the influence.</span>
                   <span className="block">We handle the rest.</span>
-                </span>
-                <span className="hidden md:block">
-                  You bring the influence.
-                  <br />
-                  We handle the rest.
                 </span>
               </h2>
             </FoldReveal>
@@ -226,7 +221,7 @@ export function CinematicStatement() {
               <p
                 className={cn(
                   'font-sans text-[#dff2ec]/68',
-                  'leading-[1.35] md:text-[calc(1.125rem+1.5px)]',
+                  'leading-[1.35]',
                   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
                 )}
               >
@@ -248,11 +243,11 @@ export function CinematicStatement() {
                         {step.number}
                       </p>
                       <h3 className="mt-0 font-display text-[2rem] leading-none tracking-[-0.02em] text-[#dff2ec] max-md:text-[1.48rem]">
-                        {mobileFeaturesStatic && step.mobileTitle ? step.mobileTitle : step.title}
+                        {step.mobileTitle ?? step.title}
                       </h3>
                     </div>
                     <p className="mt-2 text-sm font-normal leading-[1.45] text-[#dff2ec]/58 max-md:text-[0.8125rem] max-md:font-medium max-md:leading-[1.26] md:mt-5">
-                      {mobileFeaturesStatic && step.mobileBody ? step.mobileBody : step.body}
+                      {step.mobileBody ?? step.body}
                     </p>
                   </div>
                   {index < processSteps.length - 1 ? <ProcessSeparator /> : null}
@@ -262,9 +257,7 @@ export function CinematicStatement() {
           </FoldReveal>
 
           <FoldReveal delay={0.16} staticOnMobile className="mt-14 max-md:overflow-x-visible md:mt-28">
-            <h2
-              className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'mb-6 max-md:text-left text-[#dff2ec] md:hidden')}
-            >
+            <h2 className={cn(PRINCIPAL_HEADLINE_CLASSNAME, 'mb-6 text-left text-[#dff2ec] md:mb-8')}>
               We make it easy for
               <br />
               you to win.

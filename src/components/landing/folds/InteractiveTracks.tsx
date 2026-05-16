@@ -28,8 +28,58 @@ function useTouchFlipEnabled() {
   return enabled
 }
 
+const DEFAULT_TRACK_REWARD_STAT = '5K'
+
+function TrackCardRewardsFooter({
+  variant,
+  statSizeClass,
+  stat = DEFAULT_TRACK_REWARD_STAT,
+}: {
+  variant: 'overlay' | 'light'
+  /** Optional override for the outsized ₹ amount (e.g. mobile vw vs desktop card width). */
+  statSizeClass?: string
+  /** Digits/text after ₹ — from {@link TrackItem.rewardStat}. */
+  stat?: string
+}) {
+  const overlay = variant === 'overlay'
+  return (
+    <div className="shrink-0">
+      <p
+        className={cn(
+          'mb-2 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.14em]',
+          overlay ? 'text-[#E8F5F0]/52' : 'text-black/45',
+        )}
+      >
+        Rewards upto
+      </p>
+      <div
+        className={cn('mb-2.5 h-px w-[78%] max-w-[13.5rem]', overlay ? 'bg-[#E8F5F0]/17' : 'bg-black/15')}
+        aria-hidden
+      />
+      <p
+        className={cn(
+          'flex flex-wrap items-baseline gap-[0.06em] font-sans font-light leading-[0.92] tracking-[-0.045em]',
+          statSizeClass ??
+            (overlay ? 'text-[clamp(2.35rem,10vw,3.1rem)] text-[#E8F5F0]' : 'text-[clamp(2rem,3.2vw,2.65rem)] text-black'),
+        )}
+      >
+        <span
+          className={cn(
+            'translate-y-[0.04em] text-[0.72em] font-light',
+            overlay ? 'text-[#E8F5F0]' : 'text-black',
+          )}
+        >
+          ₹
+        </span>
+        <span className="tabular-nums">{stat}</span>
+      </p>
+    </div>
+  )
+}
+
 function TrackMobileFacingCard({ card }: { card: TrackItem }) {
   if (!card.image) return null
+  const body = card.mobileCopy ?? card.copy
   return (
     <div className="relative h-[16rem] w-full overflow-hidden rounded-[1.35rem] border border-white/10 shadow-[0_14px_44px_-22px_rgba(0,0,0,0.55)]">
       <img
@@ -40,16 +90,22 @@ function TrackMobileFacingCard({ card }: { card: TrackItem }) {
         decoding="async"
       />
       <div
-        className="pointer-events-none absolute inset-0 rounded-[1.35rem] bg-[#000d09]/[0.38]"
+        className="pointer-events-none absolute inset-0 rounded-[1.35rem] bg-gradient-to-b from-black/58 via-black/20 to-black/[0.78]"
         aria-hidden
       />
-      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/78 via-black/28 to-transparent p-5 pt-12">
-        <p className="font-display text-[1.35rem] leading-[0.98] tracking-[-0.02em] text-[#E8F5F0]">
-          {card.title}
-        </p>
-        <p className="mt-2.5 max-w-none text-[0.8125rem] leading-[1.26] text-[#E8F5F0]/86 sm:max-w-[28ch]">
-          {card.mobileCopy ?? card.copy}
-        </p>
+      <div className="absolute inset-0 flex min-h-0 flex-col justify-between p-5 pb-5 pt-5">
+        <div className="shrink-0">
+          <p className="font-display text-[1.28rem] leading-[1.02] tracking-[-0.02em] text-[#E8F5F0]">
+            {card.title}
+          </p>
+          <p className="mt-2 max-w-[min(100%,34ch)] font-sans text-[0.8125rem] font-normal leading-[1.32] text-[#E8F5F0]/66">
+            {body}
+          </p>
+        </div>
+        <TrackCardRewardsFooter
+          variant="overlay"
+          stat={card.rewardStat ?? DEFAULT_TRACK_REWARD_STAT}
+        />
       </div>
     </div>
   )
@@ -114,12 +170,18 @@ function TrackFlipCard({ card }: { card: TrackItem }) {
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute inset-0 flex rounded-[1.75rem] bg-white p-7 text-black [backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(0)]">
-          <div className="mt-auto max-w-[24ch]">
-            <p className="font-display text-[1.75rem] leading-[1.05]">{card.title}</p>
-            <p className="mt-4 text-[0.9375rem] leading-[1.15] text-black/72">
-              Placeholder text explaining this tastemaker card and the role they play in moving Flent through their circles.
-            </p>
+        <div className="absolute inset-0 flex min-h-0 flex-col rounded-[1.75rem] bg-white p-7 text-black [backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(0)]">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-6">
+            <div className="min-w-0 shrink-0">
+              <p className="font-display text-[1.75rem] leading-[1.05] text-black">{card.title}</p>
+              <p className="mt-4 text-[0.9375rem] leading-[1.15] text-black/72">
+                {card.mobileCopy ?? card.copy}
+              </p>
+            </div>
+            <TrackCardRewardsFooter
+              variant="light"
+              stat={card.rewardStat ?? DEFAULT_TRACK_REWARD_STAT}
+            />
           </div>
         </div>
       </motion.div>
@@ -167,12 +229,12 @@ export function InteractiveTracks() {
             </h2>
             <p
               className={cn(
-                'font-sans text-left text-[#E8F5F0]/82 md:hidden',
+                'max-w-4xl text-left font-sans text-[#E8F5F0]/82',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-                'max-md:px-0 max-md:max-w-4xl',
+                'px-0',
               )}
             >
-              You might be one. You might be all three.
+              Winning looks different for all of us.
             </p>
           </motion.div>
         </FoldReveal>
@@ -199,7 +261,7 @@ export function InteractiveTracks() {
                   className="group relative h-[16rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-[#003328] to-[#001c16] p-6 md:h-[21rem] md:rounded-[1.75rem] md:p-6"
                 >
                   <motion.p variants={{ rest: { y: 0 }, hover: { y: -18 } }} className="font-display text-3xl leading-[1] text-[#E8F5F0] md:text-[2rem] md:leading-[1.02]">{card.title}</motion.p>
-                  <motion.p variants={{ rest: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }} className="absolute bottom-6 left-6 max-w-[22ch] text-sm text-[#dff2ec]/80 md:bottom-7 md:left-6 md:text-[0.9375rem]">{card.copy}</motion.p>
+                  <motion.p variants={{ rest: { opacity: 0, y: 20 }, hover: { opacity: 1, y: 0 } }} className="absolute bottom-6 left-6 max-w-[22ch] text-sm text-[#dff2ec]/80 md:bottom-7 md:left-6 md:text-[0.9375rem]">{card.mobileCopy ?? card.copy}</motion.p>
                 </motion.div>
               ),
             )}

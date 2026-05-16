@@ -118,7 +118,6 @@ export function ApplicationFold() {
             className={cn(
               'font-sans text-[#dff2ec]/75',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-              'md:mt-4 md:text-[calc(1rem+1.5px)]',
             )}
           >
             Taste &gt; following.
