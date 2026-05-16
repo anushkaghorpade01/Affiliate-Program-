@@ -3,7 +3,7 @@ import path from 'node:path'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
-import { handleSubmitApplicationRequest } from './api/_hubspotApplication'
+import { handleSubmitApplicationRequest } from './api/submit-application'
 
 function readRequestBody(req: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
