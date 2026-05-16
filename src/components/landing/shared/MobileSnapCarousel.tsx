@@ -53,6 +53,8 @@ type MobileSnapCarouselProps = {
   recenterSlideIndex?: number
   /** Override inline padding formula (tracks use full Viewport width to avoid edge clipping). */
   scrollInsetCss?: string
+  /** Dot / “pill” pagination under the strip (hide for a cleaner look). Default true. */
+  showPagination?: boolean
 }
 
 export function MobileSnapCarousel({
@@ -65,6 +67,7 @@ export function MobileSnapCarousel({
   centerSlideOnMount = 0,
   recenterSlideIndex = 0,
   scrollInsetCss,
+  showPagination = true,
 }: MobileSnapCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeIdx, setActiveIdx] = useState(0)
@@ -148,16 +151,15 @@ export function MobileSnapCarousel({
       aria-roledescription="carousel"
       aria-label={regionAriaLabel}
       className={cn(
-        'outline-none [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:ring-2 focus-visible:ring-offset-2',
+        'outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
         t.focusRing,
         t.ringOffset,
-        '[&::-webkit-scrollbar]:hidden',
       )}
     >
       <div
         ref={scrollRef}
         tabIndex={0}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden"
         style={{
           scrollPaddingInline: paddingFormula,
           paddingInline: paddingFormula,
@@ -174,21 +176,23 @@ export function MobileSnapCarousel({
           </section>
         ))}
       </div>
-      <div className="mt-5 flex justify-center gap-1.5">
-        {slides.map((slide, dotIdx) => (
-          <button
-            key={slide.key}
-            type="button"
-            aria-label={slide.dotLabel ? `Show ${slide.dotLabel}` : `Show slide ${dotIdx + 1}`}
-            aria-current={activeIdx === dotIdx ? 'true' : undefined}
-            className={cn(
-              'h-1 rounded-full transition-[width,opacity,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-              activeIdx === dotIdx ? cn('w-5', t.dotActive) : cn('w-1', t.dotInactive),
-            )}
-            onClick={() => scrollToIndex(dotIdx)}
-          />
-        ))}
-      </div>
+      {showPagination ? (
+        <div className="mt-5 flex justify-center gap-1.5">
+          {slides.map((slide, dotIdx) => (
+            <button
+              key={slide.key}
+              type="button"
+              aria-label={slide.dotLabel ? `Show ${slide.dotLabel}` : `Show slide ${dotIdx + 1}`}
+              aria-current={activeIdx === dotIdx ? 'true' : undefined}
+              className={cn(
+                'h-1.5 w-1.5 shrink-0 rounded-full transition-[opacity,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                activeIdx === dotIdx ? t.dotActive : t.dotInactive,
+              )}
+              onClick={() => scrollToIndex(dotIdx)}
+            />
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 

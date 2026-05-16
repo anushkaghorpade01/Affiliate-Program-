@@ -34,19 +34,23 @@ function TrackCardRewardsFooter({
   variant,
   statSizeClass,
   stat = DEFAULT_TRACK_REWARD_STAT,
+  footerClassName,
 }: {
   variant: 'overlay' | 'light'
   /** Optional override for the outsized ₹ amount (e.g. mobile vw vs desktop card width). */
   statSizeClass?: string
   /** Digits/text after ₹ — from {@link TrackItem.rewardStat}. */
   stat?: string
+  /** Mobile track cards: nudge the rewards block (label, rule, amount). */
+  footerClassName?: string
 }) {
   const overlay = variant === 'overlay'
   return (
-    <div className="shrink-0">
+    <div className={cn('shrink-0', footerClassName)}>
       <p
         className={cn(
           'mb-2 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.14em]',
+          overlay && 'max-md:mb-[calc(0.5rem-6.45px)]',
           overlay ? 'text-[#E8F5F0]/52' : 'text-black/45',
         )}
       >
@@ -105,6 +109,7 @@ function TrackMobileFacingCard({ card }: { card: TrackItem }) {
         <TrackCardRewardsFooter
           variant="overlay"
           stat={card.rewardStat ?? DEFAULT_TRACK_REWARD_STAT}
+          footerClassName="max-md:translate-y-2"
         />
       </div>
     </div>
@@ -204,7 +209,10 @@ export function InteractiveTracks() {
   const tilesY = useTransform(smooth, [0, 1], [factor * 38, factor * -38])
 
   return (
-    <section ref={ref} className="relative -mt-4 overflow-x-visible overflow-y-hidden px-6 pb-[calc(9rem-84px)] pt-16 max-md:overflow-x-visible md:overflow-hidden md:px-12 md:pb-32 md:pt-20">
+    <section
+      ref={ref}
+      className="relative -mt-4 overflow-x-visible overflow-y-hidden px-6 pb-[calc(9rem-84px)] pt-[calc(4rem-17px)] max-md:overflow-x-visible md:overflow-hidden md:px-12 md:pb-56 md:pt-[calc(5rem-17px)]"
+    >
       <motion.div
         style={{ y: bgY }}
         className="pointer-events-none absolute inset-0 bg-[#000d09]"

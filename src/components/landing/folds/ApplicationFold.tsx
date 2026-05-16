@@ -187,7 +187,7 @@ export function ApplicationFold() {
               disabled={submitStatus === 'loading'}
               className="w-full bg-[#D4A853] text-[#000d09] transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] max-md:hover:-translate-y-0.5 max-md:hover:shadow-[0_7px_24px_rgba(212,168,83,0.3)] max-md:active:scale-[0.985] max-md:active:translate-y-px max-md:active:shadow-[0_3px_14px_rgba(212,168,83,0.34)] md:duration-500"
             >
-              {submitStatus === 'loading' ? 'Submitting…' : 'Submit application'}
+              {submitStatus === 'loading' ? 'Submitting…' : 'Apply now'}
             </Button>
             <p className="hidden text-xs text-[#dff2ec]/60 md:block">By applying you agree to our T&amp;Cs. We do not spam. Ever.</p>
           </form>

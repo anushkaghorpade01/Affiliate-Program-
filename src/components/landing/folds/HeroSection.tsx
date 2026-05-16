@@ -28,7 +28,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative z-[3] h-[calc(56rem-80px)] scroll-mt-0 overflow-x-hidden px-6 pb-5 pt-5 max-md:z-[3] max-md:overflow-visible md:z-auto md:h-[calc(clamp(42rem,55.8vw,72rem)+6rem)] md:overflow-hidden md:px-12 md:pb-0 md:pt-16"
+      className="relative z-[3] h-[calc(56rem-80px)] scroll-mt-0 overflow-x-hidden px-6 pb-5 pt-5 max-md:z-[3] max-md:overflow-visible md:z-auto md:h-[calc(clamp(42rem,55.8vw,72rem)+4rem)] md:overflow-hidden md:px-12 md:pb-0 md:pt-16"
     >
       <div
         className="pointer-events-none absolute inset-x-0 -bottom-24 top-0 flex items-center justify-center max-md:z-0 max-md:[-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_71%,transparent_100%)] max-md:[mask-image:linear-gradient(to_bottom,#000_0%,#000_71%,transparent_100%)] md:[-webkit-mask-image:none] md:[mask-image:none]"
@@ -109,21 +109,8 @@ export function HeroSection() {
         </div>
       </div>
 
-      <p className="absolute right-12 top-[11.5rem] hidden text-right text-2xl tracking-[0.02em] text-[#dff2ec]/78 md:block">
-        Flent&apos;s search for
-        <br />
-        <span className="italic">Tastemakers</span>
-      </p>
-      <a
-        href="#apply"
-        aria-label="Jump to tastemaker application form"
-        className="absolute right-12 top-[34.8rem] z-30 hidden items-center justify-center rounded-full bg-[#D4A853] px-12 py-3 text-base font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50 md:inline-flex"
-      >
-        Apply now
-      </a>
-
-      <div className="relative mx-auto hidden max-w-7xl gap-10 md:grid lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="space-y-7">
+      <div className="relative mx-auto hidden w-full max-w-7xl md:grid md:gap-10 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0">
+        <div className="flex min-w-0 flex-col items-start space-y-7">
           <a
             href="https://www.flent.in"
             target="_blank"
@@ -133,19 +120,47 @@ export function HeroSection() {
           >
             <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-32" />
           </a>
-          <br />
-          <h1 className={cn('mt-2 flex flex-col gap-[6px] text-[#E8F5F0]', PRINCIPAL_HEADLINE_CLASSNAME)}>
+          <h1 className={cn('flex flex-col gap-[6px] text-[#E8F5F0]', PRINCIPAL_HEADLINE_CLASSNAME)}>
             <span className="block">Your influence is real.</span>
             <span className="block">Now it’s rewarding too.</span>
           </h1>
           <p className={cn('font-sans text-[#dff2ec]/80', PRINCIPAL_SUPPORT_MOBILE_COMBINED)}>
             Get access to up to <span className={heroGoldAmountClass}>₹ 1 lakh</span> of Bangalore&apos;s best.
           </p>
+          <a
+            href="#apply"
+            aria-label="Jump to tastemaker application form"
+            className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-12 py-3 text-base font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
+          >
+            Apply now
+          </a>
         </div>
 
-        <div className="relative mt-10 flex min-h-[560px] items-start justify-start lg:mt-0">
-          <div className="pointer-events-none absolute left-[-18%] top-[8%] select-none">
-            <FloatingKey className="z-10 h-[31rem] w-[22rem] xl:h-[35rem] xl:w-[25rem]" />
+        <div className="relative mt-10 flex w-full min-w-0 justify-center lg:mt-0 lg:items-center">
+          <div className="relative mx-auto h-[min(58svh,24.5rem)] w-full max-w-[min(92vw,21.5rem)] lg:mx-0 lg:max-w-none">
+            <motion.p
+              className={`pointer-events-none absolute left-[12%] top-[33%] z-[2] max-w-[7.8rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+              animate={captionAnimate}
+              transition={captionTransition}
+            >
+              Flent&apos;s search for
+              <br />
+              <span className="font-sans italic">Tastemakers</span>
+            </motion.p>
+
+            <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center pt-[4%] select-none">
+              <FloatingKey className="relative z-10 h-[31rem] w-[22rem] xl:h-[35rem] xl:w-[25rem]" />
+            </div>
+
+            <motion.p
+              className={`pointer-events-none absolute left-[68%] top-[60%] z-[2] max-w-[6.4rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+              animate={captionAnimate}
+              transition={captionTransition}
+            >
+              Limited spots
+              <br />
+              available
+            </motion.p>
           </div>
         </div>
       </div>

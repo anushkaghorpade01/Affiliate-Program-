@@ -217,12 +217,13 @@ export function CinematicStatement() {
                 </span>
               </h2>
             </FoldReveal>
-            <FoldReveal delay={0.08} className="max-w-[28rem] md:mt-6">
+            <FoldReveal delay={0.08} className="max-w-[28rem] md:mt-3">
               <p
                 className={cn(
                   'font-sans text-[#dff2ec]/68',
                   'leading-[1.35]',
                   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+                  'md:text-[calc(0.9375rem+1.5px)] md:leading-[1.4] md:tracking-[0.012em]',
                 )}
               >
                 Start earning from day one.
@@ -246,7 +247,7 @@ export function CinematicStatement() {
                         {step.mobileTitle ?? step.title}
                       </h3>
                     </div>
-                    <p className="mt-2 text-sm font-normal leading-[1.45] text-[#dff2ec]/58 max-md:text-[0.8125rem] max-md:font-medium max-md:leading-[1.26] md:mt-5">
+                    <p className="mt-2 text-sm font-normal leading-[1.45] text-[#dff2ec]/58 max-md:text-[0.8125rem] max-md:font-medium max-md:leading-[1.26] md:mt-3 md:font-medium">
                       {step.mobileBody ?? step.body}
                     </p>
                   </div>

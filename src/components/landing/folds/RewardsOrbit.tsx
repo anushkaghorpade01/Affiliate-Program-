@@ -129,8 +129,8 @@ export function RewardsOrbit() {
       ref={ref}
       className={cn(
         'relative isolate bg-[#000d09] px-[5vw] pb-[4vh]',
-        'max-md:min-h-0 max-md:overflow-visible max-md:pb-12 max-md:pt-6',
-        'md:min-h-[calc(96vh-245px)] md:overflow-hidden md:pb-[90px]',
+        'max-md:min-h-0 max-md:overflow-visible max-md:pb-14 max-md:pt-6',
+        'md:min-h-0 md:overflow-visible md:pb-[calc(90px-8px)]',
       )}
     >
       <motion.div
@@ -144,7 +144,8 @@ export function RewardsOrbit() {
         aria-hidden
       />
 
-      <FoldReveal className="relative z-[2] mx-auto w-full max-w-[min(92vw,720px)] px-2 pb-0 pt-4 text-center max-md:mb-8 md:mb-[min(3vh,1.75rem)]">
+      <div className="relative z-[1] flex w-full flex-col items-center md:gap-0 md:pb-0">
+      <FoldReveal className="relative z-[2] mx-auto w-full max-w-[min(92vw,720px)] px-2 pb-0 pt-4 text-center max-md:mb-8 max-md:pb-2 md:mb-[4.5rem] md:pt-12">
         <motion.div style={{ y: introY }}>
           <h1
             className={cn(
@@ -162,8 +163,8 @@ export function RewardsOrbit() {
         delay={0.06}
         className={cn(
           'z-10 flex w-full justify-center self-stretch',
-          'relative left-auto top-auto mx-auto max-w-[min(92vw,720px)] translate-x-0 max-md:mt-3',
-          'md:absolute md:z-[1] md:left-1/2 md:top-[min(27vh,16rem)] md:mx-0 md:max-w-[min(1200px,84vw)] md:-translate-x-1/2',
+          'relative left-auto top-auto mx-auto max-w-[min(92vw,720px)] translate-x-0 max-md:mt-5 max-md:pt-0',
+          'md:relative md:z-[1] md:inset-auto md:mx-auto md:mb-8 md:max-w-[min(1200px,84vw)] md:translate-x-0 md:px-0 md:pb-2 md:pt-2',
         )}
       >
         <motion.div
@@ -351,19 +352,20 @@ export function RewardsOrbit() {
         delay={0.1}
         className={cn(
           'z-[1] w-full max-w-[min(720px,92vw)] px-3 text-center',
-          'relative left-auto top-auto mx-auto translate-x-0 max-md:-mt-6 max-md:pt-0',
-          'md:absolute md:left-1/2 md:top-[52vh] md:mx-0 md:mt-0 md:max-w-[min(720px,92vw)] md:-translate-x-1/2 md:px-0 md:pt-[min(5vh,2.5rem)]',
+          'relative left-auto top-auto mx-auto translate-x-0 max-md:mt-6 max-md:pb-1 max-md:pt-0',
+          'md:relative md:inset-auto md:mx-auto md:mt-0 md:max-w-[min(720px,92vw)] md:px-0 md:pb-0 md:pt-0',
         )}
       >
         <motion.div style={{ y: unlockY }}>
           <h2 className="text-[#E8F5F0]">
-            <span className="flex flex-col items-center gap-0 font-sans text-[calc(0.875rem+1.5px)] font-normal leading-[calc(1.38em-4.25px)] tracking-[0.01em] text-[#E8F5F0]">
+            <span className="flex flex-col items-center gap-1.5 font-sans text-[calc(0.875rem+1.5px)] font-normal leading-[calc(1.38em-4.25px)] tracking-[0.01em] text-[#E8F5F0]">
               <span className="block">Apply Now.</span>
               <span className="block">Unlock the full catalogue.</span>
             </span>
           </h2>
         </motion.div>
       </FoldReveal>
+      </div>
     </section>
   )
 }

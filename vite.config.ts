@@ -43,12 +43,51 @@ function hubspotSubmitDevPlugin(): Plugin {
   }
 }
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss(), hubspotSubmitDevPlugin()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+/** Default share image: dedicated Fold 1 screenshot for link previews only (`public/og-fold1-hero.png`). */
+const DEFAULT_OG_IMAGE_PATH = '/og-fold1-hero.png'
+
+function normalizePublicPath(raw: string | undefined): string {
+  const t = raw?.trim() || DEFAULT_OG_IMAGE_PATH
+  return t.startsWith('/') ? t : `/${t}`
+}
+
+/** WhatsApp / Facebook need an absolute https `og:image`; relative URLs are often ignored (wrong on-page image is used). */
+function siteOriginForOg(env: Record<string, string>): string | undefined {
+  const trimmed =
+    env.VITE_SITE_ORIGIN?.trim().replace(/\/$/, '') ||
+    env.SITE_URL?.trim().replace(/\/$/, '')
+  if (trimmed) return trimmed
+  const vercel = process.env.VERCEL_URL?.trim()
+  if (vercel) return `https://${vercel}`
+  return undefined
+}
+
+function ogImageAbsoluteUrlPlugin(
+  env: Record<string, string>,
+  ogImagePath: string,
+): Plugin {
+  return {
+    name: 'og-image-absolute-url',
+    transformIndexHtml(html) {
+      const origin = siteOriginForOg(env)
+      const path = ogImagePath
+      const imageUrl = origin ? `${origin}${path}` : path
+      return html.split('__OG_IMAGE_URL__').join(imageUrl)
     },
-  },
+  }
+}
+
+// https://vite.dev/config/
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const ogImagePath = normalizePublicPath(env.VITE_OG_IMAGE)
+
+  return {
+    plugins: [react(), tailwindcss(), ogImageAbsoluteUrlPlugin(env, ogImagePath), hubspotSubmitDevPlugin()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+  }
 })

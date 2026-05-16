@@ -8,11 +8,11 @@ import { cn } from '@/lib/utils'
 
 /** Narrow viewports only — legacy larger “Wall of” / “Tastemakers” display scale. */
 const tastemakersWallHeadlineMobileScale =
-  'max-md:text-[clamp(calc(4.15rem+0.75px),calc(11.75vw+0.75px),calc(6.1rem+0.75px))]'
+  'max-md:text-[clamp(calc(4.15rem+0.75px),calc(11.75vw+0.75px),calc(6.3rem+0.75px))]'
 
 /** Desktop: larger display scale for Wall / Tastemakers (mobile uses {@link tastemakersWallHeadlineMobileScale}). */
 const tastemakersWallHeadlineMdScale =
-  'md:text-[calc(5.85rem+0.75px)] xl:text-[calc(7.35rem+0.75px)]'
+  'md:text-[calc(6.45rem+0.75px)] xl:text-[calc(7.95rem+0.75px)]'
 
 const tastemakerArchiveCards = [
   {
