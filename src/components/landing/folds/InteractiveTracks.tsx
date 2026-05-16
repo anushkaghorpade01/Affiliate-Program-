@@ -65,7 +65,7 @@ function TrackCardRewardsFooter({
       >
         <span
           className={cn(
-            'translate-y-[0.04em] text-[0.72em] font-light',
+            'font-light leading-none',
             overlay ? 'text-[#E8F5F0]' : 'text-black',
           )}
         >
