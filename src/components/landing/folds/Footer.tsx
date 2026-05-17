@@ -31,7 +31,7 @@ function FaqArrowIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#000] px-6 pb-16 pt-14 font-sans text-[rgba(255,255,255,0.92)] max-md:pb-6 max-md:pt-9 md:px-12 md:pb-20 md:pt-20">
+    <footer className="relative overflow-hidden bg-[#000] px-6 pb-16 pt-14 font-sans text-[rgba(255,255,255,0.92)] max-md:pb-6 max-md:pt-9 md:px-12 md:pb-12 md:pt-12">
       <div className="relative mx-auto flex w-full max-w-7xl flex-col">
         <div className="flex flex-col items-center self-center text-center">
           <p
@@ -41,14 +41,14 @@ export function Footer() {
           </p>
           <a
             href="/faq"
-            className={`${primary} mt-3 inline-flex items-center gap-1.5 text-[clamp(0.9375rem,2.6vw,1.0625rem)] font-normal tracking-[0.01em] underline decoration-[rgba(255,255,255,0.42)] underline-offset-[0.35em] transition-colors hover:text-white hover:decoration-[rgba(255,255,255,0.65)]`}
+            className={`${primary} mt-3 inline-flex items-center gap-1.5 text-[clamp(0.9375rem,2.6vw,1.0625rem)] font-normal tracking-[0.01em] underline decoration-[rgba(255,255,255,0.42)] underline-offset-[0.35em] transition-colors hover:text-white hover:decoration-[rgba(255,255,255,0.65)] md:mt-2`}
           >
             Read the FAQ&apos;s
             <FaqArrowIcon className="-mt-px shrink-0 opacity-[0.88]" />
           </a>
         </div>
 
-        <div className="mt-10 flex w-full flex-col items-start text-left max-md:mt-14">
+        <div className="mt-10 flex w-full flex-col items-start text-left max-md:mt-14 md:mt-7">
           <img
             src="/flent-logo-white.png"
             alt="Flent"
@@ -60,7 +60,7 @@ export function Footer() {
           />
 
           <p
-            className={`max-md:mt-4 md:mt-6 max-w-[24rem] text-left text-[clamp(0.62rem,2.2vw,0.76rem)] font-medium uppercase leading-[1.12] tracking-[0.05em] md:max-w-[22rem] md:text-[clamp(0.68rem,0.9vw,0.875rem)] md:tracking-[0.055em]`}
+            className={`max-md:mt-4 md:mt-4 max-w-[24rem] text-left text-[clamp(0.62rem,2.2vw,0.76rem)] font-medium uppercase leading-[1.12] tracking-[0.05em] md:max-w-[22rem] md:text-[clamp(0.68rem,0.9vw,0.875rem)] md:tracking-[0.055em]`}
           >
             <span className={primary}>DISCOVERED</span> <span className={taglineMuted}>THROUGH</span>{' '}
             <span className={primary}>PEOPLE,</span>
@@ -71,7 +71,7 @@ export function Footer() {
 
           <nav
             aria-label="Footer navigation"
-            className={`mt-12 flex w-full flex-wrap items-center justify-start gap-x-7 gap-y-3 text-[clamp(0.875rem,2.2vw,0.975rem)] max-md:mt-9 md:mt-[3.25rem] md:gap-x-10 ${muted}`}
+            className={`mt-12 flex w-full flex-wrap items-center justify-start gap-x-7 gap-y-3 text-[clamp(0.875rem,2.2vw,0.975rem)] max-md:mt-9 md:mt-9 md:gap-x-10 ${muted}`}
           >
             {navLinks.map((link) => (
               <a
@@ -86,11 +86,11 @@ export function Footer() {
             ))}
           </nav>
 
-          <div className="mt-12 h-px w-full max-w-none self-stretch bg-[rgba(255,255,255,0.16)] max-md:mt-9 md:mt-[3.5rem]" aria-hidden />
+          <div className="mt-12 h-px w-full max-w-none self-stretch bg-[rgba(255,255,255,0.16)] max-md:mt-9 md:mt-10" aria-hidden />
 
           <nav
             aria-label="Social links"
-            className={`mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-3 text-[clamp(0.6875rem,1.8vw,0.8125rem)] font-medium tracking-[0.02em] max-md:mt-8 md:mt-10 md:gap-x-10 md:text-[0.8125rem] ${muted}`}
+            className={`mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-3 text-[clamp(0.6875rem,1.8vw,0.8125rem)] font-medium tracking-[0.02em] max-md:mt-8 md:mt-7 md:gap-x-10 md:text-[0.8125rem] ${muted}`}
           >
             {socialLinks.map((link) => (
               <a
