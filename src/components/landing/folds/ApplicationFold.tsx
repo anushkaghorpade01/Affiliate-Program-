@@ -1,9 +1,10 @@
 import { type FormEvent, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import { PRINCIPAL_HEADLINE_CLASSNAME, PRINCIPAL_H1_WRAP_LEADING_WEB } from '@/components/landing/principalHeadlineClassName'
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
   PRINCIPAL_SUPPORT_WEB_BODY_FONT,
 } from '@/components/landing/principalSupportingMobileTypography'
@@ -111,15 +112,16 @@ export function ApplicationFold() {
               'md:block',
             )}
           >
-            <span className="max-md:block md:inline">Apply to be a</span>
+            <span className={cn('max-md:block md:inline', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Apply to be a</span>
             <br className="hidden md:block" />
-            <span className="max-md:block md:inline">Tastemaker</span>
+            <span className={cn('max-md:block md:inline', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Tastemaker</span>
           </h2>
           <p
             className={cn(
               'font-sans text-[#dff2ec]/75',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
               PRINCIPAL_SUPPORT_WEB_BODY_FONT,
+              PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
             )}
           >
             Taste &gt; following.
@@ -187,11 +189,26 @@ export function ApplicationFold() {
             <Button
               type="submit"
               disabled={submitStatus === 'loading'}
-              className="w-full bg-[#D4A853] text-[#000d09] transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] max-md:hover:-translate-y-0.5 max-md:hover:shadow-[0_7px_24px_rgba(212,168,83,0.3)] max-md:active:scale-[0.985] max-md:active:translate-y-px max-md:active:shadow-[0_3px_14px_rgba(212,168,83,0.34)] md:duration-500"
+              className={cn(
+                'group w-full bg-[#D4A853] text-[#000d09]',
+                'transition-[box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                'hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] max-md:hover:shadow-[0_7px_24px_rgba(212,168,83,0.3)]',
+                'max-md:active:shadow-[0_3px_14px_rgba(212,168,83,0.34)]',
+                'disabled:hover:shadow-none max-md:disabled:hover:shadow-none',
+                'md:duration-500',
+              )}
             >
-              {submitStatus === 'loading' ? 'Submitting…' : 'Apply now'}
+              <span
+                className={cn(
+                  'block w-full text-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                  'group-hover:-translate-y-1 max-md:group-hover:-translate-y-0.5',
+                  'max-md:active:translate-y-px max-md:active:scale-[0.985]',
+                  'md:duration-500',
+                )}
+              >
+                {submitStatus === 'loading' ? 'Submitting…' : 'Apply now'}
+              </span>
             </Button>
-            <p className="hidden text-xs text-[#dff2ec]/60 md:block">By applying you agree to our T&amp;Cs. We do not spam. Ever.</p>
           </form>
         </FoldReveal>
 

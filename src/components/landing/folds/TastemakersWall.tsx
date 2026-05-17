@@ -99,8 +99,8 @@ export function TastemakersWall() {
             >
               Wall of
             </h2>
-            <p className="hidden max-w-[14rem] text-left font-sans text-[calc(0.71875rem+1.5px)] leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 md:mt-[max(0px,calc(2rem-40px))] md:block md:max-w-[15rem]">
-              Good taste got them here.
+            <p className="hidden max-w-[14rem] text-left font-sans leading-[1.34] tracking-[0.014em] text-[#1a1a18]/82 md:mt-[calc(1.5rem+1px)] xl:mt-[calc(1.75rem+1px)] md:block md:max-w-none md:text-[calc(1.0625rem+2px)] xl:text-[calc(1.1875rem+2px)]">
+              <span className="whitespace-nowrap">Good taste got them here.</span>
               <br />
               Could you be next?
             </p>

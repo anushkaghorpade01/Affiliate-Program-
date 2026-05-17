@@ -1,6 +1,6 @@
 import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
+import { PRINCIPAL_HEADLINE_CLASSNAME, PRINCIPAL_H1_WRAP_LEADING_WEB } from '@/components/landing/principalHeadlineClassName'
 import { PRINCIPAL_HEADLINE_MOBILE_TOP_INSET } from '@/components/landing/principalSupportingMobileTypography'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
 import { FoldReveal } from '@/components/landing/shared/FoldReveal'
@@ -154,7 +154,7 @@ export function RewardsOrbit() {
               PRINCIPAL_HEADLINE_CLASSNAME,
             )}
           >
-            <span className="block">Show up and take what you deserve.</span>
+            <span className={cn('block', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Show up and take what you deserve.</span>
           </h1>
         </motion.div>
       </FoldReveal>

@@ -5,6 +5,7 @@ import { trackItems } from '@/components/landing/data'
 import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
   PRINCIPAL_SUPPORT_WEB_BODY_FONT,
 } from '@/components/landing/principalSupportingMobileTypography'
@@ -65,7 +66,7 @@ function TrackCardRewardsFooter({
         className={cn(
           'flex flex-wrap items-baseline gap-[0.06em] font-sans font-light leading-[0.92] tracking-[-0.045em]',
           statSizeClass ??
-            (overlay ? 'text-[clamp(2.35rem,10vw,3.1rem)] text-[#E8F5F0]' : 'text-[clamp(2rem,3.2vw,2.65rem)] text-black'),
+            (overlay ? 'text-[clamp(2.35rem,10vw,3.1rem)] text-[#E8F5F0]' : 'text-[clamp(2.125rem,3.45vw,2.85rem)] text-black'),
         )}
       >
         <span
@@ -242,6 +243,7 @@ export function InteractiveTracks() {
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
                 PRINCIPAL_SUPPORT_WEB_BODY_FONT,
                 'px-0',
+                PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
               )}
             >
               Winning looks different for all of us.

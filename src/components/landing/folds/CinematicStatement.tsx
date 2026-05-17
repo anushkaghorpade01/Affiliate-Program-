@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
 import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+  PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
   PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
 } from '@/components/landing/principalSupportingMobileTypography'
@@ -149,7 +150,7 @@ function FeatureCard({
         <h3 className="font-display text-[1.22rem] leading-none tracking-[-0.02em] text-[#dff2ec] md:text-[2.35rem]">
           {title}
         </h3>
-        <p className="mt-1.5 max-w-[30rem] text-[0.7rem] leading-[1.45] text-[#dff2ec]/64 md:mt-4 md:text-[0.95rem]">
+        <p className="mt-2 max-w-[30rem] text-[0.7rem] leading-[1.45] text-[#dff2ec]/64 md:mt-3 md:text-[0.95rem]">
           {body}
         </p>
       </div>
@@ -211,14 +212,19 @@ export function CinematicStatement() {
         <div className="relative mx-auto max-w-7xl">
           <motion.div style={{ y: heroY }}>
             <FoldReveal className="max-w-[58rem] md:max-w-[55%]">
-              <h2 className={cn(PRINCIPAL_HEADLINE_MOBILE_TOP_INSET, 'text-[#dff2ec]', PRINCIPAL_HEADLINE_CLASSNAME)}>
-                <span className="flex flex-col items-start gap-[6px]">
-                  <span className="block">You bring the influence.</span>
-                  <span className="block">We handle the rest.</span>
-                </span>
+              <h2
+                className={cn(
+                  PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
+                  'text-[#dff2ec]',
+                  PRINCIPAL_HEADLINE_CLASSNAME,
+                  'flex flex-col items-start max-md:gap-0 md:gap-[6px]',
+                )}
+              >
+                <span className="block">You bring the influence.</span>
+                <span className="block">We handle the rest.</span>
               </h2>
             </FoldReveal>
-            <FoldReveal delay={0.08} className="max-w-[28rem] md:mt-3">
+            <FoldReveal delay={0.08} className="max-w-[28rem]">
               <p
                 className={cn(
                   'font-sans text-[#dff2ec]/68',
@@ -226,6 +232,7 @@ export function CinematicStatement() {
                   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
                   PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
                   'md:leading-[1.4] md:tracking-[0.012em]',
+                  PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
                 )}
               >
                 Start earning from day one.

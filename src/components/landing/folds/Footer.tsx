@@ -35,7 +35,7 @@ export function Footer() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-col">
         <div className="flex flex-col items-center self-center text-center">
           <p
-            className={`${primary} max-w-xl font-medium tracking-[0.01em] max-md:text-[clamp(1.2rem,3.55vw,1.36rem)] md:text-[clamp(0.9rem,2.5vw,1.0625rem)]`}
+            className={`${primary} max-w-xl font-medium tracking-[0.01em] max-md:text-[clamp(1.2rem,3.55vw,1.36rem)] md:text-[clamp(1.125rem,2.85vw,1.3125rem)]`}
           >
             Still have questions?
           </p>
@@ -60,7 +60,7 @@ export function Footer() {
           />
 
           <p
-            className={`mt-8 max-w-[24rem] text-left text-[clamp(0.62rem,2.2vw,0.76rem)] font-medium uppercase leading-[1.12] tracking-[0.05em] max-md:mt-6 md:mt-9 md:max-w-[22rem] md:text-[clamp(0.68rem,0.9vw,0.875rem)] md:tracking-[0.055em]`}
+            className={`max-md:mt-4 md:mt-6 max-w-[24rem] text-left text-[clamp(0.62rem,2.2vw,0.76rem)] font-medium uppercase leading-[1.12] tracking-[0.05em] md:max-w-[22rem] md:text-[clamp(0.68rem,0.9vw,0.875rem)] md:tracking-[0.055em]`}
           >
             <span className={primary}>DISCOVERED</span> <span className={taglineMuted}>THROUGH</span>{' '}
             <span className={primary}>PEOPLE,</span>

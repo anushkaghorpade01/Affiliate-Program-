@@ -473,7 +473,7 @@ export function SocialProofWall() {
                 'mx-auto text-balance px-1 text-center font-sans font-normal text-[#003328]/58',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
                 PRINCIPAL_SUPPORT_WEB_BODY_FONT,
-                '!mt-4',
+                '!mt-3',
               )}
             >
               We&apos;re a hot topic waiting for you to pick up.
@@ -535,7 +535,7 @@ export function SocialProofWall() {
                 'mx-auto text-balance px-1 text-center font-sans font-normal text-[#003328]/58',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
                 PRINCIPAL_SUPPORT_WEB_BODY_FONT,
-                '!mt-4',
+                '!mt-3',
               )}
             >
               We&apos;re a hot topic waiting for you to pick up.

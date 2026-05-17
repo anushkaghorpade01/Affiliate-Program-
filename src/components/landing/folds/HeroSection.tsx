@@ -1,6 +1,9 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { PRINCIPAL_HEADLINE_CLASSNAME } from '@/components/landing/principalHeadlineClassName'
-import { PRINCIPAL_SUPPORT_MOBILE_COMBINED, PRINCIPAL_SUPPORT_WEB_BODY_FONT } from '@/components/landing/principalSupportingMobileTypography'
+import { PRINCIPAL_HEADLINE_CLASSNAME, PRINCIPAL_H1_WRAP_LEADING_WEB } from '@/components/landing/principalHeadlineClassName'
+import {
+  PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
+  PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+} from '@/components/landing/principalSupportingMobileTypography'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 import { HeroMobileShare } from '@/components/landing/shared/HeroMobileShare'
 import { cn } from '@/lib/utils'
@@ -12,6 +15,12 @@ const MOBILE_HERO_CAPTION_FLOAT = {
 }
 
 const captionGold = 'text-[#d4b878]/96'
+
+/** Desktop hero only — floated captions beside the key; +5px vs mobile `text-[0.62rem]` */
+const DESKTOP_FLOAT_CAPTION_LAYOUT =
+  'text-[calc(0.62rem+5px)] max-w-[8.85rem] font-normal leading-[1.34] tracking-[0.035em]'
+const DESKTOP_FLOAT_CAPTION_BOTTOM_LAYOUT =
+  'text-[calc(0.62rem+5px)] max-w-[7.25rem] font-normal leading-[1.34] tracking-[0.035em]'
 
 /** Hero supporting line — rupee + amount share gold accent; slightly heavier for legibility across fonts. */
 const heroGoldAmountClass = cn(captionGold, 'font-semibold')
@@ -110,34 +119,43 @@ export function HeroSection() {
       </div>
 
       <div className="relative mx-auto hidden w-full max-w-7xl md:grid md:gap-10 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-0">
-        <div className="flex min-w-0 flex-col items-start space-y-7">
+        {/* Web: explicit stack — headline→supporting matches fold 2 (`PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN`). */}
+        <div className="flex min-w-0 flex-col items-start">
           <a
             href="https://www.flent.in"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Flent — visit flent.in"
-            className="inline-block"
+            className="mb-11 inline-block shrink-0"
           >
-            <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-32" />
+            <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-[7.25rem]" />
           </a>
-          <h1 className={cn('flex flex-col gap-[6px] text-[#E8F5F0]', PRINCIPAL_HEADLINE_CLASSNAME)}>
-            <span className="block">Your influence is real.</span>
-            <span className="block">Now it’s rewarding too.</span>
+          <h1
+            className={cn(
+              'flex flex-col gap-[6px] text-[#E8F5F0]',
+              PRINCIPAL_HEADLINE_CLASSNAME,
+              'md:gap-2',
+            )}
+          >
+            <span className={cn('block', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Your influence is real.</span>
+            <span className={cn('block', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Now it’s rewarding too.</span>
           </h1>
           <p
             className={cn(
               'font-sans text-[#dff2ec]/80',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-              PRINCIPAL_SUPPORT_WEB_BODY_FONT,
+              'md:max-w-none',
+              'md:text-[calc(((0.71rem+1.5px)*1.038)+1px)]',
+              PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
             )}
           >
             Get access to up to <span className={heroGoldAmountClass}>₹ 1 lakh</span> of Bangalore&apos;s best.
           </p>
-          <div className="pt-[53px]">
+          <div className="mt-7 pt-[53px]">
             <a
               href="#apply"
               aria-label="Jump to tastemaker application form"
-              className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-12 py-3 text-base font-medium tracking-wide text-white transition duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
+              className="inline-flex items-center justify-center rounded-full bg-[#D4A853] px-[2.6875rem] py-[calc(0.59375rem+1px)] font-medium tracking-wide text-white transition duration-500 text-[calc(1.125rem+1px)] hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,168,83,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A853]/50"
             >
               Apply now
             </a>
@@ -147,7 +165,11 @@ export function HeroSection() {
         <div className="relative mt-10 flex w-full min-w-0 justify-center lg:mt-0 lg:items-center">
           <div className="relative mx-auto h-[min(58svh,24.5rem)] w-full max-w-[min(92vw,21.5rem)] lg:mx-0 lg:max-w-none">
             <motion.p
-              className={`pointer-events-none absolute left-[12%] top-[33%] z-[2] max-w-[7.8rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+              className={cn(
+                'pointer-events-none absolute left-[12%] top-[33%] z-[2] origin-center text-left font-sans',
+                DESKTOP_FLOAT_CAPTION_LAYOUT,
+                captionGold,
+              )}
               animate={captionAnimate}
               transition={captionTransition}
             >
@@ -161,7 +183,11 @@ export function HeroSection() {
             </div>
 
             <motion.p
-              className={`pointer-events-none absolute left-[68%] top-[60%] z-[2] max-w-[6.4rem] origin-center text-left font-sans text-[0.62rem] font-normal leading-[1.3] tracking-[0.035em] ${captionGold}`}
+              className={cn(
+                'pointer-events-none absolute left-[68%] top-[60%] z-[2] origin-center text-left font-sans',
+                DESKTOP_FLOAT_CAPTION_BOTTOM_LAYOUT,
+                captionGold,
+              )}
               animate={captionAnimate}
               transition={captionTransition}
             >

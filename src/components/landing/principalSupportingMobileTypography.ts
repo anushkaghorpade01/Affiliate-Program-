@@ -19,6 +19,12 @@ export const PRINCIPAL_SUPPORT_MOBILE_BODY = cn(
 export const PRINCIPAL_SUPPORT_MOBILE_COMBINED = cn(PRINCIPAL_SUPPORT_MOBILE_TOP_GAP, PRINCIPAL_SUPPORT_MOBILE_BODY)
 
 /**
+ * Web (`md+`): margin-top from principal headline → supporting `<p>` — matches fold 5 process step (`md:mt-3`).
+ * Overrides {@link PRINCIPAL_SUPPORT_MOBILE_COMBINED} top inset. Place **last** in `cn(...)`.
+ */
+export const PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN = 'md:!mt-3'
+
+/**
  * Web (`md+`): ×1.038 font size on {@link PRINCIPAL_SUPPORT_MOBILE_BODY} — principal supporting lines across folds (except fold 6).
  */
 export const PRINCIPAL_SUPPORT_WEB_BODY_FONT = 'md:text-[calc((0.71rem+1.5px)*1.038)]'
