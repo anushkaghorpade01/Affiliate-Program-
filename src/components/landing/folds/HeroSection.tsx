@@ -3,6 +3,7 @@ import { PRINCIPAL_HEADLINE_CLASSNAME, PRINCIPAL_H1_WRAP_LEADING_WEB } from '@/c
 import {
   PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
 } from '@/components/landing/principalSupportingMobileTypography'
 import { FloatingKey } from '@/components/landing/shared/FloatingKey'
 import { HeroMobileShare } from '@/components/landing/shared/HeroMobileShare'
@@ -130,22 +131,16 @@ export function HeroSection() {
           >
             <img src="/flent-logo-white.png" alt="Flent" className="h-auto w-[7.25rem]" />
           </a>
-          <h1
-            className={cn(
-              'flex flex-col gap-[6px] text-[#E8F5F0]',
-              PRINCIPAL_HEADLINE_CLASSNAME,
-              'md:gap-2',
-            )}
-          >
-            <span className={cn('block', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Your influence is real.</span>
-            <span className={cn('block', PRINCIPAL_H1_WRAP_LEADING_WEB)}>Now it’s rewarding too.</span>
+          <h1 className={cn('text-[#E8F5F0]', PRINCIPAL_HEADLINE_CLASSNAME)}>
+            <span className={PRINCIPAL_H1_WRAP_LEADING_WEB}>Your influence is real.</span>{' '}
+            <span className={PRINCIPAL_H1_WRAP_LEADING_WEB}>Now it’s rewarding too.</span>
           </h1>
           <p
             className={cn(
               'font-sans text-[#dff2ec]/80',
               PRINCIPAL_SUPPORT_MOBILE_COMBINED,
               'md:max-w-none',
-              'md:text-[calc(((0.71rem+1.5px)*1.038)+1px)]',
+              PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
               PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
             )}
           >

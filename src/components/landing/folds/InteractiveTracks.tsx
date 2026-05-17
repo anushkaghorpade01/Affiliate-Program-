@@ -7,7 +7,7 @@ import {
   PRINCIPAL_HEADLINE_MOBILE_TOP_INSET,
   PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
   PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-  PRINCIPAL_SUPPORT_WEB_BODY_FONT,
+  PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
 } from '@/components/landing/principalSupportingMobileTypography'
 import type { TrackItem } from '@/components/landing/types'
 import { cinematicScrollSpring } from '@/components/landing/shared/cinematicScrollSpring'
@@ -241,7 +241,7 @@ export function InteractiveTracks() {
               className={cn(
                 'max-w-4xl text-left font-sans text-[#E8F5F0]/82',
                 PRINCIPAL_SUPPORT_MOBILE_COMBINED,
-                PRINCIPAL_SUPPORT_WEB_BODY_FONT,
+                PRINCIPAL_SUPPORT_WEB_BODY_FONT_WIDE,
                 'px-0',
                 PRINCIPAL_HEADLINE_WEB_TO_BODY_MARGIN,
               )}
