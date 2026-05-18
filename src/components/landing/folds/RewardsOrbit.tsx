@@ -352,7 +352,7 @@ export function RewardsOrbit() {
         delay={0.1}
         className={cn(
           'z-[1] w-full max-w-[min(720px,92vw)] px-3 text-center',
-          'relative left-auto top-auto mx-auto translate-x-0 max-md:mt-6 max-md:pb-1 max-md:pt-0',
+          'relative left-auto top-auto mx-auto translate-x-0 max-md:-mt-10 max-md:pb-1 max-md:pt-0',
           'md:relative md:inset-auto md:mx-auto md:mt-0 md:max-w-[min(720px,92vw)] md:px-0 md:pb-0 md:pt-0',
         )}
       >
