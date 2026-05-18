@@ -13,6 +13,10 @@ const HUBSPOT_API = 'https://api.hubapi.com'
 /** Customer Type (`customer_type`) single-select — internal option value in HubSpot. */
 const CUSTOMER_TYPE_AFFILIATE_APPLICANT = 'Affiliate Applicant'
 
+/** Contact custom properties — internal names in HubSpot. */
+const HUBSPOT_PROP_AFFILIATE_LINKEDIN = 'affiliate__linkedin'
+const HUBSPOT_PROP_AFFILIATE_SOCIAL_LINKS = 'afilliatesociallinks'
+
 function splitName(fullName: string): { firstname: string; lastname: string } {
   const trimmed = fullName.trim()
   if (!trimmed) return { firstname: '', lastname: '' }
@@ -76,6 +80,12 @@ async function upsertContact(payload: TastemakerApplicationPayload, token: strin
   const flagProp = env.HUBSPOT_APPLICANT_FLAG_PROPERTY?.trim()
   const flagVal = env.HUBSPOT_APPLICANT_FLAG_VALUE?.trim()
   if (flagProp && flagVal) properties[flagProp] = flagVal
+
+  const socialUrls = payload.socialLinks.map((u) => u.trim()).filter(Boolean)
+  const linkedinUrl = socialUrls[0]
+  const extraSocialUrls = socialUrls.slice(1)
+  if (linkedinUrl) properties[HUBSPOT_PROP_AFFILIATE_LINKEDIN] = linkedinUrl
+  if (extraSocialUrls.length > 0) properties[HUBSPOT_PROP_AFFILIATE_SOCIAL_LINKS] = extraSocialUrls.join(', ')
 
   properties.customer_type = CUSTOMER_TYPE_AFFILIATE_APPLICANT
 
